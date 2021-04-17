@@ -1,0 +1,25 @@
+App\Entity\StudentGroup:
+  Informatyka_W_1_1{1..4}:
+    name: 'Informatyka Rok <current()> W 1/1'
+    cardinality: 80
+    studentGroupsIntersected: ['@Informatyka_C_1_2<current()>', '@Informatyka_C_2_2<current()>']
+  Informatyka_C_1_2{1..4}:
+    name: 'Informatyka Rok <current()> C 1/2'
+    cardinality: 40
+    studentGroupsIntersected: ['@Informatyka_W_1_1<current()>']
+  Informatyka_C_2_2{1..4}:
+    name: 'Informatyka Rok <current()> C 2/2'
+    cardinality: 40
+    studentGroupsIntersected: ['@Informatyka_W_1_1<current()>']
+  Elektrotechnika_W_1_1{1..4}:
+    name: 'Elektrotechnika Rok <current()> W 1/1'
+    cardinality: 80
+    studentGroupsIntersected: ['@Elektrotechnika_C_1_2<current()>', '@Elektrotechnika_C_2_2<current()>']
+  Elektrotechnika_C_1_2{1..4}:
+    name: 'Elektrotechnika Rok <current()> C 1/2'
+    cardinality: 40
+    studentGroupsIntersected: ['@Elektrotechnika_W_1_1<current()>']
+  Elektrotechnika_C_2_2{1..4}:
+    name: 'Elektrotechnika Rok <current()> C 2/2'
+    cardinality: 40
+    studentGroupsIntersected: ['@Elektrotechnika_W_1_1<current()>']
