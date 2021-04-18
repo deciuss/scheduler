@@ -7,7 +7,7 @@ namespace App\Normalisation\Generator;
 use App\Normalisation\Condition;
 use App\Normalisation\Condition\EventTimeslotShare\NotIntersectingStudentGroup;
 use App\Normalisation\Condition\EventTimeslotShare\NotSameStudentGroup;
-use App\Normalisation\Condition\EventTimeslotShare\RoomHAsRequiredFeatures;
+use App\Normalisation\Condition\EventTimeslotShare\NotSameTeacher;
 use App\Normalisation\TruthMatrixGenerator;
 use App\Repository\EventRepository;
 
@@ -27,7 +27,7 @@ class EventTimeslotShare
         EventRepository $eventRepository,
         NotIntersectingStudentGroup $notIntersectingStudentGroup,
         NotSameStudentGroup $notSameStudentGroup,
-        RoomHAsRequiredFeatures $notSameTeacher
+        NotSameTeacher $notSameTeacher
     ){
         $this->truthMatrixGenerator = $truthMatrixGenerator;
         $this->eventRepository = $eventRepository;

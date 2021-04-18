@@ -1,6 +1,7 @@
 <?php
 namespace App\Command;
 
+use App\Normalisation\Generator\EventRoomFit;
 use App\Normalisation\Generator\EventTimeslotShare;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,10 +13,12 @@ class CalculateCommand extends Command
     protected static $defaultName = 'app:calculate';
 
     private EventTimeslotShare $eventTimeslotShare;
+    private EventRoomFit $eventRoomFit;
 
-    public function __construct(EventTimeslotShare $eventTimeslotShare)
+    public function __construct(EventTimeslotShare $eventTimeslotShare, EventRoomFit $eventRoomFit)
     {
         $this->eventTimeslotShare = $eventTimeslotShare;
+        $this->eventRoomFit = $eventRoomFit;
         parent::__construct();
     }
 
@@ -29,7 +32,9 @@ class CalculateCommand extends Command
     {
         ini_set('memory_limit', '2048M');
 
-        $matrix = $this->eventTimeslotShare->generate();
+//        $matrix = $this->eventTimeslotShare->generate();
+
+        $matrix = $this->eventRoomFit->generate();
 
         for ($i = 0; $i < count($matrix); $i++) {
             for ($j = 0; $j < count($matrix[$i]); $j++) {
