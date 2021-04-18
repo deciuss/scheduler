@@ -46,6 +46,11 @@ class Subject
      */
     private $features;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
     public function __construct()
     {
         $this->features = new ArrayCollection();
@@ -124,6 +129,18 @@ class Subject
     public function removeFeature(Feature $feature): self
     {
         $this->features->removeElement($feature);
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

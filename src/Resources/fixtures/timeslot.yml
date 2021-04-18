@@ -1,0 +1,2 @@
+App\Entity\Timeslot:
+  timeslot{1..45}:

@@ -1,0 +1,154 @@
+App\Entity\Subject:
+  ask_lecture_1_1_{1..4}:
+    name: 'Architektura Systemów Komputerowych Wykład 1/1 <current()>'
+    teacher: '@teacher1'
+    student_group: '@computer_science_W_1_1_<current()>'
+    hours: 30
+    block_size: 4
+    features: ['@projector']
+  ask_lab_1_2_{1..4}:
+    name: 'Architektura Systemów Komputerowych Laboratorium Gr 1/2 <current()>'
+    teacher: '@teacher2'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 20
+    block_size: 4
+    features: ['@electronic_equipment']
+  ask_lab_2_2_{1..4}:
+    name: 'Architektura Systemów Komputerowych Laboratorium Gr 2/2 <current()>'
+    teacher: '@teacher2'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 20
+    block_size: 4
+    features: ['@electronic_equipment']
+  ask_exercise_1_2_{1..4}:
+    name: 'Architektura Systemów Komputerowych Ćwiczenia Gr 1/2 <current()>'
+    teacher: '@teacher2'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 15
+    block_size: 3
+  ask_exercise_2_2_{1..4}:
+    name: 'Architektura Systemów Komputerowych Ćwiczenia Gr 2/2 <current()>'
+    teacher: '@teacher2'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 15
+    block_size: 3
+
+  so_lecture_1_1_{1..4}:
+    name: 'Systemy Operacyjne Wykład 1/1 <current()>'
+    teacher: '@teacher1'
+    student_group: '@computer_science_W_1_1_<current()>'
+    hours: 25
+    block_size: 4
+    features: ['@projector']
+  so_exercise_1_2_{1..4}:
+    name: 'Systemy Operacyjne Ćwiczenia Gr 1/2 <current()>'
+    teacher: '@teacher3'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 10
+    block_size: 3
+  so_exercise_2_2_{1..4}:
+    name: 'Systemy Operacyjne Ćwiczenia Gr 2/2 <current()>'
+    teacher: '@teacher3'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 10
+    block_size: 3
+
+  java_lecture_1_1_{1..4}:
+    name: 'Programowanie w Języku Java Wykład 1/1 <current()>'
+    teacher: '@teacher4'
+    student_group: '@computer_science_W_1_1_<current()>'
+    hours: 32
+    block_size: 4
+    features: ['@projector']
+  java_lab_1_2_{1..4}:
+    name: 'Programowanie w Języku Java Laboratorium Gr 1/2 <current()>'
+    teacher: '@teacher4'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 25
+    block_size: 4
+    features: ['@computer_workstations']
+  java_lab_2_2_{1..4}:
+    name: 'Programowanie w Języku Java Laboratorium Gr 2/2 <current()>'
+    teacher: '@teacher4'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 25
+    block_size: 4
+    features: ['@computer_workstations']
+    
+  to_lecture_1_1_{1..4}:
+    name: 'Teoria Obwodów Wykład 1/1 <current()>'
+    teacher: '@teacher2'
+    student_group: '@computer_science_W_1_1_<current()>'
+    hours: 30
+    block_size: 4
+    features: ['@projector']
+  to_lab_1_2_{1..4}:
+    name: 'Teoria Obwodów Laboratorium Gr 1/2 <current()>'
+    teacher: '@teacher5'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 20
+    block_size: 4
+    features: ['@electronic_equipment']
+  to_lab_2_2_{1..4}:
+    name: 'Teoria Obwodów Laboratorium Gr 2/2 <current()>'
+    teacher: '@teacher6'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 20
+    block_size: 4
+    features: ['@electronic_equipment']
+  to_exercise_1_2_{1..4}:
+    name: 'Teoria Obwodów Ćwiczenia Gr 1/2 <current()>'
+    teacher: '@teacher5'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 15
+    block_size: 3
+  to_exercise_2_2_{1..4}:
+    name: 'Teoria Obwodów Ćwiczenia Gr 2/2 <current()>'
+    teacher: '@teacher6'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 15
+    block_size: 3
+
+  physics_lecture_1_1_{1..4}:
+    name: 'Fizyka Wykład 1/1 <current()>'
+    teacher: '@teacher1'
+    student_group: '@computer_science_W_1_1_<current()>'
+    hours: 25
+    block_size: 4
+    features: ['@projector']
+  physics_exercise_1_2_{1..4}:
+    name: 'Fizyka Ćwiczenia Gr 1/2 <current()>'
+    teacher: '@teacher5'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 10
+    block_size: 3
+  physics_exercise_2_2_{1..4}:
+    name: 'Fizyka Ćwiczenia Gr 2/2 <current()>'
+    teacher: '@teacher5'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 10
+    block_size: 3
+
+  automation_lecture_1_1_{1..4}:
+    name: 'Automatyka Wykład 1/1 <current()>'
+    teacher: '@teacher4'
+    student_group: '@computer_science_W_1_1_<current()>'
+    hours: 32
+    block_size: 4
+    features: ['@projector']
+  automation_lab_1_2_{1..4}:
+    name: 'Automatyka Laboratorium Gr 1/2 <current()>'
+    teacher: '@teacher5'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 25
+    block_size: 4
+    features: ['@computer_workstations']
+  automation_lab_2_2_{1..4}:
+    name: 'Automatyka Laboratorium Gr 2/2 <current()>'
+    teacher: '@teacher6'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 25
+    block_size: 4
+    features: ['@computer_workstations']
+
+

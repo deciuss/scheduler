@@ -1,0 +1,16 @@
+App\Entity\Room:
+  auditorium{1..4}:
+    name: 'Audytorium <current()>'
+    capacity: 120
+    features: ['@projector']
+  computer_lab{1..2}:
+    name: 'Laboratorium Komputerowe <current()>'
+    capacity: 30
+    features: ['@computer_workstations']
+  electronic_lab{1..2}:
+    name: 'Laboratorium Elektroniczne <current()>'
+    capacity: 30
+    features: ['@electronic_equipment']
+  class{1..4}:
+    name: 'Sala <current()>'
+    capacity: 40

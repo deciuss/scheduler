@@ -1,0 +1,7 @@
+App\Entity\Feature:
+  projector:
+    name: 'projektor'
+  computer_workstations:
+    name: 'stanowiska komputerowe'
+  electronic_equipment:
+    name: 'instrumenty elektroniczne'

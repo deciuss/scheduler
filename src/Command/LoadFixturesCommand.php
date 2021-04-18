@@ -31,6 +31,10 @@ class LoadFixturesCommand extends Command
         $files = [
             'src/Resources/fixtures/teacher.yml',
             'src/Resources/fixtures/student_group.yml',
+            'src/Resources/fixtures/feature.yml',
+            'src/Resources/fixtures/room.yml',
+            'src/Resources/fixtures/subject.yml',
+            'src/Resources/fixtures/timeslot.yml',
         ];
 
         $loader = $this->container->get('fidry_alice_data_fixtures.loader.doctrine');
