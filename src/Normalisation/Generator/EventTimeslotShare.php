@@ -8,10 +8,11 @@ use App\Normalisation\Condition;
 use App\Normalisation\Condition\EventTimeslotShare\NotIntersectingStudentGroup;
 use App\Normalisation\Condition\EventTimeslotShare\NotSameStudentGroup;
 use App\Normalisation\Condition\EventTimeslotShare\NotSameTeacher;
+use App\Normalisation\Generator;
 use App\Normalisation\TruthMatrixGenerator;
 use App\Repository\EventRepository;
 
-class EventTimeslotShare
+class EventTimeslotShare implements Generator
 {
 
     private TruthMatrixGenerator $truthMatrixGenerator;

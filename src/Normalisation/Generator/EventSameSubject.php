@@ -5,18 +5,16 @@ namespace App\Normalisation\Generator;
 
 
 use App\Normalisation\Condition;
-use App\Normalisation\Condition\EventRoomFit\RoomHasRequiredFeatures;
+use App\Normalisation\Condition\EventSameSubject\IsOfTheSameSubject;
 use App\Normalisation\Generator;
 use App\Normalisation\TruthMatrixGenerator;
 use App\Repository\EventRepository;
-use App\Repository\RoomRepository;
 
-class EventRoomFit implements Generator
+class EventSameSubject implements Generator
 {
 
     private TruthMatrixGenerator $truthMatrixGenerator;
     private EventRepository $eventRepository;
-    private RoomRepository $roomRepository;
 
     /**
      * @var Condition[]
@@ -26,22 +24,17 @@ class EventRoomFit implements Generator
     public function __construct(
         TruthMatrixGenerator $truthMatrixGenerator,
         EventRepository $eventRepository,
-        RoomRepository $roomRepository,
-        RoomHasRequiredFeatures $roomHasRequiredFeatures
+        IsOfTheSameSubject $isOfTheSameSubject
     ){
         $this->truthMatrixGenerator = $truthMatrixGenerator;
         $this->eventRepository = $eventRepository;
-        $this->roomRepository = $roomRepository;
-        $this->conditions[] = $roomHasRequiredFeatures;
+        $this->conditions[] = $isOfTheSameSubject;
     }
 
     public function generate() : array
     {
-        return $this->truthMatrixGenerator->generate(
-            $this->eventRepository->findAll(),
-            $this->roomRepository->findAll(),
-            ...$this->conditions
-        );
+        $events = $this->eventRepository->findAll();
+        return $this->truthMatrixGenerator->generate($events, $events, ...$this->conditions);
     }
 
 }

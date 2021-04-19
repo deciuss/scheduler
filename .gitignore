@@ -17,3 +17,6 @@
 
 /.idea
 /data
+
+/calculator/.idea
+/calculator/cmake-build-debug

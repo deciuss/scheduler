@@ -1,8 +1,15 @@
 <?php
 namespace App\Command;
 
+use App\Normalisation\Generator\EventBlockSize;
 use App\Normalisation\Generator\EventRoomFit;
+use App\Normalisation\Generator\EventSameSubject;
 use App\Normalisation\Generator\EventTimeslotShare;
+use App\Normalisation\Generator;
+use App\Normalisation\MatrixFlattener;
+use App\Repository\EventRepository;
+use App\Repository\RoomRepository;
+use App\Repository\TimeslotRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,13 +19,39 @@ class CalculateCommand extends Command
 
     protected static $defaultName = 'app:calculate';
 
-    private EventTimeslotShare $eventTimeslotShare;
-    private EventRoomFit $eventRoomFit;
 
-    public function __construct(EventTimeslotShare $eventTimeslotShare, EventRoomFit $eventRoomFit)
-    {
-        $this->eventTimeslotShare = $eventTimeslotShare;
-        $this->eventRoomFit = $eventRoomFit;
+    /**
+     * @var Generator[]
+     */
+    private array $generators = [];
+
+    private EventRepository $eventRepository;
+    private RoomRepository $roomRepository;
+    private TimeslotRepository $timeslotRepository;
+
+    private MatrixFlattener $matrixFlattener;
+
+    public function __construct(
+        EventTimeslotShare $eventTimeslotShare,
+        EventRoomFit $eventRoomFit,
+        EventSameSubject $eventSameSubject,
+        EventBlockSize $eventBlockSize,
+        MatrixFlattener $matrixFlattener,
+        EventRepository $eventRepository,
+        RoomRepository $roomRepository,
+        TimeslotRepository $timeslotRepository
+    ) {
+        $this->generators[] = $eventTimeslotShare;
+        $this->generators[] = $eventRoomFit;
+        $this->generators[] = $eventSameSubject;
+        $this->generators[] = $eventBlockSize;
+
+        $this->matrixFlattener = $matrixFlattener;
+
+        $this->eventRepository = $eventRepository;
+        $this->roomRepository = $roomRepository;
+        $this->timeslotRepository = $timeslotRepository;
+
         parent::__construct();
     }
 
@@ -32,15 +65,23 @@ class CalculateCommand extends Command
     {
         ini_set('memory_limit', '2048M');
 
-//        $matrix = $this->eventTimeslotShare->generate();
+        $calculatorFilePath = getcwd() . "/var/calculator/";
+        $calculatorFileName = "calculator_file_" . time();
+        $calculatorFilePathName = $calculatorFilePath . $calculatorFileName;
 
-        $matrix = $this->eventRoomFit->generate();
+        touch($calculatorFilePathName);
 
-        for ($i = 0; $i < count($matrix); $i++) {
-            for ($j = 0; $j < count($matrix[$i]); $j++) {
-                echo $matrix[$i][$j] == true ? 1 : 0;
-            }
-            echo "\n";
+        file_put_contents($calculatorFilePathName, $this->eventRepository->count([]) . "\n",FILE_APPEND);
+        file_put_contents($calculatorFilePathName, $this->roomRepository->count([]) . "\n",FILE_APPEND);
+        file_put_contents($calculatorFilePathName, $this->timeslotRepository->count([]) . "\n",FILE_APPEND);
+
+
+        foreach ($this->generators as $generator) {
+            file_put_contents(
+                $calculatorFilePathName,
+                $this->matrixFlattener->flatten($generator->generate()) . "\n",
+                FILE_APPEND
+            );
         }
 
         return Command::SUCCESS;
