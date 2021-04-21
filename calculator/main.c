@@ -2,10 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
-
-int randInt(int lower, int upper) {
-    return (rand() % (upper - lower + 1)) + lower;
-}
+#include "Params.c"
+#include "evolution.c"
 
 void printPopulation(int populationCardinality, int numberOfEvents, int population[populationCardinality][numberOfEvents][2]) {
     for (int i = 0; i < populationCardinality; i++) {
@@ -39,33 +37,6 @@ void populateIntArrayWithFileLine(FILE *fp, int size, int arr[size]) {
     if (fgetc(fp) != '\n') exit(22);
 }
 
-void initializePopulation(
-        int populationCardinality,
-        int numberOfEvents,
-        int numberOfTimeslots,
-        int numberOfRooms,
-        int population[populationCardinality][numberOfEvents][2]
-) {
-    for (int i = 0; i < populationCardinality; i++) {
-        for (int j = 0; j < numberOfEvents; j++) {
-            population[i][j][0] = randInt(0, numberOfTimeslots - 1);
-            population[i][j][1] = randInt(0, numberOfRooms - 1);
-        }
-
-    }
-}
-
-int calculateHardViolation(
-        int numberOfEvents,
-        int numberOfRooms,
-        int violationFactor,
-        int individual[numberOfEvents][2],
-        bool eventTimeslotShare[numberOfEvents][numberOfEvents],
-        bool eventRoomFit[numberOfEvents][numberOfRooms]
-) {
-
-}
-
 int main(int argc, char * argv[]) {
 
     srand(time(0));
@@ -73,27 +44,51 @@ int main(int argc, char * argv[]) {
     FILE *fp;
     fp = fopen("../../var/calculator/calculator_file", "r");
 
-    int numberOfEvents = getIntFromFileLine(fp);
-    int numberOfRooms = getIntFromFileLine(fp);
-    int numberOfTimeslots = getIntFromFileLine(fp);
+    struct Params p;
+    p.numberOfEvents = getIntFromFileLine(fp);
+    p.numberOfRooms = getIntFromFileLine(fp);
+    p.numberOfTimeslots = getIntFromFileLine(fp);
+    p.numberOfSurvivors = 4;
+    p.populationCardinality = 30;
+    p.hardViolationFactor = 1;
 
-    bool eventTimeslotShare[numberOfEvents][numberOfEvents];
-    bool eventRoomFit[numberOfEvents][numberOfRooms];
-    bool eventSameSubject[numberOfEvents][numberOfEvents];
-    int eventBlockSize[numberOfEvents];
+    bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents];
+    bool eventRoomFit[p.numberOfEvents][p.numberOfRooms];
+    bool eventSameSubject[p.numberOfEvents][p.numberOfEvents];
+    int eventBlockSize[p.numberOfEvents];
+    bool timeslotNeighborhood[p.numberOfTimeslots][p.numberOfTimeslots];
 
-    populateBoolMatrixWithFileLine(fp, numberOfEvents, numberOfEvents, eventTimeslotShare);
-    populateBoolMatrixWithFileLine(fp, numberOfEvents, numberOfRooms, eventRoomFit);
-    populateBoolMatrixWithFileLine(fp, numberOfEvents, numberOfEvents, eventSameSubject);
-    populateIntArrayWithFileLine(fp, numberOfEvents, eventBlockSize);
+    populateBoolMatrixWithFileLine(fp, p.numberOfEvents, p.numberOfEvents, eventTimeslotShare);
+    populateBoolMatrixWithFileLine(fp, p.numberOfEvents, p.numberOfRooms, eventRoomFit);
+    populateBoolMatrixWithFileLine(fp, p.numberOfEvents, p.numberOfEvents, eventSameSubject);
+    populateIntArrayWithFileLine(fp, p.numberOfEvents, eventBlockSize);
+    populateBoolMatrixWithFileLine(fp, p.numberOfTimeslots, p.numberOfTimeslots, timeslotNeighborhood);
 
     fclose(fp);
 
-    int populationSize = 10;
+    doEvolution(p, eventTimeslotShare, eventRoomFit, 10000000);
 
-    int population[populationSize][numberOfEvents][2];
 
-    initializePopulation(populationSize, numberOfEvents, numberOfTimeslots, numberOfRooms, population);
+
+//    int populationSize = 1;
+//
+//    int bestIndividualViolation = 999999999;
+//
+//    for (int k = 0; k < 999999; k++) {
+//        int population[populationSize][p.numberOfEvents][2];
+//        initializePopulation(populationSize, p.numberOfEvents, p.numberOfTimeslots, p.numberOfRooms, population, eventRoomFit);
+//
+//        for (int i = 0; i < populationSize; i++) {
+////        printf("Population %i hard violation: %d\n", i, calculateHardViolation(p.numberOfEvents, p.numberOfRooms, 1, population[i], eventTimeslotShare, eventRoomFit));
+//            int violation = calculateHardViolation(p.numberOfEvents, p.numberOfRooms, 1, population[i], eventTimeslotShare);
+//            if (violation < bestIndividualViolation) {
+//                bestIndividualViolation = violation;
+//                printf("Attempt %d individual %d violation: %d\n", k, i, bestIndividualViolation);
+//            }
+//        }
+//
+//
+//    }
 
 
 

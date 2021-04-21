@@ -5,6 +5,7 @@ use App\Normalisation\Generator\EventBlockSize;
 use App\Normalisation\Generator\EventRoomFit;
 use App\Normalisation\Generator\EventSameSubject;
 use App\Normalisation\Generator\EventTimeslotShare;
+use App\Normalisation\Generator\TimeslotNeighborhood;
 use App\Normalisation\Generator;
 use App\Normalisation\MatrixFlattener;
 use App\Repository\EventRepository;
@@ -36,6 +37,7 @@ class CalculateCommand extends Command
         EventRoomFit $eventRoomFit,
         EventSameSubject $eventSameSubject,
         EventBlockSize $eventBlockSize,
+        TimeslotNeighborhood $timeslotNeighborhood,
         MatrixFlattener $matrixFlattener,
         EventRepository $eventRepository,
         RoomRepository $roomRepository,
@@ -45,6 +47,7 @@ class CalculateCommand extends Command
         $this->generators[] = $eventRoomFit;
         $this->generators[] = $eventSameSubject;
         $this->generators[] = $eventBlockSize;
+        $this->generators[] = $timeslotNeighborhood;
 
         $this->matrixFlattener = $matrixFlattener;
 
