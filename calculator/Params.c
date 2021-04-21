@@ -5,4 +5,7 @@ struct Params {
     int populationCardinality;
     int numberOfSurvivors;
     int hardViolationFactor;
+    int mutation1Rate;
+    int mutation2Rate;
+    int broodSplit[2][2];
 };

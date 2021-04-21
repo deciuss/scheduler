@@ -4,12 +4,6 @@ int randInt(int lower, int upper) {
     return (rand() % (upper - lower + 1)) + lower;
 }
 
-void populateBoolMatrix(int sizeX, int sizeY, bool matrix[sizeX][sizeY], bool value) {
-    for (int i = 0; i < sizeX; i++)
-        for (int j = 0; j < sizeY; j++)
-            matrix[i][j] = value;
-}
-
 void copyIntMatrix(int sizeX, int sizeY, int oryginal[sizeX][sizeY], int replica[sizeX][sizeY]) {
     for (int i = 0; i < sizeX; i++)
         for (int j = 0; j < sizeY; j++)
@@ -45,18 +39,55 @@ int calculateHardViolation(
     return violation * p.hardViolationFactor;
 }
 
-//int calculateSoftViolation(
-//        int numberOfEvents,
-//        int individual[numberOfEvents][3],
-//        bool eventSameSubject[numberOfEvents][numberOfEvents],
-//        int eventBlockSize[numberOfEvents]
-//) {
-//    int violation = 0;
-//    for (int i = 0; i < numberOfEvents; i++) {
-//
-//    }
-//    return violation;
-//}
+void populateTimeslotRoomEventMatrix(
+        struct Params p,
+        int individual[p.numberOfEvents][3],
+        int timeslotRoomEventMatrix[p.numberOfTimeslots][p.numberOfRooms]
+) {
+    populateIntMatrix(p.numberOfTimeslots, p.numberOfRooms, timeslotRoomEventMatrix, -1);
+
+    for (int i = 0; i < p.numberOfEvents; i++) {
+        timeslotRoomEventMatrix[individual[i][0]][individual[i][1]] = i;
+    }
+}
+
+int calculateSoftViolation(
+        struct Params p,
+        int individual[p.numberOfEvents][3],
+        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+        int eventBlockSize[p.numberOfEvents],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2]
+) {
+    int violation = 0;
+
+    int timeslotRoomEventMatrix[p.numberOfTimeslots][p.numberOfRooms];
+    populateTimeslotRoomEventMatrix(p, individual, timeslotRoomEventMatrix);
+
+    bool timeslotRoomChacked[p.numberOfTimeslots][p.numberOfRooms];
+    populateBoolMatrix(p.numberOfTimeslots, p.numberOfRooms, timeslotRoomChacked, false);
+
+
+
+    for (int room = 0; room < p.numberOfRooms; room++) {
+
+        for (int timeslot = 0; timeslot < p.numberOfTimeslots; timeslot++) {
+            if (timeslotRoomChacked[timeslot][room] == true) continue;
+            timeslotRoomChacked[timeslot][room] = true;
+
+
+            int preferredBlockSize = eventBlockSize[timeslotRoomEventMatrix[timeslot][room]];
+            for (int remainingBlockSize = preferredBlockSize - 1; remainingBlockSize > 0; remainingBlockSize--) {
+//                timeslotRoomEventMatrix[timeslotNeighborhoodFlat[][1]][room]
+            }
+
+
+
+        }
+
+    }
+
+    return violation;
+}
 
 int getRoomForEvent(struct Params p, bool eventRoomFit[p.numberOfEvents][p.numberOfRooms], int event) {
     int room;
@@ -118,7 +149,6 @@ int findBestIndividual(
 void selectSurvivors(
         struct Params p,
         int population[p.populationCardinality][p.numberOfEvents][3],
-        int broodSplit[p.numberOfSurvivors][2],
         bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents],
         int survivorIdexes[p.numberOfSurvivors]
 ) {
@@ -128,8 +158,8 @@ void selectSurvivors(
                 p,
                 population,
                 eventTimeslotShare,
-                broodSplit[i][0],
-                broodSplit[i][1]
+                p.broodSplit[i][0],
+                p.broodSplit[i][1]
         );
     }
 }
@@ -137,111 +167,101 @@ void selectSurvivors(
 void reproduce(
         struct Params p,
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
-        int population[p.populationCardinality][p.numberOfEvents][3],
+        int parents[2][p.numberOfEvents][3],
         int child[p.numberOfEvents][3]
 ) {
     for (int i = 0; i < p.numberOfEvents; i++) {
-//        int selectedParentGene = randInt(0, p.numberOfSurvivors - 1);
-        int selectedParentGene = p.numberOfSurvivors - 1;
-        int parentGeneMinimalViolation = INT_MAX;
-        for (int j = p.numberOfSurvivors - 1; j >= 0; j--) {
-//        for (int j = 0; j < p.numberOfSurvivors; j++) {
-            if (population[j][i][2] < parentGeneMinimalViolation && randInt(0, 999) > 500) {
-                parentGeneMinimalViolation = population[j][i][2];
-                selectedParentGene = j;
-            }
-        }
-        child[i][0] = population[selectedParentGene][i][0];
-        child[i][1] = population[selectedParentGene][i][1];
+        int selectedParentGene = randInt(0, 1);
+        child[i][0] = parents[selectedParentGene][i][0];
+        child[i][1] = parents[selectedParentGene][i][1];
         child[i][2] = 0;
     }
 
 }
 
+void mutation1 (
+        struct Params p,
+        int individual[p.numberOfEvents][3]
+) {
+    for (int i = 0; i < p.mutation1Rate; i++) {
+        int eventIndex1 = randInt(0, p.numberOfEvents - 1);
+        int eventIndex2 = eventIndex1;
+        while (eventIndex1 == eventIndex2) {
+            eventIndex2 = randInt(0, p.numberOfEvents - 1);
+        }
+        int tmpTimeslot = individual[eventIndex1][0];
+        individual[eventIndex1][0] = individual[eventIndex2][0];
+        individual[eventIndex2][0] = tmpTimeslot;
+    }
+}
+
+void mutation2 (
+        struct Params p,
+        bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
+        int individual[p.numberOfEvents][3]
+) {
+    for (int i = 0; i < p.mutation2Rate; i++) {
+        int eventIndex1 = randInt(0, p.numberOfEvents - 1);
+        individual[eventIndex1][0] = randInt(0, p.numberOfTimeslots - 1);
+        individual[eventIndex1][1] = getRoomForEvent(p, eventRoomFit, eventIndex1);
+    }
+}
+
+void mutate(
+        struct Params p,
+        bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
+        int individual[p.numberOfEvents][3]
+) {
+    mutation1(p, individual);
+    mutation2(p, eventRoomFit, individual);
+}
+
 void nextGeneration(
         struct Params p,
+        bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents],
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
         int survivorIdexes[p.numberOfSurvivors],
         int population[p.populationCardinality][p.numberOfEvents][3]
 ) {
-    int i = 0;
-    for (; i < p.numberOfSurvivors; i++) {
-        copyIntMatrix(p.numberOfEvents, 3, population[survivorIdexes[i]], population[i]);
-    }
-    for (; i < 15; i++) {
-        reproduce(p, eventRoomFit, population, population[i]);
-    }
-    for (; i < p.populationCardinality; i++) {
-        initializeIndividual(p, eventRoomFit, population[i]);
-    }
-}
+    int parents[2][p.numberOfEvents][3];
 
-void mutate(struct Params p, bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents], int individual[p.numberOfEvents][3]) {
-    int badGeneIndex1 = -1;
-    int badGeneIndex2 = -1;
+    copyIntMatrix(p.numberOfEvents, 3, population[survivorIdexes[0]], parents[0]);
+    copyIntMatrix(p.numberOfEvents, 3, population[survivorIdexes[1]], parents[1]);
 
-    int initialViolation = calculateHardViolation(p, individual, eventTimeslotShare);
-
-    while (badGeneIndex1 < 0) {
-        int candidate = randInt(0, p.numberOfEvents - 1);
-        if (individual[candidate][2] > 0) {
-            badGeneIndex1 = candidate;
-        }
-    }
-
-    while (badGeneIndex2 < 0) {
-        int candidate = randInt(0, p.numberOfEvents - 1);
-        if (candidate == badGeneIndex1) continue;
-        if (individual[candidate][2] > 0) {
-            badGeneIndex2 = candidate;
-        }
-    }
-
-    int tmpTimeslot = individual[badGeneIndex1][0];
-    individual[badGeneIndex1][0] = individual[badGeneIndex2][0];
-    individual[badGeneIndex2][0] = tmpTimeslot;
-
-    if (calculateHardViolation(p, individual, eventTimeslotShare) > initialViolation) {
-        int tmpTimeslot = individual[badGeneIndex1][0];
-        individual[badGeneIndex1][0] = individual[badGeneIndex2][0];
-        individual[badGeneIndex2][0] = tmpTimeslot;
+    for (int i = 0; i < p.populationCardinality; i++) {
+        reproduce(p, eventRoomFit, parents, population[i]);
+        mutate(p, eventRoomFit, population[i]);
     }
 }
 
 void doEvolution(
         struct Params p,
-//        int bestIndividual[p.numberOfEvents][3],
         bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents],
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
         int numberOfGenerations
 ) {
 
-    int broodSplit[][2] = {{0, 4}, {5, 10}, {11, 15}, {16, 30}};
     int survivorIdexes[p.numberOfSurvivors];
 
     int population[p.populationCardinality][p.numberOfEvents][3];
     initializePopulation(p, eventRoomFit, population);
 
+    int lowestViolation = INT_MAX;
+
     for (int generation = 0; generation < numberOfGenerations; generation++) {
 
-        selectSurvivors(p, population, broodSplit, eventTimeslotShare, survivorIdexes);
+        selectSurvivors(p, population, eventTimeslotShare, survivorIdexes);
 
-        for (int survivor = 0; survivor < p.numberOfSurvivors; survivor++) {
-            mutate(p, eventTimeslotShare, population[survivorIdexes[survivor]]);
-        }
-        for (int survivor = 0; survivor < p.numberOfSurvivors; survivor++) {
-            mutate(p, eventTimeslotShare, population[survivorIdexes[survivor]]);
-        }
-        for (int survivor = 0; survivor < p.numberOfSurvivors; survivor++) {
-            mutate(p, eventTimeslotShare, population[survivorIdexes[survivor]]);
-        }
-        for (int survivor = 0; survivor < p.numberOfSurvivors; survivor++) {
-            mutate(p, eventTimeslotShare, population[survivorIdexes[survivor]]);
+        for (int j = 0; j < p.numberOfSurvivors; j++) {
+            int violation = calculateHardViolation(p, population[survivorIdexes[j]], eventTimeslotShare);
+            if (violation < lowestViolation) {
+                lowestViolation = violation;
+            }
         }
 
-        printf("Survivors indexes: %d, %d, %d, %d\n", survivorIdexes[0], survivorIdexes[1], survivorIdexes[2], survivorIdexes[3]);
+        printf("Generation: %d; Lowest violation: %d; Survivors indexes: %d, %d\n", generation, lowestViolation, survivorIdexes[0], survivorIdexes[1]);
 
-        nextGeneration(p, eventRoomFit, survivorIdexes, population);
+        nextGeneration(p, eventTimeslotShare, eventRoomFit, survivorIdexes, population);
 
 
     }

@@ -3,7 +3,7 @@ App\Entity\Subject:
     name: 'Architektura Systemów Komputerowych Wykład 1/1 <current()>'
     teacher: '@teacher1'
     student_group: '@computer_science_W_1_1_<current()>'
-    hours: 4
+    hours: 8
     block_size: 4
     features: ['@projector']
   ask_lab_1_2_{1..4}:
@@ -22,33 +22,33 @@ App\Entity\Subject:
     features: ['@electronic_equipment']
   ask_exercise_1_2_{1..4}:
     name: 'Architektura Systemów Komputerowych Ćwiczenia Gr 1/2 <current()>'
-    teacher: '@teacher2'
+    teacher: '@teacher3'
     student_group: '@computer_science_C_1_2_<current()>'
     hours: 4
     block_size: 4
   ask_exercise_2_2_{1..4}:
     name: 'Architektura Systemów Komputerowych Ćwiczenia Gr 2/2 <current()>'
-    teacher: '@teacher2'
+    teacher: '@teacher3'
     student_group: '@computer_science_C_2_2_<current()>'
     hours: 4
     block_size: 4
 
   so_lecture_1_1_{1..4}:
     name: 'Systemy Operacyjne Wykład 1/1 <current()>'
-    teacher: '@teacher1'
+    teacher: '@teacher4'
     student_group: '@computer_science_W_1_1_<current()>'
     hours: 8
     block_size: 4
     features: ['@projector']
   so_exercise_1_2_{1..4}:
     name: 'Systemy Operacyjne Ćwiczenia Gr 1/2 <current()>'
-    teacher: '@teacher3'
+    teacher: '@teacher5'
     student_group: '@computer_science_C_1_2_<current()>'
     hours: 6
     block_size: 3
   so_exercise_2_2_{1..4}:
     name: 'Systemy Operacyjne Ćwiczenia Gr 2/2 <current()>'
-    teacher: '@teacher3'
+    teacher: '@teacher5'
     student_group: '@computer_science_C_2_2_<current()>'
     hours: 6
     block_size: 3
@@ -75,39 +75,39 @@ App\Entity\Subject:
 #    block_size: 4
 #    features: ['@computer_workstations']
 #
-#  to_lecture_1_1_{1..4}:
-#    name: 'Teoria Obwodów Wykład 1/1 <current()>'
-#    teacher: '@teacher2'
-#    student_group: '@computer_science_W_1_1_<current()>'
-#    hours: 4
-#    block_size: 4
-#    features: ['@projector']
-#  to_lab_1_2_{1..4}:
-#    name: 'Teoria Obwodów Laboratorium Gr 1/2 <current()>'
-#    teacher: '@teacher5'
-#    student_group: '@computer_science_C_1_2_<current()>'
-#    hours: 6
-#    block_size: 6
-#    features: ['@electronic_equipment']
-#  to_lab_2_2_{1..4}:
-#    name: 'Teoria Obwodów Laboratorium Gr 2/2 <current()>'
-#    teacher: '@teacher6'
-#    student_group: '@computer_science_C_2_2_<current()>'
-#    hours: 6
-#    block_size: 3
-#    features: ['@electronic_equipment']
-#  to_exercise_1_2_{1..4}:
-#    name: 'Teoria Obwodów Ćwiczenia Gr 1/2 <current()>'
-#    teacher: '@teacher5'
-#    student_group: '@computer_science_C_1_2_<current()>'
-#    hours: 3
-#    block_size: 3
-#  to_exercise_2_2_{1..4}:
-#    name: 'Teoria Obwodów Ćwiczenia Gr 2/2 <current()>'
-#    teacher: '@teacher6'
-#    student_group: '@computer_science_C_2_2_<current()>'
-#    hours: 3
-#    block_size: 3
+  to_lecture_1_1_{1..4}:
+    name: 'Teoria Obwodów Wykład 1/1 <current()>'
+    teacher: '@teacher6'
+    student_group: '@computer_science_W_1_1_<current()>'
+    hours: 4
+    block_size: 4
+    features: ['@projector']
+  to_lab_1_2_{1..4}:
+    name: 'Teoria Obwodów Laboratorium Gr 1/2 <current()>'
+    teacher: '@teacher7'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 6
+    block_size: 6
+    features: ['@electronic_equipment']
+  to_lab_2_2_{1..4}:
+    name: 'Teoria Obwodów Laboratorium Gr 2/2 <current()>'
+    teacher: '@teacher7'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 6
+    block_size: 3
+    features: ['@electronic_equipment']
+  to_exercise_1_2_{1..4}:
+    name: 'Teoria Obwodów Ćwiczenia Gr 1/2 <current()>'
+    teacher: '@teacher8'
+    student_group: '@computer_science_C_1_2_<current()>'
+    hours: 3
+    block_size: 3
+  to_exercise_2_2_{1..4}:
+    name: 'Teoria Obwodów Ćwiczenia Gr 2/2 <current()>'
+    teacher: '@teacher8'
+    student_group: '@computer_science_C_2_2_<current()>'
+    hours: 3
+    block_size: 3
 #
 #  physics_lecture_1_1_{1..4}:
 #    name: 'Fizyka Wykład 1/1 <current()>'
