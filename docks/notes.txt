@@ -19,3 +19,5 @@ php bin/console app:calculate
 
 
 php bin/console doctrine:database:drop --force && php bin/console doctrine:database:create && php bin/console doctrine:migrations:migrate latest -n; php bin/console app:load-fixtures; php bin/console app:events:hydrate; php bin/console app:calculate; ls -hal var/calculator/
+
+

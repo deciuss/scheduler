@@ -51,6 +51,42 @@ void populateTimeslotRoomEventMatrix(
     }
 }
 
+int calculateRemainingBlockSize(
+        struct Params p,
+        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+        int timeslotRoomEventMatrix[p.numberOfTimeslots][p.numberOfRooms],
+        int timeslot,
+        int room,
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
+        int remainingBlockSize,
+        bool timeslotRoomChecked[p.numberOfTimeslots][p.numberOfRooms]
+) {
+
+    int nextTimeslot = timeslotNeighborhoodFlat[timeslot][1];
+
+    if (
+            remainingBlockSize == 0
+            || nextTimeslot < 0
+            || eventSameSubject[timeslotRoomEventMatrix[timeslot][room]][timeslotRoomEventMatrix[nextTimeslot][room]] == false
+
+    ) {
+        return remainingBlockSize;
+    }
+
+    timeslotRoomChecked[nextTimeslot][room] = true;
+    remainingBlockSize--;
+
+    return calculateRemainingBlockSize(p,
+            eventSameSubject,
+            timeslotRoomEventMatrix,
+            timeslot+1,
+            room,
+            timeslotNeighborhoodFlat,
+            remainingBlockSize,
+            timeslotRoomChecked
+    );
+}
+
 int calculateSoftViolation(
         struct Params p,
         int individual[p.numberOfEvents][3],
@@ -63,30 +99,46 @@ int calculateSoftViolation(
     int timeslotRoomEventMatrix[p.numberOfTimeslots][p.numberOfRooms];
     populateTimeslotRoomEventMatrix(p, individual, timeslotRoomEventMatrix);
 
-    bool timeslotRoomChacked[p.numberOfTimeslots][p.numberOfRooms];
-    populateBoolMatrix(p.numberOfTimeslots, p.numberOfRooms, timeslotRoomChacked, false);
-
-
+    bool timeslotRoomChecked[p.numberOfTimeslots][p.numberOfRooms];
+    populateBoolMatrix(p.numberOfTimeslots, p.numberOfRooms, timeslotRoomChecked, false);
 
     for (int room = 0; room < p.numberOfRooms; room++) {
 
         for (int timeslot = 0; timeslot < p.numberOfTimeslots; timeslot++) {
-            if (timeslotRoomChacked[timeslot][room] == true) continue;
-            timeslotRoomChacked[timeslot][room] = true;
-
-
+            if (timeslotRoomChecked[timeslot][room] == true) continue;
+            timeslotRoomChecked[timeslot][room] = true;
             int preferredBlockSize = eventBlockSize[timeslotRoomEventMatrix[timeslot][room]];
-            for (int remainingBlockSize = preferredBlockSize - 1; remainingBlockSize > 0; remainingBlockSize--) {
-//                timeslotRoomEventMatrix[timeslotNeighborhoodFlat[][1]][room]
-            }
+            int remainingBlockSize = calculateRemainingBlockSize(
+                    p,
+                    eventSameSubject,
+                    timeslotRoomEventMatrix,
+                    timeslot,
+                    room,
+                    timeslotNeighborhoodFlat,
+                    preferredBlockSize - 1,
+                    timeslotRoomChecked
+            );
 
-
-
+            violation += remainingBlockSize;
         }
 
     }
 
     return violation;
+}
+
+int calculateViolation(
+        struct Params p,
+        int individual[p.numberOfEvents][3],
+        bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents],
+        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+        int eventBlockSize[p.numberOfEvents],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2]
+) {
+
+    return
+        calculateHardViolation(p, individual, eventTimeslotShare)
+        + calculateSoftViolation(p, individual, eventSameSubject, eventBlockSize, timeslotNeighborhoodFlat);
 }
 
 int getRoomForEvent(struct Params p, bool eventRoomFit[p.numberOfEvents][p.numberOfRooms], int event) {
@@ -123,6 +175,9 @@ int findBestIndividual(
         struct Params p,
         int population[p.populationCardinality][p.numberOfEvents][3],
         bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents],
+        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+        int eventBlockSize[p.numberOfEvents],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
         int rangeMin,
         int rangeMax
 ) {
@@ -130,10 +185,14 @@ int findBestIndividual(
     int bestIndividualViolation = INT_MAX;
 
     for (int i = rangeMin; i < rangeMax; i++) {
-        int violation = calculateHardViolation(
+        int violation = calculateViolation(
                 p,
                 population[i],
-                eventTimeslotShare
+                eventTimeslotShare,
+                eventSameSubject,
+                eventBlockSize,
+                timeslotNeighborhoodFlat
+
         );
         if (violation < bestIndividualViolation) {
             bestIndividualViolation = violation;
@@ -150,6 +209,9 @@ void selectSurvivors(
         struct Params p,
         int population[p.populationCardinality][p.numberOfEvents][3],
         bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents],
+        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+        int eventBlockSize[p.numberOfEvents],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
         int survivorIdexes[p.numberOfSurvivors]
 ) {
 
@@ -158,6 +220,9 @@ void selectSurvivors(
                 p,
                 population,
                 eventTimeslotShare,
+                eventSameSubject,
+                eventBlockSize,
+                timeslotNeighborhoodFlat,
                 p.broodSplit[i][0],
                 p.broodSplit[i][1]
         );
@@ -170,8 +235,9 @@ void reproduce(
         int parents[2][p.numberOfEvents][3],
         int child[p.numberOfEvents][3]
 ) {
+    int selectedParentGene = randInt(0, 1);
     for (int i = 0; i < p.numberOfEvents; i++) {
-        int selectedParentGene = randInt(0, 1);
+        if (i % p.numberOfEvents / 2 == 0) selectedParentGene = randInt(0, 1);
         child[i][0] = parents[selectedParentGene][i][0];
         child[i][1] = parents[selectedParentGene][i][1];
         child[i][2] = 0;
@@ -207,13 +273,47 @@ void mutation2 (
     }
 }
 
+void mutation3 (
+        struct Params p,
+        bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
+        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+        int individual[p.numberOfEvents][3]
+) {
+    for (int i = 0; i < p.mutation3Rate; i++) {
+        int eventA = -1;
+        int eventB = -1;
+        while(eventA == eventB || eventSameSubject[eventA][eventB] == false || timeslotNeighborhoodFlat[individual[eventA][0]][1] < 0) {
+            eventA = randInt(0, p.numberOfEvents - 1);
+            eventB = randInt(0, p.numberOfEvents - 1);
+        }
+
+        int oldTimeslot = individual[eventB][0];
+        int newTimeslot = timeslotNeighborhoodFlat[individual[eventA][0]][1];
+
+        for (int j = 0; j < p.numberOfEvents; j++) {
+            if (individual[j][0] == newTimeslot && individual[j][1] == individual[eventA][1]) {
+                individual[j][0] = oldTimeslot;
+                individual[j][1] = getRoomForEvent(p, eventRoomFit, j);
+                break;
+            }
+        }
+
+        individual[eventB][0] = newTimeslot;
+        individual[eventB][1] = individual[eventA][1];
+    }
+}
+
 void mutate(
         struct Params p,
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
+        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
         int individual[p.numberOfEvents][3]
 ) {
     mutation1(p, individual);
     mutation2(p, eventRoomFit, individual);
+    mutation3(p, eventRoomFit, timeslotNeighborhoodFlat, eventSameSubject, individual);
 }
 
 void nextGeneration(
@@ -221,6 +321,8 @@ void nextGeneration(
         bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents],
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
         int survivorIdexes[p.numberOfSurvivors],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
+        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
         int population[p.populationCardinality][p.numberOfEvents][3]
 ) {
     int parents[2][p.numberOfEvents][3];
@@ -230,7 +332,7 @@ void nextGeneration(
 
     for (int i = 0; i < p.populationCardinality; i++) {
         reproduce(p, eventRoomFit, parents, population[i]);
-        mutate(p, eventRoomFit, population[i]);
+        mutate(p, eventRoomFit, timeslotNeighborhoodFlat, eventSameSubject, population[i]);
     }
 }
 
@@ -238,6 +340,9 @@ void doEvolution(
         struct Params p,
         bool eventTimeslotShare[p.numberOfEvents][p.numberOfEvents],
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
+        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+        int eventBlockSize[p.numberOfEvents],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
         int numberOfGenerations
 ) {
 
@@ -247,21 +352,39 @@ void doEvolution(
     initializePopulation(p, eventRoomFit, population);
 
     int lowestViolation = INT_MAX;
+    int bestIndividual[p.numberOfEvents][3];
 
     for (int generation = 0; generation < numberOfGenerations; generation++) {
 
-        selectSurvivors(p, population, eventTimeslotShare, survivorIdexes);
+        selectSurvivors(
+                p,
+                population,
+                eventTimeslotShare,
+                eventSameSubject,
+                eventBlockSize,
+                timeslotNeighborhoodFlat,
+                survivorIdexes
+        );
 
         for (int j = 0; j < p.numberOfSurvivors; j++) {
-            int violation = calculateHardViolation(p, population[survivorIdexes[j]], eventTimeslotShare);
+            int violation = calculateViolation(
+                    p,
+                    population[survivorIdexes[j]],
+                    eventTimeslotShare,
+                    eventSameSubject,
+                    eventBlockSize,
+                    timeslotNeighborhoodFlat
+            );
             if (violation < lowestViolation) {
                 lowestViolation = violation;
+                copyIntMatrix(p.numberOfEvents, 3, population[survivorIdexes[j]], bestIndividual);
+                writeIntMatrixToCsvFile(p.numberOfEvents, 3, bestIndividual, "../../var/calculator/calculator_result");
             }
         }
 
         printf("Generation: %d; Lowest violation: %d; Survivors indexes: %d, %d\n", generation, lowestViolation, survivorIdexes[0], survivorIdexes[1]);
 
-        nextGeneration(p, eventTimeslotShare, eventRoomFit, survivorIdexes, population);
+        nextGeneration(p, eventTimeslotShare, eventRoomFit, survivorIdexes, timeslotNeighborhoodFlat, eventSameSubject, population);
 
 
     }

@@ -6,15 +6,6 @@
 #include "utils.c"
 #include "evolution.c"
 
-//void printPopulation(int populationCardinality, int numberOfEvents, int population[populationCardinality][numberOfEvents][2]) {
-//    for (int i = 0; i < populationCardinality; i++) {
-//        for (int j = 0; j < numberOfEvents; j++) {
-//            printf("(%d,%d) ", population[i][j][0], population[i][j][1]);
-//        }
-//        printf("\n");
-//    }
-//}
-
 int getIntFromFileLine(FILE *fp) {
     char buff[255];
     fgets(buff, 255, (FILE*)fp);
@@ -61,17 +52,19 @@ int main(int argc, char * argv[]) {
     srand(time(0));
 
     FILE *fp;
-    fp = fopen("../../var/calculator/calculator_file_1619020601", "r");
+    fp = fopen("../../var/calculator/calculator_file_1619117280", "r");
 
     struct Params p;
     p.numberOfEvents = getIntFromFileLine(fp);
     p.numberOfRooms = getIntFromFileLine(fp);
     p.numberOfTimeslots = getIntFromFileLine(fp);
     p.numberOfSurvivors = 2;
-    p.hardViolationFactor = 10000;
-    p.mutation1Rate = 1;
+    p.maxBlockSize = 9;
+    p.hardViolationFactor = p.numberOfEvents * p.maxBlockSize + 1;
+    p.mutation1Rate = 0;
     p.mutation2Rate = 1;
-    p.populationCardinality = 2000;
+    p.mutation3Rate = 0;
+    p.populationCardinality = 100;
     p.broodSplit[0][0] = 0;
     p.broodSplit[0][1] = p.populationCardinality / 2 - 1;
     p.broodSplit[1][0] = p.populationCardinality / 2;
@@ -94,7 +87,15 @@ int main(int argc, char * argv[]) {
 
     fclose(fp);
 
-    doEvolution(p, eventTimeslotShare, eventRoomFit, 10000000);
+    doEvolution(
+            p,
+            eventTimeslotShare,
+            eventRoomFit,
+            eventSameSubject,
+            eventBlockSize,
+            timeslotNeighborhoodFlat,
+            100000000
+    );
 
 
     return 0;
