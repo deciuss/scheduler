@@ -2,6 +2,7 @@
 namespace App\Command;
 
 use App\Normalisation\Generator\EventBlockSize;
+use App\Normalisation\Generator\EventBlock;
 use App\Normalisation\Generator\EventRoomFit;
 use App\Normalisation\Generator\EventSameSubject;
 use App\Normalisation\Generator\EventTimeslotShare;
@@ -37,7 +38,9 @@ class CalculateCommand extends Command
         EventRoomFit $eventRoomFit,
         EventSameSubject $eventSameSubject,
         EventBlockSize $eventBlockSize,
+        EventBlock $eventBlock,
         TimeslotNeighborhood $timeslotNeighborhood,
+
         MatrixFlattener $matrixFlattener,
         EventRepository $eventRepository,
         RoomRepository $roomRepository,
@@ -48,6 +51,7 @@ class CalculateCommand extends Command
         $this->generators[] = $eventSameSubject;
         $this->generators[] = $eventBlockSize;
         $this->generators[] = $timeslotNeighborhood;
+        $this->generators[] = $eventBlock;
 
         $this->matrixFlattener = $matrixFlattener;
 
@@ -69,7 +73,8 @@ class CalculateCommand extends Command
         ini_set('memory_limit', '2048M');
 
         $calculatorFilePath = getcwd() . "/var/calculator/";
-        $calculatorFileName = "calculator_file_" . time();
+//        $calculatorFileName = "calculator_file_" . time();
+        $calculatorFileName = "calculator_file";
         $calculatorFilePathName = $calculatorFilePath . $calculatorFileName;
 
         touch($calculatorFilePathName);
@@ -82,7 +87,7 @@ class CalculateCommand extends Command
         foreach ($this->generators as $generator) {
             file_put_contents(
                 $calculatorFilePathName,
-                $this->matrixFlattener->flatten($generator->generate()) . "\n",
+                $this->matrixFlattener->flatten($generator->generate(), $generator->getMode()) . "\n",
                 FILE_APPEND
             );
         }

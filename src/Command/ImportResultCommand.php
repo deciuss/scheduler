@@ -3,13 +3,6 @@ namespace App\Command;
 
 use App\Entity\Schedule;
 use App\Entity\ScheduleEvent;
-use App\Normalisation\Generator\EventBlockSize;
-use App\Normalisation\Generator\EventRoomFit;
-use App\Normalisation\Generator\EventSameSubject;
-use App\Normalisation\Generator\EventTimeslotShare;
-use App\Normalisation\Generator\TimeslotNeighborhood;
-use App\Normalisation\Generator;
-use App\Normalisation\MatrixFlattener;
 use App\Repository\EventRepository;
 use App\Repository\RoomRepository;
 use App\Repository\TimeslotRepository;
@@ -68,8 +61,8 @@ class ImportResultCommand extends Command
             $scheduleEvent = new ScheduleEvent();
             $scheduleEvent->setSchedule($schedule);
             $scheduleEvent->setEvent($this->eventRepository->findOneBy(['id' => $index + 1]));
-            $scheduleEvent->setTimeslot($this->timeslotRepository->findOneBy(['id' =>$calculatorResult['timeslot'] + 1]));
-            $scheduleEvent->setRoom($this->roomRepository->findOneBy(['id' =>$calculatorResult['room'] + 1]));
+            $scheduleEvent->setTimeslot($this->timeslotRepository->findOneBy(['id' => $calculatorResult['timeslot'] + 1]));
+            $scheduleEvent->setRoom($this->roomRepository->findOneBy(['id' => $calculatorResult['room'] + 1]));
             $this->entityManager->persist($scheduleEvent);
         }
 

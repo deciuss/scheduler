@@ -87,45 +87,45 @@ int calculateRemainingBlockSize(
     );
 }
 
-int calculateSoftViolation(
-        struct Params p,
-        int individual[p.numberOfEvents][3],
-        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
-        int eventBlockSize[p.numberOfEvents],
-        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2]
-) {
-    int violation = 0;
-
-    int timeslotRoomEventMatrix[p.numberOfTimeslots][p.numberOfRooms];
-    populateTimeslotRoomEventMatrix(p, individual, timeslotRoomEventMatrix);
-
-    bool timeslotRoomChecked[p.numberOfTimeslots][p.numberOfRooms];
-    populateBoolMatrix(p.numberOfTimeslots, p.numberOfRooms, timeslotRoomChecked, false);
-
-    for (int room = 0; room < p.numberOfRooms; room++) {
-
-        for (int timeslot = 0; timeslot < p.numberOfTimeslots; timeslot++) {
-            if (timeslotRoomChecked[timeslot][room] == true) continue;
-            timeslotRoomChecked[timeslot][room] = true;
-            int preferredBlockSize = eventBlockSize[timeslotRoomEventMatrix[timeslot][room]];
-            int remainingBlockSize = calculateRemainingBlockSize(
-                    p,
-                    eventSameSubject,
-                    timeslotRoomEventMatrix,
-                    timeslot,
-                    room,
-                    timeslotNeighborhoodFlat,
-                    preferredBlockSize - 1,
-                    timeslotRoomChecked
-            );
-
-            violation += remainingBlockSize;
-        }
-
-    }
-
-    return violation;
-}
+//int calculateSoftViolation(
+//        struct Params p,
+//        int individual[p.numberOfEvents][3],
+//        bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+//        int eventBlockSize[p.numberOfEvents],
+//        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2]
+//) {
+//    int violation = 0;
+//
+//    int timeslotRoomEventMatrix[p.numberOfTimeslots][p.numberOfRooms];
+//    populateTimeslotRoomEventMatrix(p, individual, timeslotRoomEventMatrix);
+//
+//    bool timeslotRoomChecked[p.numberOfTimeslots][p.numberOfRooms];
+//    populateBoolMatrix(p.numberOfTimeslots, p.numberOfRooms, timeslotRoomChecked, false);
+//
+//    for (int room = 0; room < p.numberOfRooms; room++) {
+//
+//        for (int timeslot = 0; timeslot < p.numberOfTimeslots; timeslot++) {
+//            if (timeslotRoomChecked[timeslot][room] == true) continue;
+//            timeslotRoomChecked[timeslot][room] = true;
+//            int preferredBlockSize = eventBlockSize[timeslotRoomEventMatrix[timeslot][room]];
+//            int remainingBlockSize = calculateRemainingBlockSize(
+//                    p,
+//                    eventSameSubject,
+//                    timeslotRoomEventMatrix,
+//                    timeslot,
+//                    room,
+//                    timeslotNeighborhoodFlat,
+//                    preferredBlockSize - 1,
+//                    timeslotRoomChecked
+//            );
+//
+//            violation += remainingBlockSize;
+//        }
+//
+//    }
+//
+//    return violation;
+//}
 
 int calculateViolation(
         struct Params p,
@@ -135,10 +135,11 @@ int calculateViolation(
         int eventBlockSize[p.numberOfEvents],
         int timeslotNeighborhoodFlat[p.numberOfTimeslots][2]
 ) {
+//    return
+//        calculateHardViolation(p, individual, eventTimeslotShare)
+//        + calculateSoftViolation(p, individual, eventSameSubject, eventBlockSize, timeslotNeighborhoodFlat);
 
-    return
-        calculateHardViolation(p, individual, eventTimeslotShare)
-        + calculateSoftViolation(p, individual, eventSameSubject, eventBlockSize, timeslotNeighborhoodFlat);
+    return calculateHardViolation(p, individual, eventTimeslotShare);
 }
 
 int getRoomForEvent(struct Params p, bool eventRoomFit[p.numberOfEvents][p.numberOfRooms], int event) {
@@ -149,25 +150,64 @@ int getRoomForEvent(struct Params p, bool eventRoomFit[p.numberOfEvents][p.numbe
     }
 }
 
+void initializeGene(
+        struct Params p,
+        bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
+        struct Node *eventBlock,
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
+        int individual[p.numberOfEvents][3]
+) {
+    bool success = false;
+
+    while (! success) {
+        success = true;
+        struct Node *node =  eventBlock;
+        int room = getRoomForEvent(p, eventRoomFit, node->val);
+
+        int timeslot = randInt(0, p.numberOfTimeslots - 1);
+
+        individual[node->val][0] = timeslot;
+        individual[node->val][1] = room;
+
+        int lastEventInGene;
+
+        while(node = node->next) {
+            timeslot = timeslotNeighborhoodFlat[timeslot][1];
+            if (timeslot == -1) {
+                success = false;
+                break;
+            }
+            individual[node->val][0] = timeslot;
+            individual[node->val][1] = room;
+//            individual[node->val][2] = 1;
+            lastEventInGene = node->val;
+        }
+        individual[lastEventInGene][2] = 1; // last gene element
+    }
+
+}
+
 void initializeIndividual(
         struct Params p,
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
+        struct Node *eventBlock[p.numberOfBlocks],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
         int individual[p.numberOfEvents][3]
 ) {
-    for (int j = 0; j < p.numberOfEvents; j++) {
-        individual[j][0] = randInt(0, p.numberOfTimeslots - 1);
-        individual[j][1] = getRoomForEvent(p, eventRoomFit, j);
-        individual[j][2] = 0;
+    for (int j = 0; j < p.numberOfBlocks; j++) {
+        initializeGene(p, eventRoomFit, eventBlock[j], timeslotNeighborhoodFlat, individual);
     }
 }
 
 void initializePopulation(
         struct Params p,
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
+        struct Node *eventBlock[p.numberOfBlocks],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
         int population[p.populationCardinality][p.numberOfEvents][3]
 ) {
     for (int i = 0; i < p.populationCardinality; i++) {
-        initializeIndividual(p, eventRoomFit, population[i]);
+        initializeIndividual(p, eventRoomFit, eventBlock, timeslotNeighborhoodFlat, population[i]);
     }
 }
 
@@ -237,10 +277,9 @@ void reproduce(
 ) {
     int selectedParentGene = randInt(0, 1);
     for (int i = 0; i < p.numberOfEvents; i++) {
-        if (i % p.numberOfEvents / 2 == 0) selectedParentGene = randInt(0, 1);
         child[i][0] = parents[selectedParentGene][i][0];
         child[i][1] = parents[selectedParentGene][i][1];
-        child[i][2] = 0;
+        if (parents[selectedParentGene][i][2] == 1) selectedParentGene = randInt(0, 1);
     }
 
 }
@@ -264,12 +303,13 @@ void mutation1 (
 void mutation2 (
         struct Params p,
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
+        struct Node *eventBlock[p.numberOfBlocks],
+        int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
         int individual[p.numberOfEvents][3]
 ) {
     for (int i = 0; i < p.mutation2Rate; i++) {
-        int eventIndex1 = randInt(0, p.numberOfEvents - 1);
-        individual[eventIndex1][0] = randInt(0, p.numberOfTimeslots - 1);
-        individual[eventIndex1][1] = getRoomForEvent(p, eventRoomFit, eventIndex1);
+        int blockIndex = randInt(0, p.numberOfBlocks - 1);
+        initializeGene(p, eventRoomFit, eventBlock[blockIndex], timeslotNeighborhoodFlat, individual);
     }
 }
 
@@ -309,10 +349,11 @@ void mutate(
         bool eventRoomFit[p.numberOfEvents][p.numberOfRooms],
         int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
         bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+        struct Node *eventBlock[p.numberOfBlocks],
         int individual[p.numberOfEvents][3]
 ) {
     mutation1(p, individual);
-    mutation2(p, eventRoomFit, individual);
+    mutation2(p, eventRoomFit, eventBlock, timeslotNeighborhoodFlat, individual);
     mutation3(p, eventRoomFit, timeslotNeighborhoodFlat, eventSameSubject, individual);
 }
 
@@ -323,6 +364,7 @@ void nextGeneration(
         int survivorIdexes[p.numberOfSurvivors],
         int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
         bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
+        struct Node *eventBlock[p.numberOfBlocks],
         int population[p.populationCardinality][p.numberOfEvents][3]
 ) {
     int parents[2][p.numberOfEvents][3];
@@ -332,7 +374,7 @@ void nextGeneration(
 
     for (int i = 0; i < p.populationCardinality; i++) {
         reproduce(p, eventRoomFit, parents, population[i]);
-        mutate(p, eventRoomFit, timeslotNeighborhoodFlat, eventSameSubject, population[i]);
+        mutate(p, eventRoomFit, timeslotNeighborhoodFlat, eventSameSubject, eventBlock, population[i]);
     }
 }
 
@@ -343,13 +385,14 @@ void doEvolution(
         bool eventSameSubject[p.numberOfEvents][p.numberOfEvents],
         int eventBlockSize[p.numberOfEvents],
         int timeslotNeighborhoodFlat[p.numberOfTimeslots][2],
+        struct Node *eventBlock[p.numberOfBlocks],
         int numberOfGenerations
 ) {
 
     int survivorIdexes[p.numberOfSurvivors];
 
     int population[p.populationCardinality][p.numberOfEvents][3];
-    initializePopulation(p, eventRoomFit, population);
+    initializePopulation(p, eventRoomFit, eventBlock, timeslotNeighborhoodFlat, population);
 
     int lowestViolation = INT_MAX;
     int bestIndividual[p.numberOfEvents][3];
@@ -384,7 +427,7 @@ void doEvolution(
 
         printf("Generation: %d; Lowest violation: %d; Survivors indexes: %d, %d\n", generation, lowestViolation, survivorIdexes[0], survivorIdexes[1]);
 
-        nextGeneration(p, eventTimeslotShare, eventRoomFit, survivorIdexes, timeslotNeighborhoodFlat, eventSameSubject, population);
+        nextGeneration(p, eventTimeslotShare, eventRoomFit, survivorIdexes, timeslotNeighborhoodFlat, eventSameSubject, eventBlock, population);
 
 
     }

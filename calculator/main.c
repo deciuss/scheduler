@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "Params.c"
 #include "utils.c"
+#include "Node.c"
 #include "evolution.c"
 
 int getIntFromFileLine(FILE *fp) {
@@ -47,12 +48,27 @@ void flatTimeslotNeighborhoodMatrix(
    }
 }
 
+void populateBlockArray(FILE *fp, int size, struct Node *eventBlock[size]) {
+    for (int i = 0; i < size; i++) {
+        eventBlock[i] = malloc(sizeof(*eventBlock[i]));
+        eventBlock[i]->val = -1;
+        int blockSize = getIntFromFileLine(fp);
+        for (int j = 0; j < blockSize; j++) {
+            if (eventBlock[i]->val == -1) {
+                eventBlock[i]->val = getIntFromFileLine(fp);
+            } else {
+                Node_add(eventBlock[i], getIntFromFileLine(fp));
+            }
+        }
+    }
+}
+
 int main(int argc, char * argv[]) {
 
     srand(time(0));
 
     FILE *fp;
-    fp = fopen("../../var/calculator/calculator_file_1619117280", "r");
+    fp = fopen("../../var/calculator/calculator_file", "r");
 
     struct Params p;
     p.numberOfEvents = getIntFromFileLine(fp);
@@ -60,7 +76,8 @@ int main(int argc, char * argv[]) {
     p.numberOfTimeslots = getIntFromFileLine(fp);
     p.numberOfSurvivors = 2;
     p.maxBlockSize = 9;
-    p.hardViolationFactor = p.numberOfEvents * p.maxBlockSize + 1;
+//    p.hardViolationFactor = p.numberOfEvents * p.maxBlockSize + 1;
+    p.hardViolationFactor = 1;
     p.mutation1Rate = 0;
     p.mutation2Rate = 1;
     p.mutation3Rate = 0;
@@ -77,11 +94,16 @@ int main(int argc, char * argv[]) {
     bool timeslotNeighborhood[p.numberOfTimeslots][p.numberOfTimeslots];
     int timeslotNeighborhoodFlat[p.numberOfTimeslots][2];
 
+
     populateBoolMatrixWithFileLine(fp, p.numberOfEvents, p.numberOfEvents, eventTimeslotShare);
     populateBoolMatrixWithFileLine(fp, p.numberOfEvents, p.numberOfRooms, eventRoomFit);
     populateBoolMatrixWithFileLine(fp, p.numberOfEvents, p.numberOfEvents, eventSameSubject);
     populateIntArrayWithFileLine(fp, p.numberOfEvents, eventBlockSize);
     populateBoolMatrixWithFileLine(fp, p.numberOfTimeslots, p.numberOfTimeslots, timeslotNeighborhood);
+
+    p.numberOfBlocks = getIntFromFileLine(fp);
+    struct Node *eventBlock[p.numberOfBlocks];
+    populateBlockArray(fp, p.numberOfBlocks, eventBlock);
 
     flatTimeslotNeighborhoodMatrix(p, timeslotNeighborhood, timeslotNeighborhoodFlat);
 
@@ -94,6 +116,7 @@ int main(int argc, char * argv[]) {
             eventSameSubject,
             eventBlockSize,
             timeslotNeighborhoodFlat,
+            eventBlock,
             100000000
     );
 

@@ -23,6 +23,11 @@ class EventTimeslotShare implements Generator
      */
     private array $conditions;
 
+    public function getMode() : string
+    {
+        return 'string';
+    }
+
     public function __construct(
         TruthMatrixGenerator $truthMatrixGenerator,
         EventRepository $eventRepository,

@@ -13,7 +13,7 @@ void populateIntMatrix(int sizeX, int sizeY, int matrix[sizeX][sizeY], bool valu
 writeIntMatrixToCsvFile(int sizeX, int sizeY, int matrix[sizeX][sizeY], const char * filename) {
     FILE *fp;
     fp = fopen(filename, "w+");
-    fprintf(fp, "timeslot,room,violation");
+    fprintf(fp, "timeslot,room,violation\n");
     bool firstRow = true;
     for (int i = 0; i < sizeX; i++) {
         if (!firstRow) fprintf(fp, "\n");

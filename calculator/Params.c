@@ -5,6 +5,7 @@ struct Params {
     int populationCardinality;
     int numberOfSurvivors;
     int maxBlockSize;
+    int numberOfBlocks;
     int hardViolationFactor;
     int mutation1Rate;
     int mutation2Rate;
