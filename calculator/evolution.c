@@ -23,7 +23,6 @@ int calculateHardViolation(
 
         if (roomTimeslotPairUsed[individual[i][0]][individual[i][1]] == true) {
             violation++;
-            individual[i][2]++;
         }
         roomTimeslotPairUsed[individual[i][0]][individual[i][1]] = true;
 
@@ -32,7 +31,6 @@ int calculateHardViolation(
             if (individual[i][0] != individual[j][0]) continue;
             if (eventTimeslotShare[i][j] == false) {
                 violation++;
-                individual[i][2]++;
             }
         }
     }

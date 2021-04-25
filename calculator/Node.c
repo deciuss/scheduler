@@ -16,13 +16,6 @@ struct Node* Node_getLasNode(struct Node* node) {
 }
 
 void Node_add(struct Node* node, int val) {
-
-//    if (node == NULL) {
-//        node = malloc(sizeof(*node));
-//        node->val = val;
-//        return;
-//    }
-
     struct Node* lastNode = Node_getLasNode(node);
     struct Node* newNode = malloc(sizeof(*newNode));
     newNode->next = NULL;
