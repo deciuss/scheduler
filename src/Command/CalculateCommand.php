@@ -83,7 +83,6 @@ class CalculateCommand extends Command
         file_put_contents($calculatorFilePathName, $this->roomRepository->count([]) . "\n",FILE_APPEND);
         file_put_contents($calculatorFilePathName, $this->timeslotRepository->count([]) . "\n",FILE_APPEND);
 
-
         foreach ($this->generators as $generator) {
             file_put_contents(
                 $calculatorFilePathName,

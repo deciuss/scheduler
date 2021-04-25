@@ -1,3 +1,6 @@
+Heurystyczne narzędzie do rozwiązywania NP-kompletnego problemu układania harmonogramu zajęć
+Heuristic implement for solving the NP-complete problem of scheduling classes
+
 php bin/console doctrine:database:drop --force && php bin/console doctrine:database:create && php bin/console doctrine:migrations:migrate latest -n; php bin/console app:load-fixtures; php bin/console app:events:hydrate
 php bin/console app:load-fixtures
 php bin/console app:events:hydrate
@@ -18,8 +21,80 @@ php bin/console app:calculate
 
 
 
-php bin/console doctrine:database:drop --force && php bin/console doctrine:database:create && php bin/console doctrine:migrations:migrate latest -n; php bin/console app:load-fixtures; php bin/console app:events:hydrate; php bin/console app:calculate; ls -hal var/calculator/
+rm var/calculator/* && php bin/console doctrine:database:drop --force && php bin/console doctrine:database:create && php bin/console doctrine:migrations:migrate latest -n; php bin/console app:load-fixtures; php bin/console app:events:hydrate; php bin/console app:calculate; ls -hal var/calculator/
 
 
 
 php bin/console app:import
+
+rm var/calculator/*
+
+
+1. Wprowadzenie - charakterystyka problemu układania planu zajęć
+	- Problemy NP - obliczenia numeryczne kontra ludzka intuicja - przykład z nauczycielami układającymi plan na kartce, problem milenijny P == NP? 
+	- Ograniczenia twarde - taki plan nie przejdzie!
+		- każde zajęcia zawarte w programie powinny się kiedyś odbyć
+		- wykładowca może prowadzić jednocześnie nie więcej, niż jedne zajęcia 
+		- student może z pełną uwagą uczestniczyć jednocześnie w nie więcej, niż jednych zajęciach / kwestia podgrup
+		- równoczesne zajęcia w ramach dwuch przedmiotów w jednej sali byłyby dość kłopotliwe
+		- każda sala ma ograniczoną pojemność
+		- zajęcia mają określone wymagania co do sal - na wykładzie przydatny bywa projektor, a zajęcia z programowania milej przebiegają w sali z komputerami
+	- Dodatkowe preferencje - ograniczenia miękkie
+		- jeden ciąg w dniu / porządane przerwy
+		- zajęcia w blokach
+		- problem teleportacji między budynkami
+		- preferencje uczestników i prowadzących
+		- niefajne godziny zajęć
+			
+			
+			
+			
+	- Problemy NP - obliczenia numeryczne kontra ludzka intuicja - przykład z nauczycielami układającymi plan na kartce, problem milenijny P == NP? 
+
+2. Matematyczna reprezentacja problemu - redukcja!
+	- c1, c2, ..., cb przedmiotów
+	- e1, e2, ..., en wydarzeń
+	- r1, r2, ..., rm pomieszczeń
+	- t1, t2, ..., tk interwałów czasowych mogących akomodować wydarzenia
+	- s1, s2, ..., sw nauczycieli
+	- g1, g2, ..., gp grup studenckich
+	- f1, f2, ..., fq cech pomieszczeń, których określone wydarzenia mogą wymagać
+	- macierz chronokoegzystencji wydarzeń  E[n,n], gdzie eab ∈ {prawda, fałsz}
+	- macierz dopuszczalności zajęć w pomieszczeniu R[n,m], gdzie rab ∈ {prawda, fałsz}
+	- tablicę sąsiedztwa przedziałów czasowych T[k], gdzie ta ∈ [1, 2, ..., k]
+	- tablicę tablic pozwalającą grupować wydarzenia w bloki D[i], gdzie da ∈ [H1, H2, ..., Hi], natomiast ha ∈ [1, 2, ...., n]
+	
+
+3. Algorytm Ewolucyjny - fascynujące narzędzie inspirowane naturą
+	- odkrywca algorytmu ewolucyjnego - Charles Darwin - O powstawaniu gatunków  1859
+	- jak to działa w naturze - ewolucja w oparciu o selekcję naturalną
+	- osobnik
+	- gen
+	- algorytm 
+	- funkcja oceniająca
+	- reprodukcja
+	- mutacje
+
+
+
+
+4. Implementacja
+	- Wybór narzędzi - C kontra reszta świata
+	- ERD
+	- normalizacja danych
+	- opis komunikacji	
+
+
+5. Rezultaty
+	- zestaw danych testowych
+	- czas trwania obliczeń
+	- wyniki
+	
+6. Wnioski
+	
+	
+	
+	
+
+
+
