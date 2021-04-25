@@ -10,7 +10,7 @@ void populateIntMatrix(int sizeX, int sizeY, int matrix[sizeX][sizeY], bool valu
             matrix[i][j] = value;
 }
 
-writeIntMatrixToCsvFile(int sizeX, int sizeY, int matrix[sizeX][sizeY], const char * filename) {
+void writeIntMatrixToCsvFile(int sizeX, int sizeY, int matrix[sizeX][sizeY], const char * filename) {
     FILE *fp;
     fp = fopen(filename, "w+");
     fprintf(fp, "timeslot,room,violation\n");
