@@ -106,6 +106,8 @@ Przejżystość i łatwość obsługi interfejsu graficznego
 Spójność generowanych wyników 
 
 
+Sugestie:
+
 wzór bolcmana 
 wyżaranie
 strojenie
