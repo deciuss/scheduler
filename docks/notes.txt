@@ -93,6 +93,26 @@ rm var/calculator/*
 6. Wnioski
 	
 	
+Mozliwość ręcznego dodania i modyfikacji zbioru danych wejściowych poprzez interfejs WEB
+Mozliwość importu zbioru danych wejściowych ze znormalizowanego pliku typu csv lub MS Excell
+Możliwość zlecenia wykonania obliczeń
+Możliwość wglądu w graficzną reprezentacje już wygenerowanych obliczeń (wyświetlenie planu)
+
+
+
+Spójność danych wejściowych - walidacja uniemożliwiająca wprowadzenie systemu w stan, w którym nigdy nie powinien się znaleść
+Zadowalająco krutki czas obliczania planu
+Przejżystość i łatwość obsługi interfejsu graficznego
+Spójność generowanych wyników 
+
+
+wzór bolcmana 
+wyżaranie
+strojenie
+
+ograniczenia miękkie:
+wykłąd przed laboratoriami
+możliwość ustawienia zajęc co 2 tygodnie na stacjonarnych
 	
 	
 
