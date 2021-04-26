@@ -5,6 +5,8 @@
 #include "Params.c"
 #include "utils.c"
 #include "Node.c"
+#include "Gene.c"
+#include "Individual.c"
 #include "evolution.c"
 
 int getIntFromFileLine(FILE *fp) {
@@ -60,6 +62,23 @@ void populateBlockArray(FILE *fp, int size, struct Node *eventBlock[size]) {
 
 int main(int argc, char * argv[]) {
 
+
+    struct Gene *g = Gene();
+    g->room = 5;
+
+    struct Gene *q = Gene();
+    q->room = 7;
+
+
+    struct Individual* individual = Individual(5);
+
+    Individual_updateGene(individual, 3, g);
+    Individual_updateGene(individual, 3, q);
+
+    Individual_destruct(individual);
+
+//    exit(5);
+
     srand(time(0));
 
     FILE *fp;
@@ -74,7 +93,7 @@ int main(int argc, char * argv[]) {
 //    p.hardViolationFactor = p.numberOfEvents * p.maxBlockSize + 1;
     p.hardViolationFactor = 1;
     p.mutation1Rate = 0;
-    p.mutation2Rate = 1;
+    p.mutation2Rate = 0;
     p.mutation3Rate = 0;
     p.populationCardinality = 100;
     p.broodSplit[0][0] = 0;
