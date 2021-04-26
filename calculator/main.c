@@ -50,15 +50,10 @@ void flatTimeslotNeighborhoodMatrix(
 
 void populateBlockArray(FILE *fp, int size, struct Node *eventBlock[size]) {
     for (int i = 0; i < size; i++) {
-        eventBlock[i] = malloc(sizeof(*eventBlock[i]));
-        eventBlock[i]->val = -1;
+        eventBlock[i] = NULL;
         int blockSize = getIntFromFileLine(fp);
         for (int j = 0; j < blockSize; j++) {
-            if (eventBlock[i]->val == -1) {
-                eventBlock[i]->val = getIntFromFileLine(fp);
-            } else {
-                Node_add(eventBlock[i], getIntFromFileLine(fp));
-            }
+            eventBlock[i] = *Node_addOrCreate(&eventBlock[i], getIntFromFileLine(fp));
         }
     }
 }

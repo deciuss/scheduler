@@ -23,13 +23,13 @@ void Node_add(struct Node* node, int val) {
     lastNode->next = newNode;
 }
 
-struct Node* Node_addOrCreate(struct Node* node, int val) {
-    if (node == NULL) {
-        node = malloc(sizeof(*node));
-        node->next = NULL;
-        node->val = val;
+struct Node** Node_addOrCreate(struct Node** node, int val) {
+    if (*node == NULL) {
+        *node = malloc(sizeof(*node));
+        (*node)->next = NULL;
+        (*node)->val = val;
     } else {
-        Node_add(node, val);
+        Node_add(*node, val);
     }
     return node;
 }
