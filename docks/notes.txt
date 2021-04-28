@@ -113,6 +113,7 @@ wyżaranie
 strojenie
 
 ograniczenia miękkie:
+brak "dziór" między zajęciami
 wykłąd przed laboratoriami
 możliwość ustawienia zajęc co 2 tygodnie na stacjonarnych
 	
