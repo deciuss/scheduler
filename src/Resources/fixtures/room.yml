@@ -11,6 +11,6 @@ App\Entity\Room:
     name: 'Laboratorium Elektroniczne <current()>'
     capacity: 30
     features: ['@electronic_equipment']
-  class{1..2}:
+  class{1..1}:
     name: 'Sala <current()>'
     capacity: 40

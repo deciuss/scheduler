@@ -23,6 +23,8 @@ class MatrixFlattener
                 return $this->flattenToString($matrix);
             case 'blocks':
                 return $this->flattenToBlocks($matrix);
+            case 'array':
+                return $this->flattenToArray($matrix);
             default:
                 throw new \RuntimeException('Invalid flatten mode');
         }
@@ -50,6 +52,15 @@ class MatrixFlattener
             foreach ($row as $col) {
                 $result .= $col . "\n";
             }
+        }
+        return $result;
+    }
+
+    private function flattenToArray(mixed &$data) : string
+    {
+        $result = "";
+        foreach ($data as $col) {
+            $result .= $col . "\n";
         }
         return $result;
     }

@@ -1,12 +1,10 @@
 <?php
 namespace App\Command;
 
-use App\Normalisation\Generator\EventBlockSize;
 use App\Normalisation\Generator\EventBlock;
 use App\Normalisation\Generator\EventRoomFit;
-use App\Normalisation\Generator\EventSameSubject;
 use App\Normalisation\Generator\EventTimeslotShare;
-use App\Normalisation\Generator\TimeslotNeighborhood;
+use App\Normalisation\Generator\TimeslotNeighborNext;
 use App\Normalisation\Generator;
 use App\Normalisation\MatrixFlattener;
 use App\Repository\EventRepository;
@@ -36,22 +34,17 @@ class CalculateCommand extends Command
     public function __construct(
         EventTimeslotShare $eventTimeslotShare,
         EventRoomFit $eventRoomFit,
-        EventSameSubject $eventSameSubject,
-        EventBlockSize $eventBlockSize,
         EventBlock $eventBlock,
-        TimeslotNeighborhood $timeslotNeighborhood,
-
+        TimeslotNeighborNext $timeslotNeighborNext,
         MatrixFlattener $matrixFlattener,
         EventRepository $eventRepository,
         RoomRepository $roomRepository,
         TimeslotRepository $timeslotRepository
     ) {
+        $this->generators[] = $eventBlock;
         $this->generators[] = $eventTimeslotShare;
         $this->generators[] = $eventRoomFit;
-        $this->generators[] = $eventSameSubject;
-        $this->generators[] = $eventBlockSize;
-        $this->generators[] = $timeslotNeighborhood;
-        $this->generators[] = $eventBlock;
+        $this->generators[] = $timeslotNeighborNext;
 
         $this->matrixFlattener = $matrixFlattener;
 
@@ -73,7 +66,6 @@ class CalculateCommand extends Command
         ini_set('memory_limit', '2048M');
 
         $calculatorFilePath = getcwd() . "/var/calculator/";
-//        $calculatorFileName = "calculator_file_" . time();
         $calculatorFileName = "calculator_file";
         $calculatorFilePathName = $calculatorFilePath . $calculatorFileName;
 
