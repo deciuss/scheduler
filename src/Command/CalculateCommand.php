@@ -5,10 +5,12 @@ use App\Normalisation\Generator\EventBlock;
 use App\Normalisation\Generator\EventRoomFit;
 use App\Normalisation\Generator\EventTimeslotShare;
 use App\Normalisation\Generator\TimeslotNeighborNext;
+use App\Normalisation\Generator\EventGroup;
 use App\Normalisation\Generator;
 use App\Normalisation\MatrixFlattener;
 use App\Repository\EventRepository;
 use App\Repository\RoomRepository;
+use App\Repository\StudentGroupRepository;
 use App\Repository\TimeslotRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,6 +30,7 @@ class CalculateCommand extends Command
     private EventRepository $eventRepository;
     private RoomRepository $roomRepository;
     private TimeslotRepository $timeslotRepository;
+    private StudentGroupRepository $studentGroupRepository;
 
     private MatrixFlattener $matrixFlattener;
 
@@ -36,21 +39,25 @@ class CalculateCommand extends Command
         EventRoomFit $eventRoomFit,
         EventBlock $eventBlock,
         TimeslotNeighborNext $timeslotNeighborNext,
+        EventGroup $eventGroup,
         MatrixFlattener $matrixFlattener,
         EventRepository $eventRepository,
         RoomRepository $roomRepository,
-        TimeslotRepository $timeslotRepository
+        TimeslotRepository $timeslotRepository,
+        StudentGroupRepository $studentGroupRepository
     ) {
         $this->generators[] = $eventBlock;
         $this->generators[] = $eventTimeslotShare;
         $this->generators[] = $eventRoomFit;
         $this->generators[] = $timeslotNeighborNext;
+        $this->generators[] = $eventGroup;
 
         $this->matrixFlattener = $matrixFlattener;
 
         $this->eventRepository = $eventRepository;
         $this->roomRepository = $roomRepository;
         $this->timeslotRepository = $timeslotRepository;
+        $this->studentGroupRepository = $studentGroupRepository;
 
         parent::__construct();
     }
@@ -74,6 +81,7 @@ class CalculateCommand extends Command
         file_put_contents($calculatorFilePathName, $this->eventRepository->count([]) . "\n",FILE_APPEND);
         file_put_contents($calculatorFilePathName, $this->roomRepository->count([]) . "\n",FILE_APPEND);
         file_put_contents($calculatorFilePathName, $this->timeslotRepository->count([]) . "\n",FILE_APPEND);
+        file_put_contents($calculatorFilePathName, $this->studentGroupRepository->count([]) . "\n",FILE_APPEND);
 
         foreach ($this->generators as $generator) {
             file_put_contents(

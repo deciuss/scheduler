@@ -48,7 +48,7 @@ class ImportResultCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $calculatorFilePath = getcwd() . "/var/calculator/";
-        $calculatorFileName = "calculator_result";
+        $calculatorFileName = "output.csv";
         $calculatorFilePathName = $calculatorFilePath . $calculatorFileName;
 
         $calculatorResults = $this->decoder->decode(file_get_contents($calculatorFilePathName), 'csv');
