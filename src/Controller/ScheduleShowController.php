@@ -29,22 +29,12 @@ class ScheduleShowController extends AbstractController
         $this->scheduleEventRepository = $scheduleEventRepository;
     }
 
-    #[Route('/schedule/show/{id}', name: 'schedule_show')]
-    public function index(int $id): Response
+    #[Route('/schedule/show/{scheduleId}/group/{groupId}/teacher/{teacherId}', name: 'schedule_show')]
+    public function index(int $scheduleId, $groupId, $teacherId): Response
     {
-//        $this->scheduleEventRepository->findByScheduleId(['schedule' => $id]);
-        $scheduleEvents = $this->scheduleEventRepository->findBySchedule($id);
+        $criteria = ["schedule" => $scheduleId];
 
-//        var_dump(count($scheduleEvents));
-
-
-
-
-//        $table = [$this->roomRepository->count([])][$this->timeslotRepository->count([])];
-
-
-//        $numberOfRooms = $this->roomRepository->count([]);
-//        $numberOfTimeslots = $this->timeslotRepository->count([]);
+        $scheduleEvents = $this->scheduleEventRepository->findBy($criteria);
 
         $rooms = $this->roomRepository->findAll();
         $timeslots = $this->timeslotRepository->findAll();
@@ -70,15 +60,25 @@ class ScheduleShowController extends AbstractController
 
         /** @var $scheduleEvent ScheduleEvent */
         foreach ($scheduleEvents as $scheduleEvent) {
-//            $color = $this->color($scheduleEvent->getEvent()->getSubject()->getId());
+
+            if (
+                $groupId != "all"
+                && $groupId != $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getId()
+                && (null == $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getParent()
+                || $groupId != $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getParent()->getId())
+            ) {
+                continue;
+            }
+
+            if ($teacherId != "all" && $teacherId != $scheduleEvent->getEvent()->getSubject()->getTeacher()->getId()) {
+                continue;
+            }
+
             $table[$scheduleEvent->getTimeslot()->getId()][$scheduleEvent->getRoom()->getId()] .=
-//                "<div style='background-color: $color'>"
                 $scheduleEvent->getEvent()->getSubject()->getName() . "<br/>"
                 . $scheduleEvent->getEvent()->getSubject()->getTeacher()->getName() . "<br/>"
                 . $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getName() . "<br/>"
-//                . "</div>"
-
-                ;
+            ;
 
 
         }
