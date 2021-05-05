@@ -31,6 +31,7 @@ class CalculateCommand extends Command
     private RoomRepository $roomRepository;
     private TimeslotRepository $timeslotRepository;
     private StudentGroupRepository $studentGroupRepository;
+    private EventBlock $eventBlock;
 
     private MatrixFlattener $matrixFlattener;
 
@@ -51,6 +52,8 @@ class CalculateCommand extends Command
         $this->generators[] = $eventRoomFit;
         $this->generators[] = $timeslotNeighborNext;
         $this->generators[] = $eventGroup;
+
+        $this->eventBlock = $eventBlock;
 
         $this->matrixFlattener = $matrixFlattener;
 
@@ -78,10 +81,11 @@ class CalculateCommand extends Command
 
         touch($calculatorFilePathName);
 
-        file_put_contents($calculatorFilePathName, $this->eventRepository->count([]) . "\n",FILE_APPEND);
-        file_put_contents($calculatorFilePathName, $this->roomRepository->count([]) . "\n",FILE_APPEND);
-        file_put_contents($calculatorFilePathName, $this->timeslotRepository->count([]) . "\n",FILE_APPEND);
-        file_put_contents($calculatorFilePathName, $this->studentGroupRepository->count([]) . "\n",FILE_APPEND);
+        file_put_contents($calculatorFilePathName, $this->eventRepository->count([]) . "\n\n",FILE_APPEND);
+        file_put_contents($calculatorFilePathName, $this->roomRepository->count([]) . "\n\n",FILE_APPEND);
+        file_put_contents($calculatorFilePathName, $this->timeslotRepository->count([]) . "\n\n",FILE_APPEND);
+        file_put_contents($calculatorFilePathName, $this->studentGroupRepository->count([]) . "\n\n",FILE_APPEND);
+        file_put_contents($calculatorFilePathName, count($this->eventBlock->generate()) . "\n\n",FILE_APPEND);
 
         foreach ($this->generators as $generator) {
             file_put_contents(

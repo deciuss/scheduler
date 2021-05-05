@@ -25,7 +25,7 @@ class EventBlock implements Generator
 
     public function getMode() : string
     {
-        return 'blocks';
+        return 'oneToMany';
     }
 
     public function __construct(

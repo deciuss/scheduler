@@ -16,7 +16,7 @@ class EventGroup implements Generator
 
     public function getMode() : string
     {
-        return 'array';
+        return 'oneToMany';
     }
 
     public function __construct(
@@ -28,12 +28,15 @@ class EventGroup implements Generator
     public function generate() : array
     {
         $events = $this->eventRepository->findAll();
-        $eventGroupArray = [];
+        $eventGroups = [];
         foreach ($events as $event) {
-            $eventGroupArray[$event->getId() - 1] = $event->getSubject()->getStudentGroup()->getId() - 1;
+            $group = $event->getSubject()->getStudentGroup();
+            $eventGroups[$event->getId() - 1][] = $group->getId() - 1;
+            foreach($group->getChildren() as $child) {
+                $eventGroups[$event->getId() - 1][] = $child->getId() - 1;
+            }
         }
-
-        return $eventGroupArray;
+        return $eventGroups;
     }
 
 }

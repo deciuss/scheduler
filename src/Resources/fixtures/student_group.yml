@@ -7,10 +7,12 @@ App\Entity\StudentGroup:
     name: 'Informatyka Rok <current()> C 1/2'
     cardinality: 29
     studentGroupsIntersected: ['@computer_science_W_1_1_<current()>']
+    parent: '@computer_science_W_1_1_<current()>'
   computer_science_C_2_2_{1..4}:
     name: 'Informatyka Rok <current()> C 2/2'
     cardinality: 30
     studentGroupsIntersected: ['@computer_science_W_1_1_<current()>']
+    parent: '@computer_science_W_1_1_<current()>'
   electronics_W_1_1_{1..4}:
     name: 'Elektrotechnika Rok <current()> W 1/1'
     cardinality: 52
@@ -19,7 +21,9 @@ App\Entity\StudentGroup:
     name: 'Elektrotechnika Rok <current()> C 1/2'
     cardinality: 28
     studentGroupsIntersected: ['@electronics_W_1_1_<current()>']
+    parent: '@electronics_W_1_1_<current()>'
   electronics_C_2_2_{1..4}:
     name: 'Elektrotechnika Rok <current()> C 2/2'
     cardinality: 24
     studentGroupsIntersected: ['@electronics_W_1_1_<current()>']
+    parent: '@electronics_W_1_1_<current()>'

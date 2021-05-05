@@ -20,9 +20,9 @@ class MatrixFlattener
     {
         switch ($mode) {
             case 'string':
-                return $this->flattenToString($matrix);
-            case 'blocks':
-                return $this->flattenToBlocks($matrix);
+                return $this->flattenToString($matrix) . "\n";
+            case 'oneToMany':
+                return $this->flattenToOneToMany($matrix);
             case 'array':
                 return $this->flattenToArray($matrix);
             default:
@@ -44,9 +44,9 @@ class MatrixFlattener
 
     }
 
-    private function flattenToBlocks(mixed &$data) : string
+    private function flattenToOneToMany(mixed &$data) : string
     {
-        $result = count($data) . "\n";
+        $result = "";
         foreach ($data as $row) {
             $result .= count($row) . "\n";
             foreach ($row as $col) {
