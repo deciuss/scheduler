@@ -56,8 +56,6 @@ class ScheduleShowController extends AbstractController
             $table[0][$i+1] = $rooms[$i]->getName();
         }
 
-
-
         /** @var $scheduleEvent ScheduleEvent */
         foreach ($scheduleEvents as $scheduleEvent) {
 

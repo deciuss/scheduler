@@ -9,14 +9,14 @@ use App\Normalisation\Generator;
 use App\Repository\EventRepository;
 use App\Repository\TimeslotRepository;
 
-class EventGroup implements Generator
+class EventTeacher implements Generator
 {
 
     private EventRepository $eventRepository;
 
     public function getMode() : string
     {
-        return 'oneToMany';
+        return 'array';
     }
 
     public function __construct(
@@ -28,15 +28,11 @@ class EventGroup implements Generator
     public function generate() : array
     {
         $events = $this->eventRepository->findAll();
-        $eventGroups = [];
+        $eventTeacher = [];
         foreach ($events as $event) {
-            $group = $event->getSubject()->getStudentGroup();
-            $eventGroups[$event->getId() - 1][] = $group->getId() - 1;
-            foreach($group->getChildren() as $child) {
-                $eventGroups[$event->getId() - 1][] = $child->getId() - 1;
-            }
+            $eventTeacher[$event->getId() - 1] = $event->getSubject()->getTeacher()->getId() - 1;
         }
-        return $eventGroups;
+        return $eventTeacher;
     }
 
 }
