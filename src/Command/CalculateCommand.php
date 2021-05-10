@@ -10,6 +10,7 @@ use App\Normalisation\Generator\EventTeacher;
 use App\Normalisation\Generator;
 use App\Normalisation\MatrixFlattener;
 use App\Repository\EventRepository;
+use App\Repository\PlanRepository;
 use App\Repository\RoomRepository;
 use App\Repository\StudentGroupRepository;
 use App\Repository\TeacherRepository;
@@ -34,6 +35,7 @@ class CalculateCommand extends Command
     private TimeslotRepository $timeslotRepository;
     private StudentGroupRepository $studentGroupRepository;
     private TeacherRepository $teacherRepository;
+    private PlanRepository $planRepository;
     private EventBlock $eventBlock;
 
     private MatrixFlattener $matrixFlattener;
@@ -50,7 +52,8 @@ class CalculateCommand extends Command
         RoomRepository $roomRepository,
         TimeslotRepository $timeslotRepository,
         StudentGroupRepository $studentGroupRepository,
-        TeacherRepository $teacherRepository
+        TeacherRepository $teacherRepository,
+        PlanRepository $planRepository
     ) {
         $this->generators[] = $eventBlock;
         $this->generators[] = $eventTimeslotShare;
@@ -68,6 +71,7 @@ class CalculateCommand extends Command
         $this->timeslotRepository = $timeslotRepository;
         $this->studentGroupRepository = $studentGroupRepository;
         $this->teacherRepository = $teacherRepository;
+        $this->planRepository = $planRepository;
 
         parent::__construct();
     }
@@ -80,6 +84,23 @@ class CalculateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
+
+//        $e = $this->eventRepository->findOneBy(['id' => 365]);
+//        var_dump($this->eventRepository->getCalculatorMapId($e));
+//
+//
+//        $p = $this->planRepository->findOneBy(['id' => 3]);
+//        $e = $this->eventRepository->findOneByCalculatorMapId($p, 0);
+//
+//        var_dump($e->getId());
+//
+//        exit(1);
+
+
+
+
+
         ini_set('memory_limit', '2048M');
 
         $calculatorFilePath = getcwd() . "/var/calculator/";

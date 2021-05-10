@@ -27,6 +27,12 @@ class Timeslot
      */
     private $end;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Plan::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $plan;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +58,18 @@ class Timeslot
     public function setEnd(?\DateTimeInterface $end): self
     {
         $this->end = $end;
+
+        return $this;
+    }
+
+    public function getPlan(): ?Plan
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?Plan $plan): self
+    {
+        $this->plan = $plan;
 
         return $this;
     }

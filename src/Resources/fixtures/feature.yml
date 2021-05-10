@@ -1,7 +1,10 @@
 App\Entity\Feature:
   projector:
+    plan: '@plan1'
     name: 'projektor'
   computer_workstations:
+    plan: '@plan1'
     name: 'stanowiska komputerowe'
   electronic_equipment:
+    plan: '@plan1'
     name: 'instrumenty elektroniczne'

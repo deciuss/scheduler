@@ -29,6 +29,8 @@ class LoadFixturesCommand extends Command
     {
 
         $files = [
+            'src/Resources/fixtures/user.yml',
+            'src/Resources/fixtures/plan.yml',
             'src/Resources/fixtures/teacher.yml',
             'src/Resources/fixtures/student_group.yml',
             'src/Resources/fixtures/feature.yml',
@@ -39,7 +41,7 @@ class LoadFixturesCommand extends Command
 
         $loader = $this->container->get('fidry_alice_data_fixtures.loader.doctrine');
 
-        $objects = $loader->load($files);
+        $loader->load($files);
 
         return Command::SUCCESS;
     }

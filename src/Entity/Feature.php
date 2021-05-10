@@ -22,6 +22,12 @@ class Feature
      */
     private $name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Plan::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $plan;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +41,18 @@ class Feature
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPlan(): ?Plan
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?Plan $plan): self
+    {
+        $this->plan = $plan;
 
         return $this;
     }

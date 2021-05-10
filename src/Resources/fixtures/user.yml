@@ -1,0 +1,4 @@
+App\Entity\User:
+  user1:
+    email: 'admin@example.com'
+    password: 'abc123'

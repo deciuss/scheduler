@@ -29,6 +29,12 @@ class Teacher
      */
     private $subjects;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Plan::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $plan;
+
     public function __construct()
     {
         $this->subjects = new ArrayCollection();
@@ -77,6 +83,18 @@ class Teacher
                 $subject->setTeacher(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlan(): ?Plan
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?Plan $plan): self
+    {
+        $this->plan = $plan;
 
         return $this;
     }

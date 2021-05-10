@@ -1,0 +1,4 @@
+App\Entity\Plan:
+  plan1:
+    user: '@user1'
+    name: 'plan1'

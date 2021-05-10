@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Normalisation\Condition\EventSameSubject;
+namespace App\Normalisation\Condition\EventBlock;
 
 
 use App\Entity\Event;

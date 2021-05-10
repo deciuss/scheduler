@@ -27,6 +27,12 @@ class Schedule
      */
     private $created_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Plan::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $plan;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +58,18 @@ class Schedule
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getPlan(): ?Plan
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?Plan $plan): self
+    {
+        $this->plan = $plan;
 
         return $this;
     }

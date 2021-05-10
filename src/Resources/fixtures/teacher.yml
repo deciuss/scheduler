@@ -1,3 +1,4 @@
 App\Entity\Teacher:
   teacher{1..12}:
+    plan: '@plan1'
     name: <pl_PL:title()> <pl_PL:firstname()> <pl_PL:lastname()>

@@ -1,28 +1,34 @@
 App\Entity\StudentGroup:
   computer_science_W_1_1_{1..4}:
+    plan: '@plan1'
     name: 'Informatyka Rok <current()> W 1/1'
     cardinality: 59
     studentGroupsIntersected: ['@computer_science_C_1_2_<current()>', '@computer_science_C_2_2_<current()>']
   computer_science_C_1_2_{1..4}:
+    plan: '@plan1'
     name: 'Informatyka Rok <current()> C 1/2'
     cardinality: 29
     studentGroupsIntersected: ['@computer_science_W_1_1_<current()>']
     parent: '@computer_science_W_1_1_<current()>'
   computer_science_C_2_2_{1..4}:
+    plan: '@plan1'
     name: 'Informatyka Rok <current()> C 2/2'
     cardinality: 30
     studentGroupsIntersected: ['@computer_science_W_1_1_<current()>']
     parent: '@computer_science_W_1_1_<current()>'
   electronics_W_1_1_{1..4}:
+    plan: '@plan1'
     name: 'Elektrotechnika Rok <current()> W 1/1'
     cardinality: 52
     studentGroupsIntersected: ['@electronics_C_1_2_<current()>', '@electronics_C_2_2_<current()>']
   electronics_C_1_2_{1..4}:
+    plan: '@plan1'
     name: 'Elektrotechnika Rok <current()> C 1/2'
     cardinality: 28
     studentGroupsIntersected: ['@electronics_W_1_1_<current()>']
     parent: '@electronics_W_1_1_<current()>'
   electronics_C_2_2_{1..4}:
+    plan: '@plan1'
     name: 'Elektrotechnika Rok <current()> C 2/2'
     cardinality: 24
     studentGroupsIntersected: ['@electronics_W_1_1_<current()>']

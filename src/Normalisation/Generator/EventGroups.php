@@ -4,10 +4,9 @@
 namespace App\Normalisation\Generator;
 
 
-use App\Entity\Timeslot;
+use App\Entity\Plan;
 use App\Normalisation\Generator;
 use App\Repository\EventRepository;
-use App\Repository\TimeslotRepository;
 
 class EventGroups implements Generator
 {
@@ -27,7 +26,7 @@ class EventGroups implements Generator
 
     public function generate() : array
     {
-        $events = $this->eventRepository->findAll();
+        $events = $this->eventRepository->findBy(['plan' => $plan], ['id' => 'asc']);
         $eventGroups = [];
         foreach ($events as $event) {
             $group = $event->getSubject()->getStudentGroup();

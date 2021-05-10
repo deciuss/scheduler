@@ -4,8 +4,9 @@
 namespace App\Normalisation\Generator;
 
 
+use App\Entity\Plan;
 use App\Normalisation\Condition;
-use App\Normalisation\Condition\EventSameSubject\IsOfTheSameSubject;
+use App\Normalisation\Condition\EventBlock\IsOfTheSameSubject;
 use App\Normalisation\Generator;
 use App\Normalisation\TruthMatrixGenerator;
 use App\Repository\EventRepository;
@@ -42,7 +43,7 @@ class EventBlock implements Generator
 
     public function generate() : array
     {
-        $subjects = $this->subjectRepository->findAll();
+        $subjects = $this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']);
 
         $blocks = [];
         $blockIndex = -1;

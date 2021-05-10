@@ -2,6 +2,7 @@
 namespace App\Normalisation;
 
 use App\Entity\Event;
+use App\Entity\Plan;
 use App\Repository\SubjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -18,10 +19,9 @@ class EventHydrator
         $this->subjectRepository = $subjectRepository;
     }
 
-    public function hydrate() : void
+    public function hydrate(Plan $plan) : void
     {
-//        $this->truncate();
-        foreach ($this->subjectRepository->findAll() as $subject) {
+        foreach ($this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']) as $subject) {
             for($i = 0; $i < $subject->getHours(); $i++) {
                 $this->entityManager->persist((new Event())->setSubject($subject));
             }
@@ -29,26 +29,5 @@ class EventHydrator
 
         $this->entityManager->flush();
     }
-
-    public function truncate()
-    {
-        $classMetaData = $this->entityManager->getClassMetadata(Event::class);
-        $connection = $this->entityManager->getConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
-        $connection->beginTransaction();
-
-        try {
-            $q = $dbPlatform->getTruncateTableSql($classMetaData->getTableName(), true);
-            $connection->executeQuery('SET FOREIGN_KEY_CHECKS=0');
-            $connection->executeQuery($q);
-            $connection->executeQuery('SET FOREIGN_KEY_CHECKS=1');
-            $connection->commit();
-        } catch (\Exception $e) {
-            $connection->rollback();
-            throw $e;
-        }
-
-    }
-
 
 }

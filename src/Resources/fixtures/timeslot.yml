@@ -1,16 +1,21 @@
 App\Entity\Timeslot:
   mon{1..14}:
+    plan: '@plan1'
     start: <((new \DateTime('2014-09-01 06:00:00'))->modify("+$current  hour"))>
     end: <((new \DateTime('2014-09-01 06:00:00'))->modify("+$current hour")->modify("+1 hour"))>
   tue{1..14}:
+    plan: '@plan1'
     start: <((new \DateTime('2014-09-02 06:00:00'))->modify("+$current  hour"))>
     end: <((new \DateTime('2014-09-02 06:00:00'))->modify("+$current hour")->modify("+1 hour"))>
   wed{1..14}:
+    plan: '@plan1'
     start: <((new \DateTime('2014-09-03 06:00:00'))->modify("+$current  hour"))>
     end: <((new \DateTime('2014-09-03 06:00:00'))->modify("+$current hour")->modify("+1 hour"))>
   thu{1..14}:
+    plan: '@plan1'
     start: <((new \DateTime('2014-09-04 06:00:00'))->modify("+$current  hour"))>
     end: <((new \DateTime('2014-09-04 06:00:00'))->modify("+$current hour")->modify("+1 hour"))>
   fri{1..14}:
+    plan: '@plan1'
     start: <((new \DateTime('2014-09-05 06:00:00'))->modify("+$current  hour"))>
     end: <((new \DateTime('2014-09-05 06:00:00'))->modify("+$current hour")->modify("+1 hour"))>
