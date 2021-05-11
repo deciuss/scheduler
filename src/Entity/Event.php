@@ -23,6 +23,11 @@ class Event
      */
     private $subject;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $map_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +41,18 @@ class Event
     public function setSubject(?Subject $subject): self
     {
         $this->subject = $subject;
+
+        return $this;
+    }
+
+    public function getMapId(): ?int
+    {
+        return $this->map_id;
+    }
+
+    public function setMapId(?int $map_id): self
+    {
+        $this->map_id = $map_id;
 
         return $this;
     }

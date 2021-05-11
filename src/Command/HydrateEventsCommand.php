@@ -30,7 +30,6 @@ class HydrateEventsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-//        $this->eventHydrator->truncate();
         $p = $this->planRepository->findOneBy(['id' => 3]);
         $this->eventHydrator->hydrate($p);
         return Command::SUCCESS;

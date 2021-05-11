@@ -33,6 +33,11 @@ class Timeslot
      */
     private $plan;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $map_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class Timeslot
     public function setPlan(?Plan $plan): self
     {
         $this->plan = $plan;
+
+        return $this;
+    }
+
+    public function getMapId(): ?int
+    {
+        return $this->map_id;
+    }
+
+    public function setMapId(?int $map_id): self
+    {
+        $this->map_id = $map_id;
 
         return $this;
     }

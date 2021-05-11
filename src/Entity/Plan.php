@@ -28,6 +28,11 @@ class Plan
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="plan_status")
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +58,18 @@ class Plan
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
