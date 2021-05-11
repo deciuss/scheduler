@@ -1,10 +1,9 @@
 <?php
 
 
-namespace app\Message;
+namespace App\Message;
 
 
-interface Message
+interface Message extends \JsonSerializable
 {
-
 }

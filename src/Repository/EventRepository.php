@@ -64,6 +64,23 @@ class EventRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @param Plan $plan
+     * @return Event[]
+     */
+    public function findByPlanOrderByIdAsc(Plan $plan) : array
+    {
+        return $this->createQueryBuilder('e1')
+            ->innerJoin('e1.subject', 's1', Join::WITH)
+            ->innerJoin('s1.plan', 'p1', Join::WITH)
+            ->andWhere('p1 = :plan')
+            ->setParameter('plan', $plan)
+            ->orderBy('e1.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Event[] Returns an array of Event objects
     //  */

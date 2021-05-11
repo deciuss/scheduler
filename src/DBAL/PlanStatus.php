@@ -9,6 +9,7 @@ class PlanStatus extends Type
     const ENUM_PLAN_STATUS = 'plan_status';
         
     const PLAN_STATUS_UNDER_CONSTRUCTION = 'under_construction';
+    const PLAN_STATUS_LOCKED = 'locked';
     const PLAN_STATUS_EVENT_FILLING_STARTED = 'event_filling_started';
     const PLAN_STATUS_EVENT_FILLING_FINISHED = 'event_filling_finished';
     const PLAN_STATUS_MAP_ID_FILLING_STARTED = 'map_id_filling_started';
@@ -24,6 +25,7 @@ class PlanStatus extends Type
     {
         return [
             self::PLAN_STATUS_UNDER_CONSTRUCTION,
+            self::PLAN_STATUS_LOCKED,
             self::PLAN_STATUS_EVENT_FILLING_STARTED ,
             self::PLAN_STATUS_EVENT_FILLING_FINISHED,
             self::PLAN_STATUS_MAP_ID_FILLING_STARTED,

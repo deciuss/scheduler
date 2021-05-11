@@ -1,7 +1,7 @@
 <?php
 namespace App\Command;
 
-use App\Normalisation\EventHydrator;
+use App\Normalisation\EventFiller;
 use App\Repository\PlanRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,10 +12,10 @@ class HydrateEventsCommand extends Command
 
     protected static $defaultName = 'app:events:hydrate';
 
-    private EventHydrator $eventHydrator;
+    private EventFiller $eventHydrator;
     private PlanRepository $planRepository;
 
-    public function __construct(EventHydrator $eventHydrator, PlanRepository $planRepository)
+    public function __construct(EventFiller $eventHydrator, PlanRepository $planRepository)
     {
         $this->eventHydrator = $eventHydrator;
         $this->planRepository = $planRepository;
@@ -31,7 +31,7 @@ class HydrateEventsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $p = $this->planRepository->findOneBy(['id' => 3]);
-        $this->eventHydrator->hydrate($p);
+        $this->eventHydrator->fillEvents($p);
         return Command::SUCCESS;
     }
 }

@@ -6,7 +6,7 @@ use App\Entity\Plan;
 use App\Repository\SubjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class EventHydrator
+class EventFiller
 {
 
     private EntityManagerInterface $entityManager;
@@ -19,7 +19,7 @@ class EventHydrator
         $this->subjectRepository = $subjectRepository;
     }
 
-    public function hydrate(Plan $plan) : void
+    public function fillEvents(Plan $plan) : void
     {
         foreach ($this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']) as $subject) {
             for($i = 0; $i < $subject->getHours(); $i++) {

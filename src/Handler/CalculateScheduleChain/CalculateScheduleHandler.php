@@ -1,16 +1,18 @@
 <?php
 
 
-namespace app\Handler;
+namespace App\Handler\CalculateScheduleChain;
 
 
 use App\DBAL\PlanStatus;
-use app\Message\ScheduleCalculationMessage;
-use app\Message\Message;
+use App\Handler\ChainedHandler;
+use App\Message\CalculateSchedule;
+use App\Message\Message;
 use App\Repository\PlanRepository;
+use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 
-class ScheduleCalculationHandler extends ChainedHandler
+class CalculateScheduleHandler extends ChainedHandler implements MessageHandlerInterface
 {
 
     private PlanRepository $planRepository;
@@ -20,7 +22,8 @@ class ScheduleCalculationHandler extends ChainedHandler
         return in_array(
             $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
             [
-                PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED
+                PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED,
+                PlanStatus::PLAN_STATUS_SCHEDULE_CALCULATION_FINISHED
             ]
         );
     }
@@ -29,15 +32,14 @@ class ScheduleCalculationHandler extends ChainedHandler
         NormalizedDataGenerationHandler $dataGenerationHandler,
         PlanRepository $planRepository
     ) {
-        $this->setNext($dataGenerationHandler);
+        $this->setNextHandler($dataGenerationHandler);
         $this->planRepository = $planRepository;
     }
 
-    public function __invoke(Message $message)
+    public function __invoke(CalculateSchedule $message)
     {
-        assert($message instanceof ScheduleCalculationMessage, "Invalid message type.");
         if (! $this->canHandle($message)) {
-            return $this->invokeNext($message);
+            return $this->nextHandler($message);
         }
 
 

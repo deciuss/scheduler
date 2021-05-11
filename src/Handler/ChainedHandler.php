@@ -1,25 +1,31 @@
 <?php
 
 
-namespace app\Handler;
+namespace App\Handler;
 
 
-use app\Message\Message;
+use App\Message\Message;
+use Psr\Log\LoggerInterface;
 
-
-abstract class ChainedHandler implements Handler
+abstract class ChainedHandler
 {
-    private Handler $next;
+    private ?ChainedHandler $nextHandler;
+    protected LoggerInterface $logger;
 
     abstract protected function canHandle(Message $message) : bool;
 
-    public function setNext(Handler $handler)
+    protected function invokeNextHandler(Message $message) : void
     {
-        $this->next = $handler;
+        if ($this->nextHandler === null) {
+            throw new ChainEndException(get_class($this));
+        }
+
+        return $this->nextHandler($message);
     }
 
-    public function invokeNext(Message $message)
+    public function __construct(?ChainedHandler $nextHandler, LoggerInterface $logger)
     {
-        $this->next($message);
+        $this->nextHandler = $nextHandler;
+        $this->logger = $logger;
     }
 }

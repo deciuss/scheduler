@@ -1,10 +1,10 @@
 <?php
 
 
-namespace app\Message;
+namespace App\Message;
 
 
-class ScheduleCalculationMessage implements Message
+class CalculateSchedule implements Message
 {
     private int $planId;
 
@@ -16,5 +16,11 @@ class ScheduleCalculationMessage implements Message
     public function getPlanId()
     {
         return $this->planId;
+    }
+
+    public function jsonSerialize()
+    {
+        $vars = get_object_vars($this);
+        return $vars;
     }
 }
