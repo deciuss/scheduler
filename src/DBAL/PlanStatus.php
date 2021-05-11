@@ -4,9 +4,9 @@ namespace App\DBAL;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-class PlanStatusType extends Type
+class PlanStatus extends Type
 {
-    const ENUM_PLAN_STATUS = 'enum_plan_status';
+    const ENUM_PLAN_STATUS = 'plan_status';
         
     const PLAN_STATUS_UNDER_CONSTRUCTION = 'under_construction';
     const PLAN_STATUS_EVENT_FILLING_STARTED = 'event_filling_started';
@@ -17,7 +17,8 @@ class PlanStatusType extends Type
     const PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED = 'normalized_data_generation_finished';
     const PLAN_STATUS_SCHEDULE_CALCULATION_STARTED = 'schedule_calculation_started';
     const PLAN_STATUS_SCHEDULE_CALCULATION_FINISHED = 'schedule_calculation_finished';
-    const PLAN_STATUS_SCHEDULE_CALCULATION_ERROR = 'schedule_calculation_error';
+    const PLAN_STATUS_NORMALISATION_ERROR = 'normalisation_error';
+    const PLAN_STATUS_CALCULATION_ERROR = 'calculation_error';
 
     private function getPlanStatusList() : array
     {
@@ -31,7 +32,8 @@ class PlanStatusType extends Type
             self::PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED,
             self::PLAN_STATUS_SCHEDULE_CALCULATION_STARTED,
             self::PLAN_STATUS_SCHEDULE_CALCULATION_FINISHED,
-            self::PLAN_STATUS_SCHEDULE_CALCULATION_ERROR,
+            self::PLAN_STATUS_NORMALISATION_ERROR,
+            self::PLAN_STATUS_CALCULATION_ERROR,
         ];
     }
     
