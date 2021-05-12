@@ -1,12 +1,13 @@
 <?php
 
 
-namespace App\Handler\CalculateScheduleChain;
+namespace App\ScheduleCalculator\Handler;
 
 
 use App\DBAL\PlanStatus;
-use App\Handler\ChainedHandler;
-use App\Message\CalculateSchedule;
+use App\ChainHandler\ChainedHandler;
+use App\ScheduleCalculator\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler;
+use App\ScheduleCalculator\Message\CalculateSchedule;
 use App\Message\Message;
 use App\Repository\PlanRepository;
 use Psr\Log\LoggerInterface;
@@ -41,7 +42,7 @@ class CalculateScheduleHandler extends ChainedHandler implements MessageHandlerI
     public function __invoke(CalculateSchedule $message) : void
     {
         if (! $this->canHandle($message)) {
-            $this->invokeNextHandler($message);
+            $this->executeNextHandler($message);
             return;
         }
 

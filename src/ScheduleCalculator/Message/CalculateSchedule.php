@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Message;
+namespace App\ScheduleCalculator\Message;
 
 
 use App\Entity\Plan;
+use App\Message\Message;
 
 class CalculateSchedule implements Message
 {
@@ -15,7 +16,7 @@ class CalculateSchedule implements Message
         $this->planId = $plan->getId();
     }
 
-    public function getPlanId()
+    public function getPlanId() : int
     {
         return $this->planId;
     }

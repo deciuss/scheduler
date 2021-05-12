@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Handler;
+namespace App\ChainHandler;
 
 
 use Throwable;

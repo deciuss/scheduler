@@ -1,7 +1,7 @@
 <?php
 namespace App\Command;
 
-use App\Message\CalculateSchedule;
+use App\ScheduleCalculator\Message\CalculateSchedule;
 use App\Repository\PlanRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,7 +34,7 @@ class DispatchMessageCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $plan = $this->planRepository->findOneBy(['id' => 3]);
+        $plan = $this->planRepository->findOneBy(['id' => 1]);
 
         $this->messageBus->dispatch(new CalculateSchedule($plan));
 
