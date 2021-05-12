@@ -5,7 +5,7 @@ namespace App\ScheduleCalculator\Handler;
 
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainedHandler;
+use App\ChainHandler\ChainHandler;
 use App\ScheduleCalculator\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler;
 use App\ScheduleCalculator\Message\CalculateSchedule;
 use App\Message\Message;
@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 
-class CalculateScheduleHandler extends ChainedHandler implements MessageHandlerInterface
+class CalculateScheduleHandler extends ChainHandler implements MessageHandlerInterface
 {
 
     private PlanRepository $planRepository;
@@ -39,18 +39,13 @@ class CalculateScheduleHandler extends ChainedHandler implements MessageHandlerI
         $this->planRepository = $planRepository;
     }
 
-    public function __invoke(CalculateSchedule $message) : void
+    protected function handle(Message $message) : void
     {
-        if (! $this->canHandle($message)) {
-            $this->executeNextHandler($message);
-            return;
-        }
-
-        $this->logger->info(sprintf('%s started handling message: %s %s', get_class($this), get_class($message), json_encode($message)));
-
         // @todo
+    }
 
-        $this->logger->info(sprintf('%s started finished message: %s %s', get_class($this), get_class($message), json_encode($message)));
-
+    public function __invoke(CalculateSchedule $message)
+    {
+        $this->executeHandler($message);
     }
 }

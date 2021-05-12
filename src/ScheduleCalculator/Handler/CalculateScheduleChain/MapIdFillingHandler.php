@@ -5,7 +5,7 @@ namespace App\ScheduleCalculator\Handler\CalculateScheduleChain;
 
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainedHandler;
+use App\ChainHandler\ChainHandler;
 use App\Message\Message;
 use App\ScheduleCalculator\Message\CalculateSchedule;
 use App\Normalisation\MapIdFiller;
@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 
-class MapIdFillingHandler extends ChainedHandler
+class MapIdFillingHandler extends ChainHandler
 {
 
     private MessageBusInterface $messageBus;
@@ -25,12 +25,14 @@ class MapIdFillingHandler extends ChainedHandler
 
     protected function canHandle(Message $message): bool
     {
-        return in_array(
-            $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
-            [
-                PlanStatus::PLAN_STATUS_EVENT_FILLING_FINISHED
-            ]
-        );
+        return
+            $message instanceof CalculateSchedule
+            && in_array(
+                $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
+                [
+                    PlanStatus::PLAN_STATUS_EVENT_FILLING_FINISHED
+                ]
+            );
     }
 
     public function __construct(
@@ -48,15 +50,8 @@ class MapIdFillingHandler extends ChainedHandler
         $this->mapIdFiller = $mapIdFiller;
     }
 
-    public function __invoke(CalculateSchedule $message) : void
+    protected function handle(Message $message) : void
     {
-        if (! $this->canHandle($message)) {
-            $this->executeNextHandler($message);
-            return;
-        }
-
-        $this->logger->info(sprintf('%s started handling message: %s %s', get_class($this), get_class($message), json_encode($message)));
-
         $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
 
         $plan->setStatus(PlanStatus::PLAN_STATUS_MAP_ID_FILLING_STARTED);
@@ -68,7 +63,5 @@ class MapIdFillingHandler extends ChainedHandler
         $this->entityManager->flush();
 
         $this->messageBus->dispatch($message);
-
-        $this->logger->info(sprintf('%s finished handling message: %s %s', get_class($this), get_class($message), json_encode($message)));
     }
 }

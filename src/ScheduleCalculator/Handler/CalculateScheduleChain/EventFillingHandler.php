@@ -5,7 +5,7 @@ namespace App\ScheduleCalculator\Handler\CalculateScheduleChain;
 
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainedHandler;
+use App\ChainHandler\ChainHandler;
 use App\ScheduleCalculator\Message\CalculateSchedule;
 use App\Message\Message;
 use App\Normalisation\EventFiller;
@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 
-class EventFillingHandler extends ChainedHandler
+class EventFillingHandler extends ChainHandler
 {
 
     private MessageBusInterface $messageBus;
@@ -51,7 +51,7 @@ class EventFillingHandler extends ChainedHandler
         $this->eventFiller = $eventFiller;
     }
 
-    public function handle(Message $message) : void
+    protected function handle(Message $message) : void
     {
         $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
 

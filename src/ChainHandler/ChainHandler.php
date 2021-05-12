@@ -7,12 +7,12 @@ namespace App\ChainHandler;
 use App\Message\Message;
 use Psr\Log\LoggerInterface;
 
-abstract class ChainedHandler
+abstract class ChainHandler
 {
-    private ?ChainedHandler $nextHandler;
+    private ?ChainHandler $nextHandler;
     protected LoggerInterface $logger;
 
-    public function __construct(?ChainedHandler $nextHandler, LoggerInterface $logger)
+    public function __construct(?ChainHandler $nextHandler, LoggerInterface $logger)
     {
         $this->nextHandler = $nextHandler;
         $this->logger = $logger;
@@ -44,7 +44,7 @@ abstract class ChainedHandler
         );
     }
 
-    final protected function execute(Message $message) : void
+    final protected function executeHandler(Message $message) : void
     {
         if (! $this->canHandle($message)) {
             $this->executeNextHandler($message);
@@ -62,7 +62,7 @@ abstract class ChainedHandler
             throw new ChainEndException(get_class($this));
         }
 
-        $this->nextHandler->execute($message);
+        $this->nextHandler->executeHandler($message);
     }
 
 }

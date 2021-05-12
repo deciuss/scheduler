@@ -5,14 +5,14 @@ namespace App\ScheduleCalculator\Handler\CalculateScheduleChain;
 
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainedHandler;
+use App\ChainHandler\ChainHandler;
 use App\ScheduleCalculator\Message\CalculateSchedule;
 use App\Message\Message;
 use App\Repository\PlanRepository;
 use Psr\Log\LoggerInterface;
 
 
-class InProgressHandler extends ChainedHandler
+class InProgressHandler extends ChainHandler
 {
     private PlanRepository $planRepository;
 
@@ -44,7 +44,7 @@ class InProgressHandler extends ChainedHandler
      * @param Message $message
      * @todo
      */
-    public function handle(Message $message) : void
+    protected function handle(Message $message) : void
     {
         // Work in progress, do nothing
     }

@@ -5,7 +5,7 @@ namespace App\ScheduleCalculator\Handler\CalculateScheduleChain;
 
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainedHandler;
+use App\ChainHandler\ChainHandler;
 use App\ScheduleCalculator\Message\CalculateSchedule;
 use App\Message\Message;
 use App\Repository\PlanRepository;
@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 
-class LockHandler extends ChainedHandler
+class LockHandler extends ChainHandler
 {
     private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
@@ -22,11 +22,13 @@ class LockHandler extends ChainedHandler
 
     protected function canHandle(Message $message): bool
     {
-        return in_array(
-            $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
-            [
-                PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION
-            ]
+        return
+            $message instanceof CalculateSchedule
+            && in_array(
+                $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
+                [
+                    PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION
+                ]
         );
     }
 
@@ -43,22 +45,13 @@ class LockHandler extends ChainedHandler
         $this->planRepository = $planRepository;
     }
 
-    public function handle(Message $message) : void
+    protected function handle(Message $message) : void
     {
-        if (! $this->canHandle($message)) {
-            $this->executeNextHandler($message);
-            return;
-        }
-
-        $this->logger->info(sprintf('%s started handling message: %s %s', get_class($this), get_class($message), json_encode($message)));
-
         $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
 
         $plan->setStatus(PlanStatus::PLAN_STATUS_LOCKED);
         $this->entityManager->flush();
 
         $this->messageBus->dispatch($message);
-
-        $this->logger->info(sprintf('%s finished handling message: %s %s', get_class($this), get_class($message), json_encode($message)));
     }
 }
