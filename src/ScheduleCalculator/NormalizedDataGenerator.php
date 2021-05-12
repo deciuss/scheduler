@@ -17,9 +17,12 @@ use App\Repository\RoomRepository;
 use App\Repository\StudentGroupRepository;
 use App\Repository\TeacherRepository;
 use App\Repository\TimeslotRepository;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class NormalizedDataGenerator
 {
+
+    private string $dataPath;
 
     /**
      * @var Generator[]
@@ -37,6 +40,7 @@ class NormalizedDataGenerator
     private MatrixFlattener $matrixFlattener;
 
     public function __construct(
+        ParameterBagInterface $parameterBag,
         EventTimeslotShare $eventTimeslotShare,
         EventRoomFit $eventRoomFit,
         EventBlock $eventBlock,
@@ -51,6 +55,8 @@ class NormalizedDataGenerator
         TeacherRepository $teacherRepository,
         PlanRepository $planRepository
     ) {
+        $this->dataPath = $parameterBag->get('scheduler.calculator.data_path');
+
         $this->generators[] = $eventBlock;
         $this->generators[] = $eventTimeslotShare;
         $this->generators[] = $eventRoomFit;
@@ -72,8 +78,12 @@ class NormalizedDataGenerator
 
     public function generateNormalizedData(Plan $plan) : void
     {
-        $calculatorFilePath = getcwd() . "/var/calculator/data/";
-        $calculatorFilePathName = $calculatorFilePath . $plan->getId();
+        $calculatorFilePathName = sprintf(
+            "%s/%s",
+            $this->dataPath,
+            $plan->getId()
+        );
+
         touch($calculatorFilePathName);
 
         file_put_contents($calculatorFilePathName, $this->eventRepository->countByPlan($plan) . "\n\n",FILE_APPEND);
