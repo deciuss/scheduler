@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Normalisation\Condition\EventTimeslotShare;
+namespace App\ScheduleCalculator\Condition\EventTimeslotShare;
 
 
 use App\Entity\Event;
 use App\Entity\StudentGroup;
-use App\Normalisation\Condition;
+use App\ScheduleCalculator\Condition;
 
 class NotIntersectingStudentGroup implements Condition
 {

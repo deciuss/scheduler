@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Normalisation\Condition\EventRoomFit;
+namespace App\ScheduleCalculator\Condition\EventRoomFit;
 
 
 use App\Entity\Event;
 use App\Entity\Feature;
 use App\Entity\Room;
-use App\Normalisation\Condition;
+use App\ScheduleCalculator\Condition;
 
 class RoomHasRequiredFeatures implements Condition
 {

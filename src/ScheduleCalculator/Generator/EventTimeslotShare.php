@@ -1,16 +1,16 @@
 <?php
 
 
-namespace App\Normalisation\Generator;
+namespace App\ScheduleCalculator\Generator;
 
 
 use App\Entity\Plan;
-use App\Normalisation\Condition;
-use App\Normalisation\Condition\EventTimeslotShare\NotIntersectingStudentGroup;
-use App\Normalisation\Condition\EventTimeslotShare\NotSameStudentGroup;
-use App\Normalisation\Condition\EventTimeslotShare\NotSameTeacher;
-use App\Normalisation\Generator;
-use App\Normalisation\TruthMatrixGenerator;
+use App\ScheduleCalculator\Condition;
+use App\ScheduleCalculator\Condition\EventTimeslotShare\NotIntersectingStudentGroup;
+use App\ScheduleCalculator\Condition\EventTimeslotShare\NotSameStudentGroup;
+use App\ScheduleCalculator\Condition\EventTimeslotShare\NotSameTeacher;
+use App\ScheduleCalculator\Generator;
+use App\ScheduleCalculator\TruthMatrixGenerator;
 use App\Repository\EventRepository;
 
 class EventTimeslotShare implements Generator

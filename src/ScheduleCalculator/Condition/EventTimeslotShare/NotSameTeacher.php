@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Normalisation\Condition\EventTimeslotShare;
+namespace App\ScheduleCalculator\Condition\EventTimeslotShare;
 
 
 use App\Entity\Event;
-use App\Normalisation\Condition;
+use App\ScheduleCalculator\Condition;
 
 class NotSameTeacher implements Condition
 {

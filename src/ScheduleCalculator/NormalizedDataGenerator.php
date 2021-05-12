@@ -1,16 +1,16 @@
 <?php
 
 
-namespace App\Normalisation;
+namespace App\ScheduleCalculator;
 
 
 use App\Entity\Plan;
-use App\Normalisation\Generator\EventBlock;
-use App\Normalisation\Generator\EventGroups;
-use App\Normalisation\Generator\EventRoomFit;
-use App\Normalisation\Generator\EventTeacher;
-use App\Normalisation\Generator\EventTimeslotShare;
-use App\Normalisation\Generator\TimeslotNeighborNext;
+use App\ScheduleCalculator\Generator\EventBlock;
+use App\ScheduleCalculator\Generator\EventGroups;
+use App\ScheduleCalculator\Generator\EventRoomFit;
+use App\ScheduleCalculator\Generator\EventTeacher;
+use App\ScheduleCalculator\Generator\EventTimeslotShare;
+use App\ScheduleCalculator\Generator\TimeslotNeighborNext;
 use App\Repository\EventRepository;
 use App\Repository\PlanRepository;
 use App\Repository\RoomRepository;

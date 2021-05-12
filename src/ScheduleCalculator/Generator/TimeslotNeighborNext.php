@@ -1,12 +1,12 @@
 <?php
 
 
-namespace App\Normalisation\Generator;
+namespace App\ScheduleCalculator\Generator;
 
 
 use App\Entity\Plan;
 use App\Entity\Timeslot;
-use App\Normalisation\Generator;
+use App\ScheduleCalculator\Generator;
 use App\Repository\TimeslotRepository;
 
 class TimeslotNeighborNext implements Generator

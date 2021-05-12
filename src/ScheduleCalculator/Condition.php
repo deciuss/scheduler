@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Normalisation;
+namespace App\ScheduleCalculator;
 
 
 interface Condition

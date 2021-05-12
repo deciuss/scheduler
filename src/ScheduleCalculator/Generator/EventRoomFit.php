@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Normalisation\Generator;
+namespace App\ScheduleCalculator\Generator;
 
 
 use App\Entity\Plan;
-use App\Normalisation\Condition;
-use App\Normalisation\Condition\EventRoomFit\RoomHasRequiredFeatures;
-use App\Normalisation\Generator;
-use App\Normalisation\TruthMatrixGenerator;
+use App\ScheduleCalculator\Condition;
+use App\ScheduleCalculator\Condition\EventRoomFit\RoomHasRequiredFeatures;
+use App\ScheduleCalculator\Generator;
+use App\ScheduleCalculator\TruthMatrixGenerator;
 use App\Repository\EventRepository;
 use App\Repository\RoomRepository;
 

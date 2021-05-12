@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\Normalisation\Generator;
+namespace App\ScheduleCalculator\Generator;
 
 
 use App\Entity\Plan;
-use App\Normalisation\Condition;
-use App\Normalisation\Condition\EventBlock\IsOfTheSameSubject;
-use App\Normalisation\Generator;
-use App\Normalisation\TruthMatrixGenerator;
+use App\ScheduleCalculator\Condition;
+use App\ScheduleCalculator\Condition\EventBlock\IsOfTheSameSubject;
+use App\ScheduleCalculator\Generator;
+use App\ScheduleCalculator\TruthMatrixGenerator;
 use App\Repository\EventRepository;
 use App\Repository\SubjectRepository;
 
@@ -32,13 +32,11 @@ class EventBlock implements Generator
     public function __construct(
         TruthMatrixGenerator $truthMatrixGenerator,
         SubjectRepository $subjectRepository,
-        EventRepository $eventRepository,
-        IsOfTheSameSubject $isOfTheSameSubject
+        EventRepository $eventRepository
     ){
         $this->truthMatrixGenerator = $truthMatrixGenerator;
         $this->subjectRepository = $subjectRepository;
         $this->eventRepository = $eventRepository;
-        $this->conditions[] = $isOfTheSameSubject;
     }
 
     public function generate(Plan $plan) : array

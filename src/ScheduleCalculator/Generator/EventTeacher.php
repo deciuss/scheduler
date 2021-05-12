@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\Normalisation\Generator;
+namespace App\ScheduleCalculator\Generator;
 
 
 use App\Entity\Plan;
-use App\Normalisation\Generator;
+use App\ScheduleCalculator\Generator;
 use App\Repository\EventRepository;
 
 class EventTeacher implements Generator
