@@ -1,6 +1,7 @@
 <?php
 namespace App\Command;
 
+use Fidry\AliceDataFixtures\Persistence\PurgeMode;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,7 +42,7 @@ class LoadFixturesCommand extends Command
 
         $loader = $this->container->get('fidry_alice_data_fixtures.loader.doctrine');
 
-        $loader->load($files);
+        $loader->load($files, [], [], PurgeMode::createNoPurgeMode());
 
         return Command::SUCCESS;
     }

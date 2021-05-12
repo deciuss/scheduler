@@ -24,15 +24,15 @@ class EventGroups implements Generator
         $this->eventRepository = $eventRepository;
     }
 
-    public function generate() : array
+    public function generate(Plan $plan) : array
     {
-        $events = $this->eventRepository->findBy(['plan' => $plan], ['id' => 'asc']);
+        $events = $this->eventRepository->findByPlanOrderByIdAsc($plan);
         $eventGroups = [];
         foreach ($events as $event) {
             $group = $event->getSubject()->getStudentGroup();
-            $eventGroups[$event->getId() - 1][] = $group->getId() - 1;
+            $eventGroups[$event->getMapId()][] = $group->getMapId();
             foreach($group->getChildren() as $child) {
-                $eventGroups[$event->getId() - 1][] = $child->getId() - 1;
+                $eventGroups[$event->getMapId()][] = $child->getMapId();
             }
         }
         return $eventGroups;

@@ -11,6 +11,7 @@ use App\Message\Message;
 use App\Normalisation\NormalizedDataGenerator;
 use App\Repository\PlanRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 
@@ -47,26 +48,28 @@ class NormalizedDataGenerationHandler extends ChainedHandler
         $this->normalizedDataGenerator = $normalizedDataGenerator;
     }
 
-    public function __invoke(CalculateSchedule $message)
+    public function __invoke(CalculateSchedule $message) : void
     {
         if (! $this->canHandle($message)) {
-            return $this->invokeNextHandler($message);
-
-            $this->logger->info(sprintf('%s started handling message: %s %s', get_class($this), get_class($message), json_encode($message)));
-
-            $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
-
-            $plan->setStatus(PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_STARTED);
-            $this->entityManager->flush();
-
-            $this->normalizedDataGenerator->generateNormalizedData($plan);
-
-            $plan->setStatus(PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED);
-            $this->entityManager->flush();
-
-            $this->messageBus->dispatch($message);
-
-            $this->logger->info(sprintf('%s finished handling message: %s %s', get_class($this), get_class($message), json_encode($message)));
+            $this->invokeNextHandler($message);
+            return;
         }
+
+        $this->logger->info(sprintf('%s started handling message: %s %s', get_class($this), get_class($message), json_encode($message)));
+
+        $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
+
+        $plan->setStatus(PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_STARTED);
+        $this->entityManager->flush();
+
+        $this->normalizedDataGenerator->generateNormalizedData($plan);
+
+        $plan->setStatus(PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED);
+        $this->entityManager->flush();
+
+        $this->messageBus->dispatch($message);
+
+        $this->logger->info(sprintf('%s finished handling message: %s %s', get_class($this), get_class($message), json_encode($message)));
+
     }
 }

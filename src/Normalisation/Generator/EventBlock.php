@@ -41,7 +41,7 @@ class EventBlock implements Generator
         $this->conditions[] = $isOfTheSameSubject;
     }
 
-    public function generate() : array
+    public function generate(Plan $plan) : array
     {
         $subjects = $this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']);
 
@@ -55,7 +55,7 @@ class EventBlock implements Generator
                     $blockIndex++;
                     $remainingBlockSize = $subject->getBlockSize();
                 }
-                $blocks[$blockIndex][] = $event->getId() - 1;
+                $blocks[$blockIndex][] = $event->getMapId();
                 $remainingBlockSize--;
             }
         }

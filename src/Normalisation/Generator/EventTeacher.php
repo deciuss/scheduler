@@ -4,10 +4,9 @@
 namespace App\Normalisation\Generator;
 
 
-use App\Entity\Timeslot;
+use App\Entity\Plan;
 use App\Normalisation\Generator;
 use App\Repository\EventRepository;
-use App\Repository\TimeslotRepository;
 
 class EventTeacher implements Generator
 {
@@ -25,12 +24,12 @@ class EventTeacher implements Generator
         $this->eventRepository = $eventRepository;
     }
 
-    public function generate() : array
+    public function generate(Plan $plan) : array
     {
-        $events = $this->eventRepository->findAll();
+        $events = $this->eventRepository->findByPlanOrderByIdAsc($plan);
         $eventTeacher = [];
         foreach ($events as $event) {
-            $eventTeacher[$event->getId() - 1] = $event->getSubject()->getTeacher()->getId() - 1;
+            $eventTeacher[$event->getMapId()] = $event->getSubject()->getTeacher()->getMapId();
         }
         return $eventTeacher;
     }

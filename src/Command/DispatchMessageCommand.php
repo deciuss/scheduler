@@ -1,23 +1,26 @@
 <?php
 namespace App\Command;
 
-use App\Normalisation\EventFiller;
+use App\Message\CalculateSchedule;
 use App\Repository\PlanRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
-class HydrateEventsCommand extends Command
+class DispatchMessageCommand extends Command
 {
 
-    protected static $defaultName = 'app:events:hydrate';
+    protected static $defaultName = 'app:debug:dispatch-command';
 
-    private EventFiller $eventHydrator;
+    private MessageBusInterface $messageBus;
     private PlanRepository $planRepository;
 
-    public function __construct(EventFiller $eventHydrator, PlanRepository $planRepository)
-    {
-        $this->eventHydrator = $eventHydrator;
+    public function __construct(
+        MessageBusInterface $messageBus,
+        PlanRepository $planRepository
+    ) {
+        $this->messageBus = $messageBus;
         $this->planRepository = $planRepository;
         parent::__construct();
     }
@@ -30,8 +33,11 @@ class HydrateEventsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $p = $this->planRepository->findOneBy(['id' => 3]);
-        $this->eventHydrator->fillEvents($p);
+
+        $plan = $this->planRepository->findOneBy(['id' => 3]);
+
+        $this->messageBus->dispatch(new CalculateSchedule($plan));
+
         return Command::SUCCESS;
     }
 }

@@ -4,13 +4,15 @@
 namespace App\Message;
 
 
+use App\Entity\Plan;
+
 class CalculateSchedule implements Message
 {
     private int $planId;
 
-    public function __construct(int $planId)
+    public function __construct(Plan $plan)
     {
-        $this->planId = $planId;
+        $this->planId = $plan->getId();
     }
 
     public function getPlanId()

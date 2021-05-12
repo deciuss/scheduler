@@ -4,6 +4,7 @@
 namespace App\Normalisation\Generator;
 
 
+use App\Entity\Plan;
 use App\Entity\Timeslot;
 use App\Normalisation\Generator;
 use App\Repository\TimeslotRepository;
@@ -24,17 +25,17 @@ class TimeslotNeighborNext implements Generator
         $this->timeslotRepository = $timeslotRepository;
     }
 
-    public function generate() : array
+    public function generate(Plan $plan) : array
     {
-        $timeslots = $this->timeslotRepository->findAll();
+        $timeslots = $this->timeslotRepository->findBy(['plan' => $plan], ['id' => 'asc']);
 
         $timeslotNeighborNextArray = [];
 
         foreach ($timeslots as $timeslot) {
             $nextTimeslot = $this->timeslotRepository->findOneBy(["start" => $timeslot->getEnd()]);
-            $timeslotNeighborNextArray[$timeslot->getId() - 1] =
+            $timeslotNeighborNextArray[$timeslot->getMapId()] =
                 ($nextTimeslot instanceof Timeslot)
-                    ? $nextTimeslot->getId() - 1
+                    ? $nextTimeslot->getMapId()
                     : -1;
         }
 

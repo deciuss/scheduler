@@ -3,7 +3,7 @@ App\Entity\Room:
     plan: '@plan1'
     name: 'Audytorium <current()>'
     capacity: 120
-    features: []
+    features: ['@projector']
   computer_lab{1..2}:
     plan: '@plan1'
     name: 'Laboratorium Komputerowe <current()>'

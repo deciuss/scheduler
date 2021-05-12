@@ -36,10 +36,11 @@ class NormalisationErrorHandler extends ChainedHandler
     }
 
 
-    public function __invoke(CalculateSchedule $message)
+    public function __invoke(CalculateSchedule $message) : void
     {
         if (! $this->canHandle($message)) {
-            return $this->invokeNextHandler($message);
+            $this->invokeNextHandler($message);
+            return;
         }
 
         $this->logger->info(sprintf('%s started handling message: %s %s', get_class($this), get_class($message), json_encode($message)));

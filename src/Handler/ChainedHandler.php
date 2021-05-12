@@ -20,7 +20,7 @@ abstract class ChainedHandler
             throw new ChainEndException(get_class($this));
         }
 
-        return $this->nextHandler($message);
+        ($this->nextHandler)($message);
     }
 
     public function __construct(?ChainedHandler $nextHandler, LoggerInterface $logger)

@@ -4,6 +4,7 @@
 namespace App\Normalisation\Generator;
 
 
+use App\Entity\Plan;
 use App\Normalisation\Condition;
 use App\Normalisation\Condition\EventRoomFit\RoomHasRequiredFeatures;
 use App\Normalisation\Generator;
@@ -40,11 +41,11 @@ class EventRoomFit implements Generator
         $this->conditions[] = $roomHasRequiredFeatures;
     }
 
-    public function generate() : array
+    public function generate(Plan $plan) : array
     {
         return $this->truthMatrixGenerator->generate(
-            $this->eventRepository->findAll(),
-            $this->roomRepository->findAll(),
+            $this->eventRepository->findByPlanOrderByIdAsc($plan),
+            $this->roomRepository->findBy(['plan' => $plan], ['id' => 'asc']),
             ...$this->conditions
         );
     }

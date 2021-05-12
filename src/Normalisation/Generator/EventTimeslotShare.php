@@ -4,6 +4,7 @@
 namespace App\Normalisation\Generator;
 
 
+use App\Entity\Plan;
 use App\Normalisation\Condition;
 use App\Normalisation\Condition\EventTimeslotShare\NotIntersectingStudentGroup;
 use App\Normalisation\Condition\EventTimeslotShare\NotSameStudentGroup;
@@ -42,9 +43,9 @@ class EventTimeslotShare implements Generator
         $this->conditions[] = $notSameTeacher;
     }
 
-    public function generate() : array
+    public function generate(Plan $plan) : array
     {
-        $events = $this->eventRepository->findAll();
+        $events = $this->eventRepository->findByPlanOrderByIdAsc($plan);
         return $this->truthMatrixGenerator->generate($events, $events, ...$this->conditions);
     }
 
