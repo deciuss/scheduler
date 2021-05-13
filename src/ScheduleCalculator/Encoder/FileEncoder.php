@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\ScheduleCalculator;
+namespace App\ScheduleCalculator\Encoder;
 
+use App\ScheduleCalculator\Encoder;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
-class DataEncoder
+class FileEncoder implements Encoder
 {
 
     private EncoderInterface $encoder;
@@ -14,27 +15,6 @@ class DataEncoder
     public function __construct(EncoderInterface $encoder)
     {
         $this->encoder = $encoder;
-    }
-
-    /**
-     * @param int|array $data
-     * @param string $mode
-     * @return string
-     */
-    public function encode($data, string $mode) : string
-    {
-        switch ($mode) {
-            case 'int':
-                return $this->encodeInt($data);
-            case 'boolMatrix':
-                return $this->encodeBoolMatrix($data);
-            case 'intOneToMany':
-                return $this->encodeIntOneToMany($data);
-            case 'intArray':
-                return $this->encodeIntArray($data);
-            default:
-                throw new \RuntimeException('Invalid encoder mode');
-        }
     }
 
     public function encodeInt(int $data) : string

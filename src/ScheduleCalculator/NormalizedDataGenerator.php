@@ -18,12 +18,10 @@ use App\Repository\RoomRepository;
 use App\Repository\StudentGroupRepository;
 use App\Repository\TeacherRepository;
 use App\Repository\TimeslotRepository;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\File\File;
 
 class NormalizedDataGenerator
 {
-    private string $dataPath;
+    private WriterFactory $writerFactory;
 
     private EventRepository $eventRepository;
     private RoomRepository $roomRepository;
@@ -40,28 +38,23 @@ class NormalizedDataGenerator
     private EventGroups $eventGroups;
     private EventTeacher $eventTeacher;
 
-    private DataEncoder $dataEncoder;
-
     public function __construct(
-        ParameterBagInterface $parameterBag,
-        EventTimeslotShare $eventTimeslotShare,
-        EventRoomFit $eventRoomFit,
-        EventBlock $eventBlock,
-        TimeslotNeighborNext $timeslotNeighborNext,
-        EventGroups $eventGroups,
-        EventTeacher $eventTeacher,
-        DataEncoder $dataEncoder,
+        WriterFactory $writerFactory,
         EventRepository $eventRepository,
         RoomRepository $roomRepository,
         TimeslotRepository $timeslotRepository,
         StudentGroupRepository $studentGroupRepository,
         TeacherRepository $teacherRepository,
         PlanRepository $planRepository,
-        SubjectRepository $subjectRepository
+        SubjectRepository $subjectRepository,
+        EventTimeslotShare $eventTimeslotShare,
+        EventRoomFit $eventRoomFit,
+        EventBlock $eventBlock,
+        TimeslotNeighborNext $timeslotNeighborNext,
+        EventGroups $eventGroups,
+        EventTeacher $eventTeacher
     ) {
-        $this->dataPath = $parameterBag->get('scheduler.calculator.data_path');
-
-        $this->dataEncoder = $dataEncoder;
+        $this->writerFactory = $writerFactory;
 
         $this->eventRepository = $eventRepository;
         $this->roomRepository = $roomRepository;
@@ -81,106 +74,35 @@ class NormalizedDataGenerator
 
     public function generateNormalizedData(Plan $plan) : void
     {
-        $calculatorFilePathName = sprintf(
-            "%s/%s",
-            $this->dataPath,
-            $plan->getId()
-        );
-
-        touch($calculatorFilePathName);
+        $writer = $this->writerFactory->create((string) $plan->getId());
 
         $events = $this->eventRepository->findByPlanOrderByIdAsc($plan);
         $eventBlockGenerated = $this->eventBlock->generate(...$this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']));
 
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeInt($this->eventRepository->countByPlan($plan)),
-            FILE_APPEND
+        $writer->appendInt($this->eventRepository->countByPlan($plan));
+        $writer->appendInt($this->roomRepository->count(['plan' => $plan]));
+        $writer->appendInt($this->timeslotRepository->count(['plan' => $plan]));
+        $writer->appendInt($this->studentGroupRepository->count(['plan' => $plan]));
+        $writer->appendInt($this->teacherRepository->count(['plan' => $plan]));
+        $writer->appendInt(count($eventBlockGenerated));
+        $writer->appendIntOneToMany($eventBlockGenerated);
+        $writer->appendBoolMatrix($this->eventTimeslotShare->generate(...$events));
+
+        $writer->appendBoolMatrix(
+            $this->eventRoomFit->generate(
+                $events,
+                $this->roomRepository->findBy(['plan' => $plan], ['id' => 'asc'])
+            )
         );
 
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeInt($this->roomRepository->count(['plan' => $plan])),
-            FILE_APPEND
+        $writer->appendIntArray(
+            $this->timeslotNeighborNext->generate(
+                ...$this->timeslotRepository->findBy(['plan' => $plan], ['id' => 'asc'])
+            )
         );
 
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeInt($this->timeslotRepository->count(['plan' => $plan])),
-            FILE_APPEND
-        );
-
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeInt($this->studentGroupRepository->count(['plan' => $plan])),
-            FILE_APPEND
-        );
-
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeInt($this->teacherRepository->count(['plan' => $plan])),
-            FILE_APPEND
-        );
-
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeInt(count($eventBlockGenerated)),
-            FILE_APPEND
-        );
-
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeIntOneToMany(
-                $eventBlockGenerated
-            ),
-            FILE_APPEND
-        );
-
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeBoolMatrix(
-                $this->eventTimeslotShare->generate(...$events)
-            ),
-            FILE_APPEND
-        );
-
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeBoolMatrix(
-                $this->eventRoomFit->generate(
-                    $events,
-                    $this->roomRepository->findBy(['plan' => $plan], ['id' => 'asc'])
-                )
-            ),
-            FILE_APPEND
-        );
-
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeIntArray(
-                $this->timeslotNeighborNext->generate(
-                    ...$this->timeslotRepository->findBy(['plan' => $plan], ['id' => 'asc'])
-                )
-            ),
-            FILE_APPEND
-        );
-
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeIntOneToMany(
-                $this->eventGroups->generate(...$events)
-            ),
-            FILE_APPEND
-        );
-
-        file_put_contents(
-            $calculatorFilePathName,
-            $this->dataEncoder->encodeIntArray(
-                $this->eventTeacher->generate(...$events)
-            ),
-            FILE_APPEND
-        );
-
+        $writer->appendIntOneToMany($this->eventGroups->generate(...$events));
+        $writer->appendIntArray($this->eventTeacher->generate(...$events));
     }
 
 }
