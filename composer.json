@@ -89,6 +89,17 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "tests":  "./vendor/bin/phpunit tests",
+        "compare": "diff var/calculator/data/1 docks/best_results/calculator_file",
+        "fresh":  [
+            "rm -f var/calculator/data/*",
+            "php bin/console doctrine:database:drop --force",
+            "php bin/console doctrine:database:create",
+            "php bin/console doctrine:migrations:migrate latest -n; php bin/console app:load-fixtures",
+            "php bin/console app:debug:dispatch-command",
+            "ls -hal var/calculator/data",
+            "@compare"
         ]
     },
     "conflict": {
