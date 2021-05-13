@@ -11,7 +11,7 @@ class TimeslotNeighborNext implements Generator
 {
     public function getMode() : string
     {
-        return 'array';
+        return 'intArray';
     }
 
     public function generate(Timeslot ...$timeslots) : array

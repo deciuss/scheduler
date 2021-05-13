@@ -11,7 +11,7 @@ class EventGroups implements Generator
 {
     public function getMode() : string
     {
-        return 'oneToMany';
+        return 'intOneToMany';
     }
 
     public function generate(Event ...$events) : array

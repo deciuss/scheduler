@@ -11,7 +11,7 @@ class EventTeacher implements Generator
 {
     public function getMode() : string
     {
-        return 'array';
+        return 'intArray';
     }
 
     public function generate(Event ...$events) : array

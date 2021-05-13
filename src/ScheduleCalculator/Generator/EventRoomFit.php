@@ -25,7 +25,7 @@ class EventRoomFit implements Generator
 
     public function getMode() : string
     {
-        return 'string';
+        return 'boolMatrix';
     }
 
     public function __construct(

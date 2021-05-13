@@ -13,7 +13,7 @@ class EventBlock implements Generator
 
     public function getMode() : string
     {
-        return 'oneToMany';
+        return 'intOneToMany';
     }
 
     public function generate(Subject ...$subjects) : array
