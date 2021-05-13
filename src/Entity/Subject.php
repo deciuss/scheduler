@@ -57,9 +57,15 @@ class Subject
      */
     private $plan;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="subject")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->features = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,6 +165,36 @@ class Subject
     public function setPlan(?Plan $plan): self
     {
         $this->plan = $plan;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getSubject() === $this) {
+                $event->setSubject(null);
+            }
+        }
 
         return $this;
     }

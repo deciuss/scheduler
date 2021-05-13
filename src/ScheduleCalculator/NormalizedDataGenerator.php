@@ -5,6 +5,7 @@ namespace App\ScheduleCalculator;
 
 
 use App\Entity\Plan;
+use App\Repository\SubjectRepository;
 use App\ScheduleCalculator\Generator\EventBlock;
 use App\ScheduleCalculator\Generator\EventGroups;
 use App\ScheduleCalculator\Generator\EventRoomFit;
@@ -35,6 +36,8 @@ class NormalizedDataGenerator
     private StudentGroupRepository $studentGroupRepository;
     private TeacherRepository $teacherRepository;
     private PlanRepository $planRepository;
+    private SubjectRepository $subjectRepository;
+
     private EventBlock $eventBlock;
 
     private MatrixFlattener $matrixFlattener;
@@ -53,11 +56,12 @@ class NormalizedDataGenerator
         TimeslotRepository $timeslotRepository,
         StudentGroupRepository $studentGroupRepository,
         TeacherRepository $teacherRepository,
-        PlanRepository $planRepository
+        PlanRepository $planRepository,
+        SubjectRepository $subjectRepository
     ) {
         $this->dataPath = $parameterBag->get('scheduler.calculator.data_path');
 
-        $this->generators[] = $eventBlock;
+//        $this->generators[] = $eventBlock;
         $this->generators[] = $eventTimeslotShare;
         $this->generators[] = $eventRoomFit;
         $this->generators[] = $timeslotNeighborNext;
@@ -74,6 +78,7 @@ class NormalizedDataGenerator
         $this->studentGroupRepository = $studentGroupRepository;
         $this->teacherRepository = $teacherRepository;
         $this->planRepository = $planRepository;
+        $this->subjectRepository = $subjectRepository;
     }
 
     public function generateNormalizedData(Plan $plan) : void
@@ -86,12 +91,20 @@ class NormalizedDataGenerator
 
         touch($calculatorFilePathName);
 
+        $subjects = $this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']);
+
         file_put_contents($calculatorFilePathName, $this->eventRepository->countByPlan($plan) . "\n\n",FILE_APPEND);
         file_put_contents($calculatorFilePathName, $this->roomRepository->count(['plan' => $plan]) . "\n\n",FILE_APPEND);
         file_put_contents($calculatorFilePathName, $this->timeslotRepository->count(['plan' => $plan]) . "\n\n",FILE_APPEND);
         file_put_contents($calculatorFilePathName, $this->studentGroupRepository->count(['plan' => $plan]) . "\n\n",FILE_APPEND);
         file_put_contents($calculatorFilePathName, $this->teacherRepository->count(['plan' => $plan]) . "\n\n",FILE_APPEND);
-        file_put_contents($calculatorFilePathName, count($this->eventBlock->generate($plan)) . "\n\n",FILE_APPEND);
+        file_put_contents($calculatorFilePathName, count($eventBlockGenerated = $this->eventBlock->generate(...$subjects)) . "\n\n",FILE_APPEND);
+
+        file_put_contents(
+            $calculatorFilePathName,
+            $this->matrixFlattener->flatten($eventBlockGenerated, $this->eventBlock->getMode()) . "\n",
+            FILE_APPEND
+        );
 
         foreach ($this->generators as $generator) {
             file_put_contents(

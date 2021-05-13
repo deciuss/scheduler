@@ -19,3 +19,8 @@
 
 /calculator/.idea
 /calculator/cmake-build-debug
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

@@ -18,31 +18,19 @@ class Event
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Subject::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $subject;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $map_id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Subject::class, inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $subject;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getSubject(): ?Subject
-    {
-        return $this->subject;
-    }
-
-    public function setSubject(?Subject $subject): self
-    {
-        $this->subject = $subject;
-
-        return $this;
     }
 
     public function getMapId(): ?int
@@ -53,6 +41,18 @@ class Event
     public function setMapId(?int $map_id): self
     {
         $this->map_id = $map_id;
+
+        return $this;
+    }
+
+    public function getSubject(): ?Subject
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(?Subject $subject): self
+    {
+        $this->subject = $subject;
 
         return $this;
     }
