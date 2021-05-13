@@ -19,41 +19,85 @@ class EventBlockTest extends TestCase
     {
         $subjects = [];
 
-        $eventGroups = new EventBlock();
-        $actualEventBlockArray = $eventGroups->generate(...$subjects);
+        $actualEventBlockArray = (new EventBlock())->generate(...$subjects);
 
         $this->assertEquals([], $actualEventBlockArray);
     }
 
-    public function test_if_generates_proper_output_when_data_present() : void
+    public function test_if_separates_for_many_blocks_when_hours_greater_than_block_size() : void
     {
-        $subjects[] = SubjectMother::create(5, 2);
-        $this->givenSubjectHasEvents($subjects[0], ...[
+        $subjects = [];
+
+        $this->givenSubjectHasEvents(
+            $subjects[] = SubjectMother::create(5, 2),
             EventMother::create(0),
             EventMother::create(1),
             EventMother::create(2),
             EventMother::create(3),
-            EventMother::create(4),
-        ]);
+            EventMother::create(4)
+        );
 
-        $subjects[] = SubjectMother::create(2, 1);
-        $this->givenSubjectHasEvents($subjects[1], ...[
+        $actualEventBlockArray = (new EventBlock())->generate(...$subjects);
+
+        $this->assertEquals(
+            [
+                [0, 1],
+                [2, 3],
+                [4]
+            ],
+            $actualEventBlockArray
+        );
+    }
+
+    public function test_if_separates_for_blocks_when_there_is_only_one_hour() : void
+    {
+        $subjects = [];
+
+        $this->givenSubjectHasEvents(
+            $subjects[] = SubjectMother::create(1, 1),
+            EventMother::create(0)
+        );
+
+        $actualEventBlockArray = (new EventBlock())->generate(...$subjects);
+
+        $this->assertEquals(
+            [
+                [0],
+            ],
+            $actualEventBlockArray
+        );
+    }
+
+    public function test_if_separates_for_blocks_when_multiple_subjects_present() : void
+    {
+        $subjects = [];
+
+        $this->givenSubjectHasEvents(
+            $subjects[] = SubjectMother::create(5, 2),
+            EventMother::create(0),
+            EventMother::create(1),
+            EventMother::create(2),
+            EventMother::create(3),
+            EventMother::create(4)
+        );
+
+        $this->givenSubjectHasEvents(
+            $subjects[] = SubjectMother::create(2, 1),
             EventMother::create(5),
-            EventMother::create(6),
-        ]);
+            EventMother::create(6)
+        );
 
-        $subjects[] = SubjectMother::create(6, 3);
-        $this->givenSubjectHasEvents($subjects[2], ...[
+        $this->givenSubjectHasEvents(
+            $subjects[] = SubjectMother::create(6, 3),
             EventMother::create(7),
             EventMother::create(8),
             EventMother::create(9),
             EventMother::create(10),
             EventMother::create(11),
-            EventMother::create(12),
-        ]);
+            EventMother::create(12)
+        );
 
-        $eventBlock = new EventBlock();
-        $actualEventBlockArray = $eventBlock->generate(...$subjects);
+        $actualEventBlockArray = (new EventBlock())->generate(...$subjects);
 
         $this->assertEquals(
             [

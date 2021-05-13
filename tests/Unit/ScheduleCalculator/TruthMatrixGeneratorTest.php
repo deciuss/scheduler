@@ -21,8 +21,7 @@ class TruthMatrixGeneratorTest extends TestCase
         $alwaysFalseConditionStub = $this->createStub(Condition::class);
         $alwaysFalseConditionStub->method("check")->willReturn(false);
 
-        $truthMatrixGenerator = new TruthMatrixGenerator();
-        $actualMatrix = $truthMatrixGenerator->generate([1, 2], [3, 4, 5], $alwaysFalseConditionStub);
+        $actualMatrix = (new TruthMatrixGenerator())->generate([1, 2], [3, 4, 5], $alwaysFalseConditionStub);
 
         $this->assertEquals(
             [
@@ -38,8 +37,7 @@ class TruthMatrixGeneratorTest extends TestCase
         $alwaysTrueConditionStub = $this->createStub(Condition::class);
         $alwaysTrueConditionStub->method("check")->willReturn(true);
 
-        $truthMatrixGenerator = new TruthMatrixGenerator();
-        $actualMatrix = $truthMatrixGenerator->generate([1, 2], [3, 4, 5], $alwaysTrueConditionStub);
+        $actualMatrix = (new TruthMatrixGenerator())->generate([1, 2], [3, 4, 5], $alwaysTrueConditionStub);
 
         $this->assertEquals(
             [
@@ -55,8 +53,7 @@ class TruthMatrixGeneratorTest extends TestCase
         $conditionStub = $this->createStub(Condition::class);
         $conditionStub->method("check")->willReturn(true, false, false, true);
 
-        $truthMatrixGenerator = new TruthMatrixGenerator();
-        $actualMatrix = $truthMatrixGenerator->generate([1, 2], [3, 4], $conditionStub);
+        $actualMatrix = (new TruthMatrixGenerator())->generate([1, 2], [3, 4], $conditionStub);
 
         $this->assertEquals(
             [
@@ -75,8 +72,7 @@ class TruthMatrixGeneratorTest extends TestCase
         $conditionStub2 = $this->createStub(Condition::class);
         $conditionStub2->method("check")->willReturn(true, false, true, false);
 
-        $truthMatrixGenerator = new TruthMatrixGenerator();
-        $actualMatrix = $truthMatrixGenerator->generate([1, 2], [3, 4], $conditionStub1, $conditionStub2);
+        $actualMatrix = (new TruthMatrixGenerator())->generate([1, 2], [3, 4], $conditionStub1, $conditionStub2);
 
         $this->assertEquals(
             [

@@ -7,6 +7,7 @@ namespace App\Tests\Unit;
 use App\Entity\Event;
 use App\Entity\StudentGroup;
 use App\Entity\Subject;
+use App\Entity\Teacher;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -23,6 +24,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
         foreach ($subjects as $subject) {
             $subject->setStudentGroup($studentGroup);
             $studentGroup->addSubject($subject);
+        }
+    }
+
+    public function givenTeacherHasSubjects(Teacher $teacher, Subject ...$subjects) : void
+    {
+        foreach ($subjects as $subject) {
+            $subject->setTeacher($teacher);
+            $teacher->addSubject($subject);
         }
     }
 

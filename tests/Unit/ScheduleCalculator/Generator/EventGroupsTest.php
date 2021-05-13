@@ -19,43 +19,109 @@ class EventGroupsTest extends TestCase
     {
         $events = [];
 
-        $eventGroups = new EventGroups();
-        $actualEventGroupsArray = $eventGroups->generate(...$events);
+        $actualEventGroupsArray = (new EventGroups())->generate(...$events);
 
         $this->assertEquals([], $actualEventGroupsArray);
     }
 
-    public function test_if_generates_proper_output_when_data_present() : void
+    public function test_if_assigning_child_group_to_parents_event() : void
     {
-        $lecture = SubjectMother::create(5, 2);
-        $this->givenSubjectHasEvents($lecture, ...[
+        $events = [];
+
+        $this->givenSubjectHasEvents(
+            $subject = SubjectMother::create(5, 2),
+            $events[] = EventMother::create(0),
+            $events[] = EventMother::create(1),
+            $events[] = EventMother::create(2)
+        );
+
+        $this->givenStudentGroupHasSubjects(
+            $parentGroup = StudentGroupMother::create(0),
+            $subject
+        );
+
+        StudentGroupMother::create(1, $parentGroup);
+
+        $actualEventGroupsArray = (new EventGroups())->generate(...$events);
+
+        $this->assertEquals(
+            [
+                [0, 1],
+                [0, 1],
+                [0, 1]
+            ],
+            $actualEventGroupsArray
+        );
+    }
+
+    public function test_if_not_assigning_parent_group_to_childs_event() : void
+    {
+        $events = [];
+
+        $this->givenSubjectHasEvents(
+            $subject = SubjectMother::create(5, 2),
+            $events[] = EventMother::create(0),
+            $events[] = EventMother::create(1),
+            $events[] = EventMother::create(2)
+        );
+
+        $parentGroup = StudentGroupMother::create(0);
+
+        $this->givenStudentGroupHasSubjects(
+            StudentGroupMother::create(1, $parentGroup),
+            $subject
+        );
+
+        $actualEventGroupsArray = (new EventGroups())->generate(...$events);
+
+        $this->assertEquals(
+            [
+                [1],
+                [1],
+                [1]
+            ],
+            $actualEventGroupsArray
+        );
+    }
+
+    public function test_if_assigning_groups_when_multiple_groups_present() : void
+    {
+        $events = [];
+
+        $this->givenSubjectHasEvents(
+            $lecture = SubjectMother::create(5, 2),
             $events[] = EventMother::create(0),
             $events[] = EventMother::create(1),
             $events[] = EventMother::create(2),
             $events[] = EventMother::create(3),
             $events[] = EventMother::create(4)
-        ]);
+        );
 
-        $laboratory = SubjectMother::create(2, 1);
-        $this->givenSubjectHasEvents($laboratory, ...[
+        $this->givenSubjectHasEvents(
+            $laboratory = SubjectMother::create(2, 1),
             $events[] = EventMother::create(5)
-        ]);
+        );
 
-        $exercises = SubjectMother::create(6, 3);
-        $this->givenSubjectHasEvents($exercises, ...[
+        $this->givenSubjectHasEvents(
+            $exercises = SubjectMother::create(6, 3),
             $events[] = EventMother::create(6),
             $events[] = EventMother::create(7)
-        ]);
+        );
 
-        $parentGroup = StudentGroupMother::create(0);
+        $this->givenStudentGroupHasSubjects(
+            $parentGroup = StudentGroupMother::create(0),
+            $lecture
+        );
+
         StudentGroupMother::create(1, $parentGroup);
-        $this->givenStudentGroupHasSubjects($parentGroup, ...[$lecture]);
 
-        $lonelyGroup = StudentGroupMother::create(2);
-        $this->givenStudentGroupHasSubjects($lonelyGroup, ...[$laboratory, $exercises]);
+        $this->givenStudentGroupHasSubjects(
+            StudentGroupMother::create(2),
+            $laboratory,
+            $exercises
+        );
 
-        $eventGroups = new EventGroups();
-        $actualEventGroupsArray = $eventGroups->generate(...$events);
+        $actualEventGroupsArray = (new EventGroups())->generate(...$events);
 
         $this->assertEquals(
             [
