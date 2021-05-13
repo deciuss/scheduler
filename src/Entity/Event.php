@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use App\ScheduleCalculator\CalculatorMapping;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
  */
-class Event
+class Event implements CalculatorMapping
 {
     /**
      * @ORM\Id

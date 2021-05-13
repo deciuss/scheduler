@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Mother;
+namespace App\Tests\Stub\Mother;
 
-use App\Entity\StudentGroup;
+use App\Tests\Stub\Entity\StudentGroup;
 
 class StudentGroupMother
 {

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Unit\ScheduleCalculator\Generator;
 
 use App\ScheduleCalculator\Generator\EventGroups;
-use App\Tests\Mother\EventMother;
-use App\Tests\Mother\StudentGroupMother;
-use App\Tests\Mother\SubjectMother;
+use App\Tests\Stub\Mother\EventMother;
+use App\Tests\Stub\Mother\StudentGroupMother;
+use App\Tests\Stub\Mother\SubjectMother;
 use App\Tests\Unit\TestCase;
 
 /**

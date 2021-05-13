@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\TimeslotRepository;
+use App\ScheduleCalculator\CalculatorMapping;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TimeslotRepository::class)
  */
-class Timeslot
+class Timeslot implements CalculatorMapping
 {
     /**
      * @ORM\Id

@@ -6,10 +6,10 @@ namespace App\Tests\Unit\ScheduleCalculator\Generator;
 
 use App\ScheduleCalculator\Generator\EventTeacher;
 use App\ScheduleCalculator\Generator\TimeslotNeighborNext;
-use App\Tests\Mother\EventMother;
-use App\Tests\Mother\SubjectMother;
-use App\Tests\Mother\TeacherMother;
-use App\Tests\Mother\TimeslotMother;
+use App\Tests\Stub\Mother\EventMother;
+use App\Tests\Stub\Mother\SubjectMother;
+use App\Tests\Stub\Mother\TeacherMother;
+use App\Tests\Stub\Mother\TimeslotMother;
 use App\Tests\Unit\TestCase;
 
 /**
