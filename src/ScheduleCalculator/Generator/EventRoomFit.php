@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace App\ScheduleCalculator\Generator;
 
 use App\Entity\Event;
-use App\Entity\Plan;
 use App\Entity\Room;
 use App\ScheduleCalculator\Condition;
 use App\ScheduleCalculator\Condition\EventRoomFit\RoomHasRequiredFeatures;
 use App\ScheduleCalculator\Generator;
 use App\ScheduleCalculator\TruthMatrixGenerator;
-use App\Repository\EventRepository;
-use App\Repository\RoomRepository;
 
 class EventRoomFit implements Generator
 {

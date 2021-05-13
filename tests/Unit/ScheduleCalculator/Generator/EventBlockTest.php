@@ -14,9 +14,20 @@ use App\Tests\Unit\TestCase;
  */
 class EventBlockTest extends TestCase
 {
-    public function test_if_generates_proper_output() : void
+
+    public function test_if_generates_empty_output_when_no_data_present() : void
     {
-        $subjects[0] = SubjectMother::create(5, 2);
+        $subjects = [];
+
+        $eventGroups = new EventBlock();
+        $actualEventBlockArray = $eventGroups->generate(...$subjects);
+
+        $this->assertEquals([], $actualEventBlockArray);
+    }
+
+    public function test_if_generates_proper_output_when_data_present() : void
+    {
+        $subjects[] = SubjectMother::create(5, 2);
         $this->givenSubjectHasEvents($subjects[0], ...[
             EventMother::create(0),
             EventMother::create(1),
@@ -25,13 +36,13 @@ class EventBlockTest extends TestCase
             EventMother::create(4),
         ]);
 
-        $subjects[1] = SubjectMother::create(2, 1);
+        $subjects[] = SubjectMother::create(2, 1);
         $this->givenSubjectHasEvents($subjects[1], ...[
             EventMother::create(5),
             EventMother::create(6),
         ]);
 
-        $subjects[2] = SubjectMother::create(6, 3);
+        $subjects[] = SubjectMother::create(6, 3);
         $this->givenSubjectHasEvents($subjects[2], ...[
             EventMother::create(7),
             EventMother::create(8),
@@ -42,7 +53,6 @@ class EventBlockTest extends TestCase
         ]);
 
         $eventBlock = new EventBlock();
-
         $actualEventBlockArray = $eventBlock->generate(...$subjects);
 
         $this->assertEquals(
