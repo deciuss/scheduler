@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\TeacherRepository;
-use App\ScheduleCalculator\CalculatorMapping;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=TeacherRepository::class)
  */
-class Teacher implements CalculatorMapping
+class Teacher
 {
     /**
      * @ORM\Id
