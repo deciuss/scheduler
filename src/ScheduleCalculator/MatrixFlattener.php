@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\ScheduleCalculator;
-
 
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 

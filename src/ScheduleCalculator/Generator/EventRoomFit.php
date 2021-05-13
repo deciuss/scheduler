@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\ScheduleCalculator\Generator;
 
-
+use App\Entity\Event;
 use App\Entity\Plan;
+use App\Entity\Room;
 use App\ScheduleCalculator\Condition;
 use App\ScheduleCalculator\Condition\EventRoomFit\RoomHasRequiredFeatures;
 use App\ScheduleCalculator\Generator;
@@ -14,10 +16,7 @@ use App\Repository\RoomRepository;
 
 class EventRoomFit implements Generator
 {
-
     private TruthMatrixGenerator $truthMatrixGenerator;
-    private EventRepository $eventRepository;
-    private RoomRepository $roomRepository;
 
     /**
      * @var Condition[]
@@ -31,23 +30,20 @@ class EventRoomFit implements Generator
 
     public function __construct(
         TruthMatrixGenerator $truthMatrixGenerator,
-        EventRepository $eventRepository,
-        RoomRepository $roomRepository,
         RoomHasRequiredFeatures $roomHasRequiredFeatures
     ){
         $this->truthMatrixGenerator = $truthMatrixGenerator;
-        $this->eventRepository = $eventRepository;
-        $this->roomRepository = $roomRepository;
         $this->conditions[] = $roomHasRequiredFeatures;
     }
 
-    public function generate(Plan $plan) : array
+    /**
+     * @param Event[] $events
+     * @param Room[] $rooms
+     * @return array
+     */
+    public function generate(array $events, array $rooms) : array
     {
-        return $this->truthMatrixGenerator->generate(
-            $this->eventRepository->findByPlanOrderByIdAsc($plan),
-            $this->roomRepository->findBy(['plan' => $plan], ['id' => 'asc']),
-            ...$this->conditions
-        );
+        return $this->truthMatrixGenerator->generate($events, $rooms, ...$this->conditions);
     }
 
 }

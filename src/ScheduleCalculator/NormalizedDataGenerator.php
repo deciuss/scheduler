@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\ScheduleCalculator;
-
 
 use App\Entity\Plan;
 use App\Repository\SubjectRepository;
@@ -39,6 +39,11 @@ class NormalizedDataGenerator
     private SubjectRepository $subjectRepository;
 
     private EventBlock $eventBlock;
+    private EventTimeslotShare $eventTimeslotShare;
+    private EventRoomFit $eventRoomFit;
+    private TimeslotNeighborNext $timeslotNeighborNext;
+    private EventGroups $eventGroups;
+    private EventTeacher $eventTeacher;
 
     private MatrixFlattener $matrixFlattener;
 
@@ -62,13 +67,20 @@ class NormalizedDataGenerator
         $this->dataPath = $parameterBag->get('scheduler.calculator.data_path');
 
 //        $this->generators[] = $eventBlock;
-        $this->generators[] = $eventTimeslotShare;
-        $this->generators[] = $eventRoomFit;
-        $this->generators[] = $timeslotNeighborNext;
-        $this->generators[] = $eventGroups;
-        $this->generators[] = $eventTeacher;
+//        $this->generators[] = $eventTimeslotShare;
+//        $this->generators[] = $eventRoomFit;
+//        $this->generators[] = $timeslotNeighborNext;
+//        $this->generators[] = $eventGroups;
+//        $this->generators[] = $eventTeacher;
+
 
         $this->eventBlock = $eventBlock;
+        $this->eventTimeslotShare = $eventTimeslotShare;
+        $this->eventRoomFit = $eventRoomFit;
+        $this->timeslotNeighborNext = $timeslotNeighborNext;
+        $this->eventGroups = $eventGroups;
+        $this->eventTeacher = $eventTeacher;
+
 
         $this->matrixFlattener = $matrixFlattener;
 
@@ -92,6 +104,9 @@ class NormalizedDataGenerator
         touch($calculatorFilePathName);
 
         $subjects = $this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']);
+        $events = $this->eventRepository->findByPlanOrderByIdAsc($plan);
+        $rooms = $this->roomRepository->findBy(['plan' => $plan], ['id' => 'asc']);
+        $timeslots = $this->timeslotRepository->findBy(['plan' => $plan], ['id' => 'asc']);
 
         file_put_contents($calculatorFilePathName, $this->eventRepository->countByPlan($plan) . "\n\n",FILE_APPEND);
         file_put_contents($calculatorFilePathName, $this->roomRepository->count(['plan' => $plan]) . "\n\n",FILE_APPEND);
@@ -102,17 +117,58 @@ class NormalizedDataGenerator
 
         file_put_contents(
             $calculatorFilePathName,
-            $this->matrixFlattener->flatten($eventBlockGenerated, $this->eventBlock->getMode()) . "\n",
+            $this->matrixFlattener->flatten(
+                $eventBlockGenerated,
+                $this->eventBlock->getMode()
+            ) . "\n",
             FILE_APPEND
         );
 
-        foreach ($this->generators as $generator) {
-            file_put_contents(
-                $calculatorFilePathName,
-                $this->matrixFlattener->flatten($generator->generate($plan), $generator->getMode()) . "\n",
-                FILE_APPEND
-            );
-        }
+        file_put_contents(
+            $calculatorFilePathName,
+            $this->matrixFlattener->flatten(
+                $this->eventTimeslotShare->generate(...$events),
+                $this->eventTimeslotShare->getMode()
+            ) . "\n",
+            FILE_APPEND
+        );
+
+        file_put_contents(
+            $calculatorFilePathName,
+            $this->matrixFlattener->flatten(
+                $this->eventRoomFit->generate($events, $rooms),
+                $this->eventRoomFit->getMode()
+            ) . "\n",
+            FILE_APPEND
+        );
+
+        file_put_contents(
+            $calculatorFilePathName,
+            $this->matrixFlattener->flatten(
+                $this->timeslotNeighborNext->generate(...$timeslots),
+                $this->timeslotNeighborNext->getMode()
+            ) . "\n",
+            FILE_APPEND
+        );
+
+        file_put_contents(
+            $calculatorFilePathName,
+            $this->matrixFlattener->flatten(
+                $this->eventGroups->generate(...$events),
+                $this->eventGroups->getMode()
+            ) . "\n",
+            FILE_APPEND
+        );
+
+        file_put_contents(
+            $calculatorFilePathName,
+            $this->matrixFlattener->flatten(
+                $this->eventTeacher->generate(...$events),
+                $this->eventTeacher->getMode()
+            ) . "\n",
+            FILE_APPEND
+        );
+
     }
 
 }

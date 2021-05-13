@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Event;
@@ -40,7 +42,7 @@ class EventRepository extends ServiceEntityRepository
 
     public function countByPlan(Plan $plan) : int
     {
-        return $this->createQueryBuilder('e1')
+        return (int) $this->createQueryBuilder('e1')
             ->select('count(e1.id)')
             ->innerJoin('e1.subject', 's1', Join::WITH)
             ->innerJoin('s1.plan', 'p1', Join::WITH)

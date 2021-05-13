@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\ScheduleCalculator\Condition\EventTimeslotShare;
-
 
 use App\Entity\Event;
 use App\Entity\StudentGroup;

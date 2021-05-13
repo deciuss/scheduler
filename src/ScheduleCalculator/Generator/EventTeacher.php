@@ -1,32 +1,21 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\ScheduleCalculator\Generator;
 
-
-use App\Entity\Plan;
+use App\Entity\Event;
 use App\ScheduleCalculator\Generator;
-use App\Repository\EventRepository;
 
 class EventTeacher implements Generator
 {
-
-    private EventRepository $eventRepository;
-
     public function getMode() : string
     {
         return 'array';
     }
 
-    public function __construct(
-        EventRepository $eventRepository
-    ){
-        $this->eventRepository = $eventRepository;
-    }
-
-    public function generate(Plan $plan) : array
+    public function generate(Event ...$events) : array
     {
-        $events = $this->eventRepository->findByPlanOrderByIdAsc($plan);
         $eventTeacher = [];
         foreach ($events as $event) {
             $eventTeacher[$event->getMapId()] = $event->getSubject()->getTeacher()->getMapId();

@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\ScheduleCalculator\Handler;
-
 
 use App\DBAL\PlanStatus;
 use App\ChainHandler\ChainHandler;
