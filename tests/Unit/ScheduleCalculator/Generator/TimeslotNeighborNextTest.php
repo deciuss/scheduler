@@ -28,7 +28,7 @@ class TimeslotNeighborNextTest extends TestCase
 
     }
 
-    public function test_if_marks_as_next_if_timeslots_are_neighbors() : void
+    public function test_if_marks_as_next_when_timeslots_are_neighbors() : void
     {
         $timeslots = [];
 
@@ -49,7 +49,7 @@ class TimeslotNeighborNextTest extends TestCase
         $this->assertEquals([1, -1], $actualTimeslotNeighborNextArray);
     }
 
-    public function test_if_not_marks_as_next_if_timeslots_are_not_neighbors() : void
+    public function test_if_not_marks_as_next_when_timeslots_are_not_neighbors() : void
     {
         $timeslots = [];
 

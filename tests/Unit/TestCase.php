@@ -37,18 +37,24 @@ class TestCase extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function givenSubjectRequiresFeatures(Subject $subject, Feature ...$features)
+    public function givenSubjectRequiresFeatures(Subject $subject, Feature ...$features) : void
     {
         foreach ($features as $feature) {
             $subject->addFeature($feature);
         }
     }
 
-    public function givenRoomHasFeatures(Room $room, Feature ...$features)
+    public function givenRoomHasFeatures(Room $room, Feature ...$features) : void
     {
         foreach ($features as $feature) {
             $room->addFeature($feature);
         }
+    }
+
+    public function givenStudentGroupsAreIntersecting(StudentGroup $group1, StudentGroup $group2) : void
+    {
+        $group1->addStudentGroupsIntersected($group2);
+        $group2->addStudentGroupsIntersected($group1);
     }
 
 }
