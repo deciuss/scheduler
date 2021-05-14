@@ -8,7 +8,7 @@ use App\Tests\Stub\Entity\Teacher;
 
 class TeacherMother
 {
-    public static function create(int $mapId) : Teacher
+    public static function create(int $mapId = 0) : Teacher
     {
         return (new Teacher())->setMapId($mapId);
     }

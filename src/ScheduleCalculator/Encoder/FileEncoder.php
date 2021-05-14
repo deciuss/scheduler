@@ -5,18 +5,9 @@ declare(strict_types=1);
 namespace App\ScheduleCalculator\Encoder;
 
 use App\ScheduleCalculator\Encoder;
-use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
 class FileEncoder implements Encoder
 {
-
-    private EncoderInterface $encoder;
-
-    public function __construct(EncoderInterface $encoder)
-    {
-        $this->encoder = $encoder;
-    }
-
     public function encodeInt(int $data) : string
     {
         return $data . "\n\n";
@@ -27,6 +18,10 @@ class FileEncoder implements Encoder
         return $this->encodeBoolMatrixRows($data) . "\n\n";
     }
 
+    /**
+     * @param int[]|int $data
+     * @return string
+     */
     private function encodeBoolMatrixRows(mixed $data) : string
     {
         if (! is_array($data)) {
