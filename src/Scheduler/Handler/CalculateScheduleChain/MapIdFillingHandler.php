@@ -14,14 +14,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-
 class MapIdFillingHandler extends ChainHandler
 {
 
     private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
     private PlanRepository $planRepository;
-    private MapIdFiller $mapIdFiller;
+
+    /**
+     * @var MapIdFiller[]
+     */
+    private array $mapIdFillers;
 
     protected function canHandle(Message $message): bool
     {
@@ -41,13 +44,24 @@ class MapIdFillingHandler extends ChainHandler
         MessageBusInterface $messageBus,
         EntityManagerInterface $entityManager,
         PlanRepository $planRepository,
-        MapIdFiller $mapIdFiller
+        MapIdFiller\EventFiller $eventFiller,
+        MapIdFiller\RoomFiller $roomFiller,
+        MapIdFiller\StudentGroupFiller $studentGroupFiller,
+        MapIdFiller\TeacherFiller $teacherFiller,
+        MapIdFiller\TimeslotFiller $timeslotFiller
     ) {
         parent::__construct($eventFillingHandler, $logger);
         $this->messageBus = $messageBus;
         $this->entityManager = $entityManager;
         $this->planRepository = $planRepository;
-        $this->mapIdFiller = $mapIdFiller;
+
+        $this->mapIdFillers = [
+            $eventFiller,
+            $roomFiller,
+            $studentGroupFiller,
+            $teacherFiller,
+            $timeslotFiller
+        ];
     }
 
     protected function handle(Message $message) : void
@@ -57,7 +71,9 @@ class MapIdFillingHandler extends ChainHandler
         $plan->setStatus(PlanStatus::PLAN_STATUS_MAP_ID_FILLING_STARTED);
         $this->entityManager->flush();
 
-        $this->mapIdFiller->fillMapIds($plan);
+        foreach ($this->mapIdFillers as $mapIdFiller) {
+            $mapIdFiller($plan);
+        }
 
         $plan->setStatus(PlanStatus::PLAN_STATUS_MAP_ID_FILLING_FINISHED);
         $this->entityManager->flush();

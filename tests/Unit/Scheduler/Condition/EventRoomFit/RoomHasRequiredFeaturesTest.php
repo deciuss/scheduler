@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\ScheduleCalculator\Condition\EventRoomFit;
+namespace App\Tests\Unit\Scheduller\Condition\EventRoomFit;
 
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Condition\EventRoomFit\RoomHasRequiredFeatures;

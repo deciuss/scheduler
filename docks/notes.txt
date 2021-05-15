@@ -131,3 +131,23 @@ ibexa
 
 
 
+
+algorytm A*
+
+metoda koła róletki - 
+metoda tórniejowa - 
+krzyżowanie z maską
+strategia ewolucyjna mi + lambda <=
+petla ewolucyjna
+
+ocena statystyczna
+
+
+
+
+
+
+
+
+
+

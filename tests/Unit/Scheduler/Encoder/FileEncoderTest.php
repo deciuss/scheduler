@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\ScheduleCalculator\Encoder;
+namespace App\Tests\Unit\Scheduller\Encoder;
 
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Encoder\FileEncoder;
