@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Unit\ScheduleCalculator\Condition\EventTimeslotShare;
 
 use PHPUnit\Framework\TestCase;
-use App\ScheduleCalculator\Condition\EventTimeslotShare\NotSameStudentGroup;
+use App\Scheduler\Condition\EventTimeslotShare\NotSameStudentGroup;
 use App\Tests\Mother\EventMother;
 use App\Tests\Mother\StudentGroupMother;
 use App\Tests\Mother\SubjectMother;
 
 /**
- * @covers \App\ScheduleCalculator\Condition\EventTimeslotShare\NotSameStudentGroup
+ * @covers \App\Scheduler\Condition\EventTimeslotShare\NotSameStudentGroup
  */
 class NotSameStudentGroupTest extends TestCase
 {

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Unit\ScheduleCalculator\Encoder;
 
 use PHPUnit\Framework\TestCase;
-use App\ScheduleCalculator\Encoder\FileEncoder;
+use App\Scheduler\Encoder\FileEncoder;
 
 /**
- * @covers \App\ScheduleCalculator\Encoder\FileEncoder
+ * @covers \App\Scheduler\Encoder\FileEncoder
  */
 class FileEncoderTest extends TestCase
 {

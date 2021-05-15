@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Unit\ScheduleCalculator;
 
 use PHPUnit\Framework\TestCase;
-use App\ScheduleCalculator\Condition;
-use App\ScheduleCalculator\TruthMatrixGenerator;
+use App\Scheduler\Condition;
+use App\Scheduler\TruthMatrixGenerator;
 
 /**
- * @covers \App\ScheduleCalculator\TruthMatrixGenerator
- * @covers \App\ScheduleCalculator\Generator\EventRoomFit
- * @covers \App\ScheduleCalculator\Generator\EventTimeslotShare
+ * @covers \App\Scheduler\TruthMatrixGenerator
+ * @covers \App\Scheduler\Generator\EventRoomFit
+ * @covers \App\Scheduler\Generator\EventTimeslotShare
  */
 class TruthMatrixGeneratorTest extends TestCase
 {

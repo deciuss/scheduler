@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Unit\ScheduleCalculator\Generator;
 
 use PHPUnit\Framework\TestCase;
-use App\ScheduleCalculator\Generator\EventBlock;
+use App\Scheduler\Generator\EventBlock;
 use App\Tests\Mother\EventMother;
 use App\Tests\Mother\SubjectMother;
 
 /**
- * @covers \App\ScheduleCalculator\Generator\EventBlock
+ * @covers \App\Scheduler\Generator\EventBlock
  */
 class EventBlockTest extends TestCase
 {

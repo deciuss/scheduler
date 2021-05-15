@@ -1,7 +1,7 @@
 <?php
 namespace App\Command;
 
-use App\ScheduleCalculator\Message\CalculateSchedule;
+use App\Scheduler\Message\CalculateSchedule;
 use App\Repository\PlanRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

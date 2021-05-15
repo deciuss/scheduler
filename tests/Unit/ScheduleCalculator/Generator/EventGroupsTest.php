@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Unit\ScheduleCalculator\Generator;
 
 use PHPUnit\Framework\TestCase;
-use App\ScheduleCalculator\Generator\EventGroups;
+use App\Scheduler\Generator\EventGroups;
 use App\Tests\Mother\EventMother;
 use App\Tests\Mother\StudentGroupMother;
 use App\Tests\Mother\SubjectMother;
 
 /**
- * @covers \App\ScheduleCalculator\Generator\EventGroups
+ * @covers \App\Scheduler\Generator\EventGroups
  */
 class EventGroupsTest extends TestCase
 {
