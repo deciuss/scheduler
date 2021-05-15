@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Stub\Mother;
+namespace App\Tests\Mother;
 
 use App\Entity\Feature;
 use App\Entity\Room;

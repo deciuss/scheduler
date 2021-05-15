@@ -6,9 +6,9 @@ namespace App\Tests\Unit\ScheduleCalculator\Condition\EventTimeslotShare;
 
 use PHPUnit\Framework\TestCase;
 use App\ScheduleCalculator\Condition\EventTimeslotShare\NotSameTeacher;
-use App\Tests\Stub\Mother\EventMother;
-use App\Tests\Stub\Mother\SubjectMother;
-use App\Tests\Stub\Mother\TeacherMother;
+use App\Tests\Mother\EventMother;
+use App\Tests\Mother\SubjectMother;
+use App\Tests\Mother\TeacherMother;
 
 /**
  * @covers \App\ScheduleCalculator\Condition\EventTimeslotShare\NotSameTeacher

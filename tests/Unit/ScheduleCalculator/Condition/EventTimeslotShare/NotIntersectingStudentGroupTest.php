@@ -6,9 +6,9 @@ namespace App\Tests\Unit\ScheduleCalculator\Condition\EventTimeslotShare;
 
 use PHPUnit\Framework\TestCase;
 use App\ScheduleCalculator\Condition\EventTimeslotShare\NotIntersectingStudentGroup;
-use App\Tests\Stub\Mother\EventMother;
-use App\Tests\Stub\Mother\StudentGroupMother;
-use App\Tests\Stub\Mother\SubjectMother;
+use App\Tests\Mother\EventMother;
+use App\Tests\Mother\StudentGroupMother;
+use App\Tests\Mother\SubjectMother;
 
 /**
  * @covers \App\ScheduleCalculator\Condition\EventTimeslotShare\NotIntersectingStudentGroup

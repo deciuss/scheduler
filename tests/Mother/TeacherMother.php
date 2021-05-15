@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Stub\Mother;
+namespace App\Tests\Mother;
 
-use App\Tests\Stub\Entity\Teacher;
+use App\Tests\Mother\Entity\Teacher;
 
 class TeacherMother
 {
