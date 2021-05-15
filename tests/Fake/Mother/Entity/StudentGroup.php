@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Mother\Entity;
+namespace App\Tests\Fake\Mother\Entity;
 
 class StudentGroup extends \App\Entity\StudentGroup
 {

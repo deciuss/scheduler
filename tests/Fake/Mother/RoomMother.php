@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Mother;
+namespace App\Tests\Fake\Mother;
 
 use App\Entity\Feature;
 use App\Entity\Room;

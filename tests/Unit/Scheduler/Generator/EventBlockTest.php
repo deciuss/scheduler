@@ -6,8 +6,8 @@ namespace App\Tests\Unit\Scheduler\Generator;
 
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Generator\EventBlock;
-use App\Tests\Mother\EventMother;
-use App\Tests\Mother\SubjectMother;
+use App\Tests\Fake\Mother\EventMother;
+use App\Tests\Fake\Mother\SubjectMother;
 
 /**
  * @covers \App\Scheduler\Generator\EventBlock

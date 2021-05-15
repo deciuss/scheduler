@@ -6,9 +6,9 @@ namespace App\Tests\Unit\Scheduler\Generator;
 
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Generator\EventGroups;
-use App\Tests\Mother\EventMother;
-use App\Tests\Mother\StudentGroupMother;
-use App\Tests\Mother\SubjectMother;
+use App\Tests\Fake\Mother\EventMother;
+use App\Tests\Fake\Mother\StudentGroupMother;
+use App\Tests\Fake\Mother\SubjectMother;
 
 /**
  * @covers \App\Scheduler\Generator\EventGroups

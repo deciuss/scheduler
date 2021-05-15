@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Mother;
+namespace App\Tests\Fake\Mother;
 
-use App\Tests\Mother\Entity\Feature;
+use App\Tests\Fake\Mother\Entity\Feature;
 
 class FeatureMother
 {

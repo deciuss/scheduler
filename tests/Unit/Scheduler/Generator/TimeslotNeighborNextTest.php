@@ -7,10 +7,10 @@ namespace App\Tests\Unit\Scheduler\Generator;
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Generator\EventTeacher;
 use App\Scheduler\Generator\TimeslotNeighborNext;
-use App\Tests\Mother\EventMother;
-use App\Tests\Mother\SubjectMother;
-use App\Tests\Mother\TeacherMother;
-use App\Tests\Mother\TimeslotMother;
+use App\Tests\Fake\Mother\EventMother;
+use App\Tests\Fake\Mother\SubjectMother;
+use App\Tests\Fake\Mother\TeacherMother;
+use App\Tests\Fake\Mother\TimeslotMother;
 
 /**
  * @covers \App\Scheduler\Generator\TimeslotNeighborNext

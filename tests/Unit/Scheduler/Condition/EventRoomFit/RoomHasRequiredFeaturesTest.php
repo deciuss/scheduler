@@ -6,10 +6,10 @@ namespace App\Tests\Unit\Scheduler\Condition\EventRoomFit;
 
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Condition\EventRoomFit\RoomHasRequiredFeatures;
-use App\Tests\Mother\EventMother;
-use App\Tests\Mother\FeatureMother;
-use App\Tests\Mother\RoomMother;
-use App\Tests\Mother\SubjectMother;
+use App\Tests\Fake\Mother\EventMother;
+use App\Tests\Fake\Mother\FeatureMother;
+use App\Tests\Fake\Mother\RoomMother;
+use App\Tests\Fake\Mother\SubjectMother;
 
 /**
  * @covers \App\Scheduler\Condition\EventRoomFit\RoomHasRequiredFeatures

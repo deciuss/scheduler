@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Mother\Entity;
+namespace App\Tests\Fake\Mother\Entity;
 
-class Feature extends \App\Entity\Feature
+class Teacher extends \App\Entity\Teacher
 {
     private int $id;
 
     public function __construct(int $id)
     {
         $this->id = $id;
+        parent::__construct();
     }
 
     public function getId(): ?int
