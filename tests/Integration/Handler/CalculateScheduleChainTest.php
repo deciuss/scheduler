@@ -9,8 +9,8 @@ use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Integration\IntegrationTestCase;
 
 /**
- * @covers \App\Scheduler\Handler\CalculateScheduleChain\
- * @covers \App\Scheduler\Handler\CalculateScheduleHandler
+ * @covers \App\Scheduler\Infrastructure\Handler\CalculateScheduleChain\
+ * @covers \App\Scheduler\Infrastructure\Handler\CalculateScheduleHandler
  */
 class CalculateScheduleChainTest extends IntegrationTestCase
 {

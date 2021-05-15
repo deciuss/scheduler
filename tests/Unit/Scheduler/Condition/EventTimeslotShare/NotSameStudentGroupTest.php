@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduller\Condition\EventTimeslotShare;
+namespace App\Tests\Unit\Scheduler\Condition\EventTimeslotShare;
 
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Condition\EventTimeslotShare\NotSameStudentGroup;

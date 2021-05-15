@@ -20,7 +20,7 @@ use App\Repository\StudentGroupRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\TeacherRepository;
 use App\Repository\TimeslotRepository;
-use App\Scheduler\Handler\CalculateScheduleHandler;
+use App\Scheduler\Infrastructure\Handler\CalculateScheduleHandler;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SchedulerContext

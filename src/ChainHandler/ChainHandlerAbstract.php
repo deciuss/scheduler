@@ -7,12 +7,12 @@ namespace App\ChainHandler;
 use App\Message\Message;
 use Psr\Log\LoggerInterface;
 
-abstract class ChainHandlerAbstract implements ChainHandler
+abstract class ChainHandlerAbstract
 {
-    private ?ChainHandlerAbstract $nextHandler;
+    private ?ChainHandler $nextHandler;
     protected LoggerInterface $logger;
 
-    public function __construct(?ChainHandlerAbstract $nextHandler, LoggerInterface $logger)
+    public function __construct(?ChainHandler $nextHandler, LoggerInterface $logger)
     {
         $this->nextHandler = $nextHandler;
         $this->logger = $logger;
