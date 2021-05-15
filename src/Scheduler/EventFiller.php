@@ -19,7 +19,7 @@ class EventFiller
         $this->subjectRepository = $subjectRepository;
     }
 
-    public function fillEvents(Plan $plan) : void
+    public function __invoke(Plan $plan) : void
     {
         foreach ($this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']) as $subject) {
             for($i = 0; $i < $subject->getHours(); $i++) {

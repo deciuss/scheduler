@@ -58,7 +58,7 @@ class EventFillingHandler extends ChainHandler
         $plan->setStatus(PlanStatus::PLAN_STATUS_EVENT_FILLING_STARTED);
         $this->entityManager->flush();
 
-        $this->eventFiller->fillEvents($plan);
+        ($this->eventFiller)($plan);
 
         $plan->setStatus(PlanStatus::PLAN_STATUS_EVENT_FILLING_FINISHED);
         $this->entityManager->flush();

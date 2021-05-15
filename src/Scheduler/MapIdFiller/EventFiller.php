@@ -14,8 +14,7 @@ class EventFiller implements MapIdFiller
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        EventRepository $eventRepository,
-        StudentGroupRepository $studentGroupRepository
+        EventRepository $eventRepository
     ) {
         $this->entityManager = $entityManager;
         $this->eventRepository = $eventRepository;

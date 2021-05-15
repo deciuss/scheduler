@@ -16,7 +16,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class MapIdFillingHandler extends ChainHandler
 {
-
     private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
     private PlanRepository $planRepository;
