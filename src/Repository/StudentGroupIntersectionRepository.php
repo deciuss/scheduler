@@ -21,32 +21,4 @@ class StudentGroupIntersectionRepository extends ServiceEntityRepository
         parent::__construct($registry, StudentGroupIntersection::class);
     }
 
-    // /**
-    //  * @return StudentGroupIntersection[] Returns an array of StudentGroupIntersection objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?StudentGroupIntersection
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

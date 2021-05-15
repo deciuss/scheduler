@@ -36,8 +36,7 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('plan', $plan)
             ->orderBy('e1.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function countByPlan(Plan $plan) : int
@@ -50,36 +49,20 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('plan', $plan)
             ->orderBy('e1.id', 'ASC')
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
     }
 
-    // /**
-    //  * @return Event[] Returns an array of Event objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findOneByPlanAndMapId(Plan $plan, int $mapId) : Event
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('e1')
+            ->innerJoin('e1.subject', 's1', Join::WITH)
+            ->innerJoin('s1.plan', 'p1', Join::WITH)
+            ->andWhere('p1 = :plan')
+            ->andWhere('e1.map_id = :mapId')
+            ->setParameter('plan', $plan)
+            ->setParameter('mapId', $mapId)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getSingleResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Event
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
