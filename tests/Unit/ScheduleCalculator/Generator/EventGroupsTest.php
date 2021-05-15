@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\ScheduleCalculator\Generator;
 
+use PHPUnit\Framework\TestCase;
 use App\ScheduleCalculator\Generator\EventGroups;
 use App\Tests\Stub\Mother\EventMother;
 use App\Tests\Stub\Mother\StudentGroupMother;
 use App\Tests\Stub\Mother\SubjectMother;
-use App\Tests\Unit\TestCase;
 
 /**
  * @covers \App\ScheduleCalculator\Generator\EventGroups
@@ -26,21 +26,16 @@ class EventGroupsTest extends TestCase
 
     public function test_if_assigning_child_group_to_parents_event() : void
     {
+        $subject = SubjectMother::withStudentGroup(
+            StudentGroupMother::withMapId(0)
+                ->addChild(StudentGroupMother::withMapId(1))
+        );
+
         $events = [];
 
-        $this->givenSubjectHasEvents(
-            $subject = SubjectMother::withHoursWithBlockSize(5, 2),
-            $events[] = EventMother::withMapId(0),
-            $events[] = EventMother::withMapId(1),
-            $events[] = EventMother::withMapId(2)
-        );
-
-        $this->givenStudentGroupHasSubjects(
-            $parentGroup = StudentGroupMother::withMapIdWithParent(0),
-            $subject
-        );
-
-        StudentGroupMother::withMapIdWithParent(1, $parentGroup);
+        $events[] = EventMother::withMapId(0)->setSubject($subject);
+        $events[] = EventMother::withMapId(1)->setSubject($subject);
+        $events[] = EventMother::withMapId(2)->setSubject($subject);
 
         $actualEventGroupsArray = (new EventGroups())->generate(...$events);
 
@@ -56,29 +51,24 @@ class EventGroupsTest extends TestCase
 
     public function test_if_not_assigning_parent_group_to_childs_event() : void
     {
+        $subject = SubjectMother::withStudentGroup(
+            StudentGroupMother::withMapId(0)
+                ->setParent(StudentGroupMother::withMapId(1))
+        );
+
         $events = [];
 
-        $this->givenSubjectHasEvents(
-            $subject = SubjectMother::withHoursWithBlockSize(5, 2),
-            $events[] = EventMother::withMapId(0),
-            $events[] = EventMother::withMapId(1),
-            $events[] = EventMother::withMapId(2)
-        );
-
-        $parentGroup = StudentGroupMother::withMapIdWithParent(0);
-
-        $this->givenStudentGroupHasSubjects(
-            StudentGroupMother::withMapIdWithParent(1, $parentGroup),
-            $subject
-        );
+        $events[] = EventMother::withMapId(0)->setSubject($subject);
+        $events[] = EventMother::withMapId(1)->setSubject($subject);
+        $events[] = EventMother::withMapId(2)->setSubject($subject);
 
         $actualEventGroupsArray = (new EventGroups())->generate(...$events);
 
         $this->assertEquals(
             [
-                [1],
-                [1],
-                [1]
+                [0],
+                [0],
+                [0]
             ],
             $actualEventGroupsArray
         );
@@ -88,38 +78,17 @@ class EventGroupsTest extends TestCase
     {
         $events = [];
 
-        $this->givenSubjectHasEvents(
-            $lecture = SubjectMother::withHoursWithBlockSize(5, 2),
-            $events[] = EventMother::withMapId(0),
-            $events[] = EventMother::withMapId(1),
-            $events[] = EventMother::withMapId(2),
-            $events[] = EventMother::withMapId(3),
-            $events[] = EventMother::withMapId(4)
-        );
+        $studentGroup0 = StudentGroupMother::withMapId(0);
+        $studentGroup1 = StudentGroupMother::withMapId(1);
 
-        $this->givenSubjectHasEvents(
-            $laboratory = SubjectMother::withHoursWithBlockSize(2, 1),
-            $events[] = EventMother::withMapId(5)
-        );
+        $studentGroup0->addChild($studentGroup1);
 
-        $this->givenSubjectHasEvents(
-            $exercises = SubjectMother::withHoursWithBlockSize(6, 3),
-            $events[] = EventMother::withMapId(6),
-            $events[] = EventMother::withMapId(7)
-        );
+        $subject0 = SubjectMother::withStudentGroup($studentGroup0);
+        $events[] = EventMother::withMapId(0)->setSubject($subject0);
+        $events[] = EventMother::withMapId(1)->setSubject($subject0);
 
-        $this->givenStudentGroupHasSubjects(
-            $parentGroup = StudentGroupMother::withMapIdWithParent(0),
-            $lecture
-        );
-
-        StudentGroupMother::withMapIdWithParent(1, $parentGroup);
-
-        $this->givenStudentGroupHasSubjects(
-            StudentGroupMother::withMapIdWithParent(2),
-            $laboratory,
-            $exercises
-        );
+        $subject1 = SubjectMother::withStudentGroup($studentGroup1);
+        $events[] = EventMother::withMapId(2)->setSubject($subject1);
 
         $actualEventGroupsArray = (new EventGroups())->generate(...$events);
 
@@ -127,12 +96,7 @@ class EventGroupsTest extends TestCase
             [
                 [0, 1],
                 [0, 1],
-                [0, 1],
-                [0, 1],
-                [0, 1],
-                [2],
-                [2],
-                [2]
+                [1]
             ],
             $actualEventGroupsArray
         );

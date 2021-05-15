@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\ScheduleCalculator\Condition\EventTimeslotShare;
 
+use PHPUnit\Framework\TestCase;
 use App\ScheduleCalculator\Condition\EventTimeslotShare\NotIntersectingStudentGroup;
 use App\Tests\Stub\Mother\EventMother;
 use App\Tests\Stub\Mother\StudentGroupMother;
 use App\Tests\Stub\Mother\SubjectMother;
-use App\Tests\Unit\TestCase;
 
 /**
  * @covers \App\ScheduleCalculator\Condition\EventTimeslotShare\NotIntersectingStudentGroup
@@ -18,24 +18,16 @@ class NotIntersectingStudentGroupTest extends TestCase
 
     public function test_if_gives_positive_result_when_events_for_groups_that_do_not_intersect() : void
     {
-        $this->givenStudentGroupHasSubjects(
-            StudentGroupMother::withMapIdWithParent(0),
-            $subject1 = SubjectMother::withHoursWithBlockSize()
+        $event1 = EventMother::withSubject(
+            SubjectMother::withStudentGroup(
+                StudentGroupMother::withId(0)
+            )
         );
 
-        $this->givenStudentGroupHasSubjects(
-            StudentGroupMother::withMapIdWithParent(1),
-            $subject2 = SubjectMother::withHoursWithBlockSize()
-        );
-
-        $this->givenSubjectHasEvents(
-            $subject1,
-            $event1 = EventMother::withMapId(0)
-        );
-
-        $this->givenSubjectHasEvents(
-            $subject2,
-            $event2 = EventMother::withMapId(1)
+        $event2 = EventMother::withSubject(
+            SubjectMother::withStudentGroup(
+                StudentGroupMother::withId(1)
+            )
         );
 
         $actualNotIntersectingStudentGroupValue = (new NotIntersectingStudentGroup())->check($event1, $event2);
@@ -45,30 +37,20 @@ class NotIntersectingStudentGroupTest extends TestCase
 
     public function test_if_gives_negative_result_when_events_for_groups_that_do_intersect() : void
     {
-        $this->givenStudentGroupsAreIntersecting(
-            $group1 = StudentGroupMother::withMapIdWithParent(0),
-            $group2 = StudentGroupMother::withMapIdWithParent(1)
+        $event1 = EventMother::withSubject(
+            SubjectMother::withStudentGroup(
+                $studentGroup0 = StudentGroupMother::withId(0)
+            )
         );
 
-        $this->givenStudentGroupHasSubjects(
-            $group1,
-            $subject1 = SubjectMother::withHoursWithBlockSize()
+        $event2 = EventMother::withSubject(
+            SubjectMother::withStudentGroup(
+                $studentGroup1 = StudentGroupMother::withId(1)
+            )
         );
 
-        $this->givenStudentGroupHasSubjects(
-            $group2,
-            $subject2 = SubjectMother::withHoursWithBlockSize()
-        );
-
-        $this->givenSubjectHasEvents(
-            $subject1,
-            $event1 = EventMother::withMapId(0)
-        );
-
-        $this->givenSubjectHasEvents(
-            $subject2,
-            $event2 = EventMother::withMapId(1)
-        );
+        $studentGroup0->addStudentGroupsIntersected($studentGroup1);
+        $studentGroup1->addStudentGroupsIntersected($studentGroup0);
 
         $actualNotIntersectingStudentGroupValue = (new NotIntersectingStudentGroup())->check($event1, $event2);
 
@@ -77,36 +59,22 @@ class NotIntersectingStudentGroupTest extends TestCase
 
     public function test_if_gives_positive_result_when_events_for_groups_that_do_not_intersect_with_each_other_but_have_other_intersections() : void
     {
-        $this->givenStudentGroupsAreIntersecting(
-            $group1 = StudentGroupMother::withMapIdWithParent(0),
-            StudentGroupMother::withMapIdWithParent(1)
+        $event1 = EventMother::withSubject(
+            SubjectMother::withStudentGroup(
+                StudentGroupMother::withId(0)
+            )
         );
 
-        $this->givenStudentGroupsAreIntersecting(
-            $group2 = StudentGroupMother::withMapIdWithParent(2),
-            StudentGroupMother::withMapIdWithParent(3)
+        $event2 = EventMother::withSubject(
+            SubjectMother::withStudentGroup(
+                $studentGroup1 = StudentGroupMother::withId(1)
+            )
         );
 
+        $studentGroup2 = StudentGroupMother::withId(2);
 
-        $this->givenStudentGroupHasSubjects(
-            $group1,
-            $subject1 = SubjectMother::withHoursWithBlockSize()
-        );
-
-        $this->givenStudentGroupHasSubjects(
-            $group2,
-            $subject2 = SubjectMother::withHoursWithBlockSize()
-        );
-
-        $this->givenSubjectHasEvents(
-            $subject1,
-            $event1 = EventMother::withMapId(0)
-        );
-
-        $this->givenSubjectHasEvents(
-            $subject2,
-            $event2 = EventMother::withMapId(1)
-        );
+        $studentGroup1->addStudentGroupsIntersected($studentGroup2);
+        $studentGroup2->addStudentGroupsIntersected($studentGroup1);
 
         $actualNotIntersectingStudentGroupValue = (new NotIntersectingStudentGroup())->check($event1, $event2);
 

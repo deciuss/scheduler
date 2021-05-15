@@ -8,9 +8,9 @@ class StudentGroup extends \App\Entity\StudentGroup
 {
     private int $id;
 
-    public function __construct()
+    public function __construct(int $id)
     {
-        $this->id = hexdec(uniqid());
+        $this->id = $id;
         parent::__construct();
     }
 

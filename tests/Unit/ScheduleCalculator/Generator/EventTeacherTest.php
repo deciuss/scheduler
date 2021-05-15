@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\ScheduleCalculator\Generator;
 
+use PHPUnit\Framework\TestCase;
 use App\ScheduleCalculator\Generator\EventTeacher;
 use App\Tests\Stub\Mother\EventMother;
 use App\Tests\Stub\Mother\SubjectMother;
 use App\Tests\Stub\Mother\TeacherMother;
-use App\Tests\Unit\TestCase;
 
 /**
  * @covers \App\ScheduleCalculator\Generator\EventTeacher
@@ -25,51 +25,31 @@ class EventTeacherTest extends TestCase
         $this->assertEquals([], $actualEventTeacherArray);
     }
 
-    public function test_if_assigninh_teachers_when_multiple_teachers_present() : void
+    public function test_if_assigns_teachers_when_multiple_teachers_present() : void
     {
         $events = [];
 
-        $this->givenSubjectHasEvents(
-            $lecture = SubjectMother::withHoursWithBlockSize(5, 2),
-            $events[] = EventMother::withMapId(0),
-            $events[] = EventMother::withMapId(1),
-            $events[] = EventMother::withMapId(2),
-            $events[] = EventMother::withMapId(3),
-            $events[] = EventMother::withMapId(4)
-        );
+        $teacher0 = TeacherMother::withMapId(0);
+        $teacher1 = TeacherMother::withMapId(1);
+        $teacher2 = TeacherMother::withMapId(2);
 
-        $this->givenSubjectHasEvents(
-            $laboratory = SubjectMother::withHoursWithBlockSize(1, 1),
-            $events[] = EventMother::withMapId(5)
-        );
+        $subject0 = SubjectMother::withTeacher($teacher0);
+        $events[] = EventMother::withMapId(0)->setSubject($subject0);
+        $events[] = EventMother::withMapId(1)->setSubject($subject0);
+        $events[] = EventMother::withMapId(2)->setSubject($subject0);
+        $events[] = EventMother::withMapId(3)->setSubject($subject0);
+        $events[] = EventMother::withMapId(4)->setSubject($subject0);
 
-        $this->givenSubjectHasEvents(
-            $exercises = SubjectMother::withHoursWithBlockSize(2, 1),
-            $events[] = EventMother::withMapId(6),
-            $events[] = EventMother::withMapId(7)
-        );
+        $subject1 = SubjectMother::withTeacher($teacher1);
+        $events[] = EventMother::withMapId(5)->setSubject($subject1);
 
-        $this->givenSubjectHasEvents(
-            $seminary = SubjectMother::withHoursWithBlockSize(2, 1),
-            $events[] = EventMother::withMapId(8),
-            $events[] = EventMother::withMapId(9)
-        );
+        $subject2 = SubjectMother::withTeacher($teacher2);
+        $events[] = EventMother::withMapId(6)->setSubject($subject2);
+        $events[] = EventMother::withMapId(7)->setSubject($subject2);
 
-        $this->givenTeacherHasSubjects(
-            TeacherMother::withMapId(0),
-            $lecture
-        );
-
-        $this->givenTeacherHasSubjects(
-            TeacherMother::withMapId(1),
-            $laboratory,
-            $seminary
-        );
-
-        $this->givenTeacherHasSubjects(
-            TeacherMother::withMapId(2),
-            $exercises
-        );
+        $subject3 = SubjectMother::withTeacher($teacher1);
+        $events[] = EventMother::withMapId(8)->setSubject($subject3);
+        $events[] = EventMother::withMapId(9)->setSubject($subject3);
 
         $actualEventTeacherArray = (new EventTeacher())->generate(...$events);
 

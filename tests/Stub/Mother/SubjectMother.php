@@ -6,11 +6,13 @@ namespace App\Tests\Stub\Mother;
 
 use App\Entity\Event;
 use App\Entity\Feature;
+use App\Entity\StudentGroup;
 use App\Entity\Subject;
+use App\Entity\Teacher;
 
 class SubjectMother
 {
-    public static function withHoursWithBlockSize(int $hours = 1, int $blockSize = 1) : Subject
+    public static function withHoursWithBlockSize(int $hours, int $blockSize) : Subject
     {
         return (new Subject())
             ->setHours($hours)
@@ -33,6 +35,18 @@ class SubjectMother
             fn(Subject $subject, Feature $feature) => $subject->addFeature($feature),
             new Subject()
         );
+    }
+
+    public static function withTeacher(Teacher $teacher)
+    {
+        return (new Subject())
+            ->setTeacher($teacher);
+    }
+
+    public static function withStudentGroup(StudentGroup $studentGroup)
+    {
+        return (new Subject())
+            ->setStudentGroup($studentGroup);
     }
 
 }

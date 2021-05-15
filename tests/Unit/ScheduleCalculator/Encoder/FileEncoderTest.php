@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\ScheduleCalculator\Encoder;
 
+use PHPUnit\Framework\TestCase;
 use App\ScheduleCalculator\Encoder\FileEncoder;
-use App\Tests\Unit\TestCase;
 
 /**
  * @covers \App\ScheduleCalculator\Encoder\FileEncoder

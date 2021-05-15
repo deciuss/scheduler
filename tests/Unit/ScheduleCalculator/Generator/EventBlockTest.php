@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\ScheduleCalculator\Generator;
 
+use PHPUnit\Framework\TestCase;
 use App\ScheduleCalculator\Generator\EventBlock;
 use App\Tests\Stub\Mother\EventMother;
 use App\Tests\Stub\Mother\SubjectMother;
-use App\Tests\Unit\TestCase;
 
 /**
  * @covers \App\ScheduleCalculator\Generator\EventBlock
@@ -29,12 +29,12 @@ class EventBlockTest extends TestCase
         $subjects = [];
 
         $subjects[] = SubjectMother::withEvents(
-                EventMother::withMapId(0),
-                EventMother::withMapId(1),
-                EventMother::withMapId(2),
-                EventMother::withMapId(3),
-                EventMother::withMapId(4)
-            )
+            EventMother::withMapId(0),
+            EventMother::withMapId(1),
+            EventMother::withMapId(2),
+            EventMother::withMapId(3),
+            EventMother::withMapId(4)
+        )
             ->setHours(5)
             ->setBlockSize(2);
 
@@ -53,14 +53,14 @@ class EventBlockTest extends TestCase
 
     public function test_if_separates_for_blocks_when_there_is_only_one_hour() : void
     {
-        $subjects = [];
 
-        $this->givenSubjectHasEvents(
-            $subjects[] = SubjectMother::withHoursWithBlockSize(1, 1),
-            EventMother::withMapId(0)
-        );
+        $subject = SubjectMother::withEvents(
+                EventMother::withMapId(0)
+            )
+            ->setHours(1)
+            ->setBlockSize(1);
 
-        $actualEventBlockArray = (new EventBlock())->generate(...$subjects);
+        $actualEventBlockArray = (new EventBlock())->generate($subject);
 
         $this->assertEquals(
             [
@@ -74,30 +74,33 @@ class EventBlockTest extends TestCase
     {
         $subjects = [];
 
-        $this->givenSubjectHasEvents(
-            $subjects[] = SubjectMother::withHoursWithBlockSize(5, 2),
+        $subjects[] = SubjectMother::withEvents(
             EventMother::withMapId(0),
             EventMother::withMapId(1),
             EventMother::withMapId(2),
             EventMother::withMapId(3),
             EventMother::withMapId(4)
-        );
+        )
+            ->setHours(5)
+            ->setBlockSize(2);
 
-        $this->givenSubjectHasEvents(
-            $subjects[] = SubjectMother::withHoursWithBlockSize(2, 1),
+        $subjects[] = SubjectMother::withEvents(
             EventMother::withMapId(5),
             EventMother::withMapId(6)
-        );
+        )
+            ->setHours(2)
+            ->setBlockSize(1);
 
-        $this->givenSubjectHasEvents(
-            $subjects[] = SubjectMother::withHoursWithBlockSize(6, 3),
+        $subjects[] = SubjectMother::withEvents(
             EventMother::withMapId(7),
             EventMother::withMapId(8),
             EventMother::withMapId(9),
             EventMother::withMapId(10),
             EventMother::withMapId(11),
             EventMother::withMapId(12)
-        );
+        )
+            ->setHours(6)
+            ->setBlockSize(3);
 
         $actualEventBlockArray = (new EventBlock())->generate(...$subjects);
 

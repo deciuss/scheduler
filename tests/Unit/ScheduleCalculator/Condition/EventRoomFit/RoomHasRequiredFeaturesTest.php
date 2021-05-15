@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\ScheduleCalculator\Condition\EventRoomFit;
 
+use PHPUnit\Framework\TestCase;
 use App\ScheduleCalculator\Condition\EventRoomFit\RoomHasRequiredFeatures;
 use App\Tests\Stub\Mother\EventMother;
 use App\Tests\Stub\Mother\FeatureMother;
 use App\Tests\Stub\Mother\RoomMother;
 use App\Tests\Stub\Mother\SubjectMother;
-use App\Tests\Unit\TestCase;
 
 /**
  * @covers \App\ScheduleCalculator\Condition\EventRoomFit\RoomHasRequiredFeatures
