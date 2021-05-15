@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace App\Scheduler\Handler;
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainHandler;
+use App\ChainHandler\ChainHandlerAbstract;
 use App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Message\Message;
 use App\Repository\PlanRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-
-class CalculateScheduleHandler extends ChainHandler implements MessageHandlerInterface
+class CalculateScheduleHandler extends ChainHandlerAbstract implements MessageHandlerInterface
 {
 
+    private EntityManagerInterface $entityManager;
     private PlanRepository $planRepository;
 
-    protected function canHandle(Message $message): bool
+    public function canHandle(Message $message): bool
     {
         return in_array(
             $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
@@ -33,15 +34,25 @@ class CalculateScheduleHandler extends ChainHandler implements MessageHandlerInt
     public function __construct(
         NormalizedDataGenerationHandler $normalizedDataGenerationHandler,
         LoggerInterface $logger,
+        EntityManagerInterface $entityManager,
         PlanRepository $planRepository
     ) {
         parent::__construct($normalizedDataGenerationHandler, $logger);
+        $this->entityManager = $entityManager;
         $this->planRepository = $planRepository;
     }
 
-    protected function handle(Message $message) : void
+    public function handle(Message $message) : void
     {
+        $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
+
+        $plan->setStatus(PlanStatus::PLAN_STATUS_SCHEDULE_CALCULATION_STARTED);
+        $this->entityManager->flush();
+
         // @todo
+
+        $plan->setStatus(PlanStatus::PLAN_STATUS_SCHEDULE_CALCULATION_FINISHED);
+        $this->entityManager->flush();
     }
 
     public function __invoke(CalculateSchedule $message)

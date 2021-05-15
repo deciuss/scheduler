@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Scheduler\Handler\CalculateScheduleChain;
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainHandler;
+use App\ChainHandler\ChainHandlerAbstract;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Message\Message;
 use App\Repository\PlanRepository;
 use Psr\Log\LoggerInterface;
 
 
-class InProgressHandler extends ChainHandler
+class InProgressHandler extends ChainHandlerAbstract
 {
     private PlanRepository $planRepository;
 
@@ -25,7 +25,7 @@ class InProgressHandler extends ChainHandler
         $this->planRepository = $planRepository;
     }
 
-    protected function canHandle(Message $message): bool
+    public function canHandle(Message $message): bool
     {
         return
             $message instanceof CalculateSchedule
@@ -44,7 +44,7 @@ class InProgressHandler extends ChainHandler
      * @param Message $message
      * @todo
      */
-    protected function handle(Message $message) : void
+    public function handle(Message $message) : void
     {
         // Work in progress, do nothing
     }

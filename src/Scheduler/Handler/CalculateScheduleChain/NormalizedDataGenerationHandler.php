@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Scheduler\Handler\CalculateScheduleChain;
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainHandler;
+use App\ChainHandler\ChainHandlerAbstract;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Message\Message;
 use App\Scheduler\NormalizedDataGenerator;
@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 
-class NormalizedDataGenerationHandler extends ChainHandler
+class NormalizedDataGenerationHandler extends ChainHandlerAbstract
 {
 
     private MessageBusInterface $messageBus;
@@ -23,7 +23,7 @@ class NormalizedDataGenerationHandler extends ChainHandler
     private PlanRepository $planRepository;
     private NormalizedDataGenerator $normalizedDataGenerator;
 
-    protected function canHandle(Message $message): bool
+    public function canHandle(Message $message): bool
     {
         return
             $message instanceof CalculateSchedule
@@ -50,7 +50,7 @@ class NormalizedDataGenerationHandler extends ChainHandler
         $this->normalizedDataGenerator = $normalizedDataGenerator;
     }
 
-    protected function handle(Message $message) : void
+    public function handle(Message $message) : void
     {
         $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
 

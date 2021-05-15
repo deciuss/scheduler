@@ -14,17 +14,20 @@ use App\Entity\Teacher;
 use App\Entity\Timeslot;
 use App\Entity\User;
 use App\Repository\EventRepository;
+use App\Repository\PlanRepository;
 use App\Repository\RoomRepository;
 use App\Repository\StudentGroupRepository;
 use App\Repository\SubjectRepository;
 use App\Repository\TeacherRepository;
 use App\Repository\TimeslotRepository;
+use App\Scheduler\Handler\CalculateScheduleHandler;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SchedulerContext
 {
     private EntityManagerInterface $entityManager;
 
+    private PlanRepository $planRepository;
     private SubjectRepository $subjectRepository;
     private EventRepository $eventRepository;
     private RoomRepository $roomRepository;
@@ -32,27 +35,38 @@ class SchedulerContext
     private TeacherRepository $teacherRepository;
     private TimeslotRepository $timeslotRepository;
 
+    private CalculateScheduleHandler $calculateScheduleHandler;
+
     public function __construct(
         EntityManagerInterface $entityManager,
+        PlanRepository $planRepository,
         SubjectRepository $subjectRepository,
         EventRepository $eventRepository,
         RoomRepository $roomRepository,
         StudentGroupRepository $studentGroupRepository,
         TeacherRepository $teacherRepository,
-        TimeslotRepository $timeslotRepository
+        TimeslotRepository $timeslotRepository,
+        CalculateScheduleHandler $calculateScheduleHandler
     ) {
         $this->entityManager = $entityManager;
+        $this->planRepository = $planRepository;
         $this->subjectRepository = $subjectRepository;
         $this->eventRepository = $eventRepository;
         $this->roomRepository = $roomRepository;
         $this->studentGroupRepository = $studentGroupRepository;
         $this->teacherRepository = $teacherRepository;
         $this->timeslotRepository = $timeslotRepository;
+        $this->calculateScheduleHandler = $calculateScheduleHandler;
     }
 
     public function getEntityManager() : EntityManagerInterface
     {
         return $this->entityManager;
+    }
+
+    public function getPlanRepository() : PlanRepository
+    {
+        return $this->planRepository;
     }
 
     public function getSubjectRepository() : SubjectRepository
@@ -85,7 +99,15 @@ class SchedulerContext
         return $this->timeslotRepository;
     }
 
-    public function givenPlanExists(string $name) : Plan
+    public function getCalculateScheduleHandler() : CalculateScheduleHandler
+    {
+        return $this->calculateScheduleHandler;
+    }
+
+    public function givenPlanExists(
+        string $name,
+        string $status = PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION
+    ) : Plan
     {
         $this->entityManager->persist(
             $user = (new User())
@@ -96,7 +118,7 @@ class SchedulerContext
         $this->entityManager->persist(
             $plan = (new Plan())
                 ->setName($name)
-                ->setStatus(PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION)
+                ->setStatus($status)
                 ->setUser($user)
         );
 

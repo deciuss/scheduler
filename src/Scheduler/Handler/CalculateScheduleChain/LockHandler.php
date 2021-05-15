@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Scheduler\Handler\CalculateScheduleChain;
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainHandler;
+use App\ChainHandler\ChainHandlerAbstract;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Message\Message;
 use App\Repository\PlanRepository;
@@ -14,13 +14,13 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 
-class LockHandler extends ChainHandler
+class LockHandler extends ChainHandlerAbstract
 {
     private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
     private PlanRepository $planRepository;
 
-    protected function canHandle(Message $message): bool
+    public function canHandle(Message $message): bool
     {
         return
             $message instanceof CalculateSchedule
@@ -45,7 +45,7 @@ class LockHandler extends ChainHandler
         $this->planRepository = $planRepository;
     }
 
-    protected function handle(Message $message) : void
+    public function handle(Message $message) : void
     {
         $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
 
