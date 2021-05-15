@@ -8,9 +8,9 @@ class Teacher extends \App\Entity\Teacher
 {
     private int $id;
 
-    public function __construct()
+    public function __construct(int $id)
     {
-        $this->id = hexdec(uniqid());
+        $this->id = $id;
         parent::__construct();
     }
 

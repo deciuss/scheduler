@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Stub\Mother;
 
+use App\Entity\Feature;
 use App\Entity\Room;
 
 class RoomMother
 {
-    public static function create(int $mapId = 0) : Room
+    public static function withFeatures(Feature ...$features) : Room
     {
-        return (new Room())->setMapId($mapId);
+        return array_reduce(
+            $features,
+            fn(Room $room, Feature $feature) => $room->addFeature($feature),
+            new Room()
+        );
     }
 }

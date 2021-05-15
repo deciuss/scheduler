@@ -8,7 +8,7 @@ use App\Tests\Stub\Entity\StudentGroup;
 
 class StudentGroupMother
 {
-    public static function create(int $mapId, ?StudentGroup $parent = null) : StudentGroup
+    public static function withMapIdWithParent(int $mapId, ?StudentGroup $parent = null) : StudentGroup
     {
         $studentGroup = (new StudentGroup())
             ->setMapId($mapId)

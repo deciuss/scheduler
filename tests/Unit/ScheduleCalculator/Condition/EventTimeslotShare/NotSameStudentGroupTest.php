@@ -19,23 +19,23 @@ class NotSameStudentGroupTest extends TestCase
     public function test_if_gives_positive_result_when_events_not_for_same_group() : void
     {
         $this->givenStudentGroupHasSubjects(
-            StudentGroupMother::create(0),
-            $subject1 = SubjectMother::create()
+            StudentGroupMother::withMapIdWithParent(0),
+            $subject1 = SubjectMother::withHoursWithBlockSize()
         );
 
         $this->givenStudentGroupHasSubjects(
-            StudentGroupMother::create(1),
-            $subject2 = SubjectMother::create()
+            StudentGroupMother::withMapIdWithParent(1),
+            $subject2 = SubjectMother::withHoursWithBlockSize()
         );
 
         $this->givenSubjectHasEvents(
             $subject1,
-            $event1 = EventMother::create(0)
+            $event1 = EventMother::withMapId(0)
         );
 
         $this->givenSubjectHasEvents(
             $subject2,
-            $event2 = EventMother::create(1)
+            $event2 = EventMother::withMapId(1)
         );
 
         $actualNotSameStudentGroupValue = (new NotSameStudentGroup())->check($event1, $event2);
@@ -46,23 +46,23 @@ class NotSameStudentGroupTest extends TestCase
     public function test_if_gives_negative_result_when_events_for_the_same_group() : void
     {
         $this->givenStudentGroupHasSubjects(
-            $group1 = StudentGroupMother::create(0),
-            $subject1 = SubjectMother::create()
+            $group1 = StudentGroupMother::withMapIdWithParent(0),
+            $subject1 = SubjectMother::withHoursWithBlockSize()
         );
 
         $this->givenStudentGroupHasSubjects(
             $group1,
-            $subject2 = SubjectMother::create()
+            $subject2 = SubjectMother::withHoursWithBlockSize()
         );
 
         $this->givenSubjectHasEvents(
             $subject1,
-            $event1 = EventMother::create(0)
+            $event1 = EventMother::withMapId(0)
         );
 
         $this->givenSubjectHasEvents(
             $subject2,
-            $event2 = EventMother::create(1)
+            $event2 = EventMother::withMapId(1)
         );
 
         $actualNotSameStudentGroupValue = (new NotSameStudentGroup())->check($event1, $event2);

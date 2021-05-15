@@ -30,44 +30,44 @@ class EventTeacherTest extends TestCase
         $events = [];
 
         $this->givenSubjectHasEvents(
-            $lecture = SubjectMother::create(5, 2),
-            $events[] = EventMother::create(0),
-            $events[] = EventMother::create(1),
-            $events[] = EventMother::create(2),
-            $events[] = EventMother::create(3),
-            $events[] = EventMother::create(4)
+            $lecture = SubjectMother::withHoursWithBlockSize(5, 2),
+            $events[] = EventMother::withMapId(0),
+            $events[] = EventMother::withMapId(1),
+            $events[] = EventMother::withMapId(2),
+            $events[] = EventMother::withMapId(3),
+            $events[] = EventMother::withMapId(4)
         );
 
         $this->givenSubjectHasEvents(
-            $laboratory = SubjectMother::create(1, 1),
-            $events[] = EventMother::create(5)
+            $laboratory = SubjectMother::withHoursWithBlockSize(1, 1),
+            $events[] = EventMother::withMapId(5)
         );
 
         $this->givenSubjectHasEvents(
-            $exercises = SubjectMother::create(2, 1),
-            $events[] = EventMother::create(6),
-            $events[] = EventMother::create(7)
+            $exercises = SubjectMother::withHoursWithBlockSize(2, 1),
+            $events[] = EventMother::withMapId(6),
+            $events[] = EventMother::withMapId(7)
         );
 
         $this->givenSubjectHasEvents(
-            $seminary = SubjectMother::create(2, 1),
-            $events[] = EventMother::create(8),
-            $events[] = EventMother::create(9)
+            $seminary = SubjectMother::withHoursWithBlockSize(2, 1),
+            $events[] = EventMother::withMapId(8),
+            $events[] = EventMother::withMapId(9)
         );
 
         $this->givenTeacherHasSubjects(
-            TeacherMother::create(0),
+            TeacherMother::withMapId(0),
             $lecture
         );
 
         $this->givenTeacherHasSubjects(
-            TeacherMother::create(1),
+            TeacherMother::withMapId(1),
             $laboratory,
             $seminary
         );
 
         $this->givenTeacherHasSubjects(
-            TeacherMother::create(2),
+            TeacherMother::withMapId(2),
             $exercises
         );
 

@@ -21,21 +21,14 @@ class RoomHasRequiredFeaturesTest extends TestCase
     {
         $features = [];
 
-        $this->givenSubjectHasEvents(
-            $subject = SubjectMother::create(),
-            $event = EventMother::create()
+        $event = EventMother::withSubject(
+            SubjectMother::withRequiredFeatures(
+                $features[0] = FeatureMother::withId(0),
+                $features[1] = FeatureMother::withId(1)
+            )
         );
 
-        $this->givenSubjectRequiresFeatures(
-            $subject,
-            $features[0] = FeatureMother::create(),
-            $features[1] = FeatureMother::create()
-        );
-
-        $this->givenRoomHasFeatures(
-            $room = RoomMother::create(),
-            ...$features
-        );
+        $room = RoomMother::withFeatures(...$features);
 
         $actualRoomHasRequiredFeaturesValue = (new RoomHasRequiredFeatures())->check($event, $room);
 
@@ -46,21 +39,14 @@ class RoomHasRequiredFeaturesTest extends TestCase
     {
         $features = [];
 
-        $this->givenSubjectHasEvents(
-            $subject = SubjectMother::create(),
-            $event = EventMother::create()
+        $event = EventMother::withSubject(
+            SubjectMother::withRequiredFeatures(
+                $features[0] = FeatureMother::withId(0),
+                $features[1] = FeatureMother::withId(1)
+            )
         );
 
-        $this->givenSubjectRequiresFeatures(
-            $subject,
-            $features[0] = FeatureMother::create(),
-            $features[1] = FeatureMother::create()
-        );
-
-        $this->givenRoomHasFeatures(
-            $room = RoomMother::create(),
-            $features[0]
-        );
+        $room = RoomMother::withFeatures($features[0]);
 
         $actualRoomHasRequiredFeaturesValue = (new RoomHasRequiredFeatures())->check($event, $room);
 

@@ -29,18 +29,18 @@ class EventGroupsTest extends TestCase
         $events = [];
 
         $this->givenSubjectHasEvents(
-            $subject = SubjectMother::create(5, 2),
-            $events[] = EventMother::create(0),
-            $events[] = EventMother::create(1),
-            $events[] = EventMother::create(2)
+            $subject = SubjectMother::withHoursWithBlockSize(5, 2),
+            $events[] = EventMother::withMapId(0),
+            $events[] = EventMother::withMapId(1),
+            $events[] = EventMother::withMapId(2)
         );
 
         $this->givenStudentGroupHasSubjects(
-            $parentGroup = StudentGroupMother::create(0),
+            $parentGroup = StudentGroupMother::withMapIdWithParent(0),
             $subject
         );
 
-        StudentGroupMother::create(1, $parentGroup);
+        StudentGroupMother::withMapIdWithParent(1, $parentGroup);
 
         $actualEventGroupsArray = (new EventGroups())->generate(...$events);
 
@@ -59,16 +59,16 @@ class EventGroupsTest extends TestCase
         $events = [];
 
         $this->givenSubjectHasEvents(
-            $subject = SubjectMother::create(5, 2),
-            $events[] = EventMother::create(0),
-            $events[] = EventMother::create(1),
-            $events[] = EventMother::create(2)
+            $subject = SubjectMother::withHoursWithBlockSize(5, 2),
+            $events[] = EventMother::withMapId(0),
+            $events[] = EventMother::withMapId(1),
+            $events[] = EventMother::withMapId(2)
         );
 
-        $parentGroup = StudentGroupMother::create(0);
+        $parentGroup = StudentGroupMother::withMapIdWithParent(0);
 
         $this->givenStudentGroupHasSubjects(
-            StudentGroupMother::create(1, $parentGroup),
+            StudentGroupMother::withMapIdWithParent(1, $parentGroup),
             $subject
         );
 
@@ -89,34 +89,34 @@ class EventGroupsTest extends TestCase
         $events = [];
 
         $this->givenSubjectHasEvents(
-            $lecture = SubjectMother::create(5, 2),
-            $events[] = EventMother::create(0),
-            $events[] = EventMother::create(1),
-            $events[] = EventMother::create(2),
-            $events[] = EventMother::create(3),
-            $events[] = EventMother::create(4)
+            $lecture = SubjectMother::withHoursWithBlockSize(5, 2),
+            $events[] = EventMother::withMapId(0),
+            $events[] = EventMother::withMapId(1),
+            $events[] = EventMother::withMapId(2),
+            $events[] = EventMother::withMapId(3),
+            $events[] = EventMother::withMapId(4)
         );
 
         $this->givenSubjectHasEvents(
-            $laboratory = SubjectMother::create(2, 1),
-            $events[] = EventMother::create(5)
+            $laboratory = SubjectMother::withHoursWithBlockSize(2, 1),
+            $events[] = EventMother::withMapId(5)
         );
 
         $this->givenSubjectHasEvents(
-            $exercises = SubjectMother::create(6, 3),
-            $events[] = EventMother::create(6),
-            $events[] = EventMother::create(7)
+            $exercises = SubjectMother::withHoursWithBlockSize(6, 3),
+            $events[] = EventMother::withMapId(6),
+            $events[] = EventMother::withMapId(7)
         );
 
         $this->givenStudentGroupHasSubjects(
-            $parentGroup = StudentGroupMother::create(0),
+            $parentGroup = StudentGroupMother::withMapIdWithParent(0),
             $lecture
         );
 
-        StudentGroupMother::create(1, $parentGroup);
+        StudentGroupMother::withMapIdWithParent(1, $parentGroup);
 
         $this->givenStudentGroupHasSubjects(
-            StudentGroupMother::create(2),
+            StudentGroupMother::withMapIdWithParent(2),
             $laboratory,
             $exercises
         );

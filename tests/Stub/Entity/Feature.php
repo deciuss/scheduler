@@ -8,9 +8,9 @@ class Feature extends \App\Entity\Feature
 {
     private int $id;
 
-    public function __construct()
+    public function __construct(int $id)
     {
-        $this->id = hexdec(uniqid());
+        $this->id = $id;
     }
 
     public function getId(): ?int

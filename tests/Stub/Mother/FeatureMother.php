@@ -8,8 +8,8 @@ use App\Tests\Stub\Entity\Feature;
 
 class FeatureMother
 {
-    public static function create() : Feature
+    public static function withId(int $id) : Feature
     {
-        return new Feature();
+        return new Feature($id);
     }
 }

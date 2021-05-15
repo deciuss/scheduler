@@ -32,17 +32,13 @@ class TimeslotNeighborNextTest extends TestCase
     {
         $timeslots = [];
 
-        $timeslots[] = TimeslotMother::create(
-            0,
-            new \DateTime("2000-01-01 00:00:00"),
-            new \DateTime("2000-01-01 00:05:00")
-        );
+        $timeslots[] = (TimeslotMother::withMapId(0))
+            ->setStart(new \DateTime("2000-01-01 00:00:00"))
+            ->setEnd(new \DateTime("2000-01-01 00:05:00"));
 
-        $timeslots[] = TimeslotMother::create(
-            1,
-            new \DateTime("2000-01-01 00:05:00"),
-            new \DateTime("2000-01-01 00:10:00")
-        );
+        $timeslots[] = (TimeslotMother::withMapId(1))
+            ->setStart(new \DateTime("2000-01-01 00:05:00"))
+            ->setEnd(new \DateTime("2000-01-01 00:10:00"));
 
         $actualTimeslotNeighborNextArray = (new TimeslotNeighborNext())->generate(...$timeslots);
 
@@ -53,17 +49,13 @@ class TimeslotNeighborNextTest extends TestCase
     {
         $timeslots = [];
 
-        $timeslots[] = TimeslotMother::create(
-            0,
-            new \DateTime("2000-01-01 00:00:00"),
-            new \DateTime("2000-01-01 00:05:00")
-        );
+        $timeslots[] = (TimeslotMother::withMapId(0))
+            ->setStart(new \DateTime("2000-01-01 00:00:00"))
+            ->setEnd(new \DateTime("2000-01-01 00:05:00"));
 
-        $timeslots[] = TimeslotMother::create(
-            1,
-            new \DateTime("2000-01-01 00:05:01"),
-            new \DateTime("2000-01-01 00:10:00")
-        );
+        $timeslots[] = (TimeslotMother::withMapId(1))
+            ->setStart(new \DateTime("2000-01-01 00:05:01"))
+            ->setEnd(new \DateTime("2000-01-01 00:10:00"));
 
         $actualTimeslotNeighborNextArray = (new TimeslotNeighborNext())->generate(...$timeslots);
 

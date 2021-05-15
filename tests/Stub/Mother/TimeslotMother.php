@@ -8,8 +8,8 @@ use App\Entity\Timeslot;
 
 class TimeslotMother
 {
-    public static function create(int $mapId, \DateTime $start, \DateTime $end) : Timeslot
+    public static function withMapId(int $mapId) : Timeslot
     {
-        return (new Timeslot())->setMapId($mapId)->setStart($start)->setEnd($end);
+        return (new Timeslot())->setMapId($mapId);
     }
 }

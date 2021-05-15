@@ -123,3 +123,11 @@ rm var/calculator/data/*; php bin/console doctrine:database:drop --force && php 
 
 ./vendor/bin/phpunit tests
 
+
+
+schipsted
+abb
+ibexa
+
+
+

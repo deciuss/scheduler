@@ -19,22 +19,22 @@ class NotSameTeacherTest extends TestCase
     public function test_if_gives_positive_result_when_events_with_different_teachers() : void
     {
         $this->givenSubjectHasEvents(
-            $subject1 = SubjectMother::create(),
-            $event1 = EventMother::create(0)
+            $subject1 = SubjectMother::withHoursWithBlockSize(),
+            $event1 = EventMother::withMapId(0)
         );
 
         $this->givenSubjectHasEvents(
-            $subject2 = SubjectMother::create(),
-            $event2 = EventMother::create(1)
+            $subject2 = SubjectMother::withHoursWithBlockSize(),
+            $event2 = EventMother::withMapId(1)
         );
 
         $this->givenTeacherHasSubjects(
-            TeacherMother::create(0),
+            TeacherMother::withId(0),
             $subject1
         );
 
         $this->givenTeacherHasSubjects(
-            TeacherMother::create(1),
+            TeacherMother::withId(1),
             $subject2
         );
 
@@ -48,17 +48,17 @@ class NotSameTeacherTest extends TestCase
         $subjects = [];
 
         $this->givenSubjectHasEvents(
-            $subjects[] = SubjectMother::create(),
-            $event1 = EventMother::create(0)
+            $subjects[] = SubjectMother::withHoursWithBlockSize(),
+            $event1 = EventMother::withMapId(0)
         );
 
         $this->givenSubjectHasEvents(
-            $subjects[] = SubjectMother::create(),
-            $event2 = EventMother::create(1)
+            $subjects[] = SubjectMother::withHoursWithBlockSize(),
+            $event2 = EventMother::withMapId(1)
         );
 
         $this->givenTeacherHasSubjects(
-            TeacherMother::create(),
+            TeacherMother::withId(0),
             ...$subjects
         );
 

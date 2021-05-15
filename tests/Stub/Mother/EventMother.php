@@ -5,12 +5,19 @@ declare(strict_types=1);
 namespace App\Tests\Stub\Mother;
 
 use App\Entity\Event;
+use App\Entity\Subject;
 
 class EventMother
 {
-    public static function create(int $mapId = 0) : Event
+    public static function withMapId(int $mapId) : Event
     {
         return (new Event())
             ->setMapId($mapId);
+    }
+
+    public static function withSubject(Subject $subject) : Event
+    {
+        return (new Event())
+            ->setSubject($subject);
     }
 }
