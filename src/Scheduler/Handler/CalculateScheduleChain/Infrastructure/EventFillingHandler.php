@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainHandlerAbstract;
+use App\Scheduler\Handler\ChainHandlerAbstract;
 use App\Scheduler\Message\CalculateSchedule;
-use App\Message\Message;
+use App\Scheduler\Message;
 use App\Scheduler\EventFiller;
 use App\Repository\PlanRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +22,6 @@ class EventFillingHandler extends ChainHandlerAbstract implements EventFillingHa
     private EntityManagerInterface $entityManager;
     private PlanRepository $planRepository;
     private EventFiller $eventFiller;
-
 
     public function canHandle(Message $message): bool
     {

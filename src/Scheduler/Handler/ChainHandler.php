@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\ChainHandler;
+namespace App\Scheduler\Handler;
 
-use App\Message\Message;
+use App\Scheduler\Message;
 
 interface ChainHandler
 {

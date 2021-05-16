@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Scheduler\Message;
 
 use App\Entity\Plan;
-use App\Message\Message;
+use App\Scheduler\Message;
 
 class CalculateSchedule implements Message
 {

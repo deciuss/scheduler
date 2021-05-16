@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\ChainHandler;
+namespace App\Scheduler\Handler;
 
 use Throwable;
 

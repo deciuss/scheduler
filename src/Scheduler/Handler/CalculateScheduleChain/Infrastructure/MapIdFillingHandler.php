@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
 
 use App\DBAL\PlanStatus;
-use App\ChainHandler\ChainHandlerAbstract;
-use App\Message\Message;
+use App\Scheduler\Handler\ChainHandlerAbstract;
+use App\Scheduler\Message;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Scheduler\MapIdFiller;
 use App\Repository\PlanRepository;
