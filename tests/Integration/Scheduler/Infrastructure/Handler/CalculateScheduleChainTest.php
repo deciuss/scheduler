@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Scheduler\Handler;
+namespace App\Tests\Integration\Scheduler\Infrastructure\Handler;
 
 use App\DBAL\PlanStatus;
 use App\Scheduler\Message\CalculateSchedule;
