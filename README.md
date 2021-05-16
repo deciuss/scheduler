@@ -7,7 +7,7 @@ Second part is written in C ([deciuss/scheduler-calculator](https://github.com/d
 
 Work is still in progress, but it is already possible to generate a decent timetable.
 
-##Usage
+## Usage
 
 Create dev database schema:
 
@@ -39,7 +39,7 @@ Generated plan can be viewed in the browser:
 http://localhost:8080/public/index.php/schedule/show/1/group/all/teacher/all
 ```
  
-##Tests
+## Tests
 
 Create test database schema:
 
