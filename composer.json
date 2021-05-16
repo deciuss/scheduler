@@ -111,16 +111,13 @@
             "@tests:unit",
             "@tests:integration"
         ],
-        "compare": "diff var/calculator/data/1 docks/best_results/calculator_file",
-        "fresh":  [
+        "dev:calculate:fresh":  [
             "rm -f var/calculator/data/*",
             "php bin/console doctrine:database:drop --force --if-exists",
             "php bin/console doctrine:database:create",
             "php bin/console doctrine:migrations:migrate latest -n",
-            "php bin/console app:load-fixtures",
-            "php bin/console app:debug:dispatch-command",
-            "ls -hal var/calculator/data",
-            "@compare"
+            "php bin/console dev:example:load",
+            "php bin/console app:calculate 1"
         ]
     },
     "conflict": {
