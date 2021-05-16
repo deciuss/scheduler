@@ -30,7 +30,7 @@ php bin/console app:calculate plan_id
 Import [deciuss/scheduler-calculator](https://github.com/deciuss/scheduler-calculator) result csv file:
 
 ```bash
-php bin/console app:result:import plan_id input_file_pathname
+php bin/console app:result:import plan_id example/calculator_data/calculator_output.csv
 ```
 
 Generated plan can be viewed in the browser:
