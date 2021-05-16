@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduler\Infrastructure\Handler\CalculateScheduleChain;
+namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
 
 use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
 use App\Scheduler\EventFiller;
 use App\Scheduler\Handler\CalculateScheduleChain\LockHandler;
-use App\Scheduler\Infrastructure\Handler\CalculateScheduleChain\EventFillingHandler;
+use App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\EventFillingHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Stub\MessageBusStub;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * @covers \App\Scheduler\Infrastructure\Handler\CalculateScheduleChain\EventFillingHandler
+ * @covers \App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\EventFillingHandler
  */
 class EventFillingHandlerTest extends ScheduleCalculatorChainAbstractTest
 {

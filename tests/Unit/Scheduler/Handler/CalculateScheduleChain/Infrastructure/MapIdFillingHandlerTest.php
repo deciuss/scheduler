@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduler\Infrastructure\Handler\CalculateScheduleChain;
+namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
 
 use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
 use App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler;
-use App\Scheduler\Infrastructure\Handler\CalculateScheduleChain\MapIdFillingHandler;
+use App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\MapIdFillingHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Stub\MessageBusStub;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 use App\Scheduler\MapIdFiller;
 
 /**
- * @covers \App\Scheduler\Infrastructure\Handler\CalculateScheduleChain\MapIdFillingHandler
+ * @covers \App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\MapIdFillingHandler
  */
 class MapIdFillingHandlerTestTest extends ScheduleCalculatorChainAbstractTest
 {

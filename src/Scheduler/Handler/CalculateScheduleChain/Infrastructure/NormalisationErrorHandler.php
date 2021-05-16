@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Infrastructure\Handler\CalculateScheduleChain;
+namespace App\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
 
 use App\DBAL\PlanStatus;
 use App\ChainHandler\ChainHandlerAbstract;

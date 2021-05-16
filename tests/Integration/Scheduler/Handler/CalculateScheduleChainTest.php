@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Scheduler\Infrastructure\Handler;
+namespace App\Tests\Integration\Scheduler\Handler;
 
 use App\DBAL\PlanStatus;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Integration\IntegrationTestCase;
 
 /**
- * @covers \App\Scheduler\Infrastructure\Handler\CalculateScheduleChain\
- * @covers \App\Scheduler\Infrastructure\Handler\CalculateScheduleHandler
+ * @covers \App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\
+ * @covers \App\Scheduler\Handler\CalculateScheduleHandler
  */
 class CalculateScheduleChainTest extends IntegrationTestCase
 {
