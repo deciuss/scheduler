@@ -11,6 +11,7 @@ use App\Scheduler\Handler\CalculateScheduleChain\LockHandler;
 use App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\EventFillingHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Stub\MessageBusStub;
+use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 

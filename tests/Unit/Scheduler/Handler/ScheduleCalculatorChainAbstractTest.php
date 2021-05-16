@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
+namespace App\Tests\Unit\Scheduler\Handler;
 
 use App\Entity\Plan;
 use PHPUnit\Framework\TestCase;

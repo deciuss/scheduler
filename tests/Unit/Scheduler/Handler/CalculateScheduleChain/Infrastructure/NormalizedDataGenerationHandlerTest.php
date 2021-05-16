@@ -11,6 +11,7 @@ use App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\NormalizedDataGe
 use App\Scheduler\Message\CalculateSchedule;
 use App\Scheduler\NormalizedDataGenerator;
 use App\Tests\Stub\MessageBusStub;
+use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 

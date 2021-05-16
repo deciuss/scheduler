@@ -10,6 +10,7 @@ use App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler;
 use App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\MapIdFillingHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Stub\MessageBusStub;
+use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use App\Scheduler\MapIdFiller;
@@ -19,7 +20,7 @@ use App\Scheduler\MapIdFiller;
  */
 class MapIdFillingHandlerTestTest extends ScheduleCalculatorChainAbstractTest
 {
-    public function test_if_handles_when_plan_status_is_locked() : void
+    public function test_if_handles_when_plan_status_is_event_filling_finished() : void
     {
         $planMock = $this->createPlanMockWithStatusAndExpectingStatusChanges(
             PlanStatus::PLAN_STATUS_EVENT_FILLING_FINISHED,

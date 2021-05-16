@@ -15,11 +15,11 @@ use App\Tests\Integration\IntegrationTestCase;
 class CalculateScheduleChainTest extends IntegrationTestCase
 {
 
-    public function test_if_handlers_go_through_whole_chain_when_status_is_not_an_error() : void
+    public function test_if_handlers_goes_through_whole_chain() : void
     {
         $plan = $this->schedulerContext->givenPlanExists(
             'plan',
-            PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION
+            PlanStatus::PLAN_STATUS_LOCKED
         );
 
         ($this->schedulerContext->getCalculateScheduleHandler())(new CalculateSchedule($plan));
