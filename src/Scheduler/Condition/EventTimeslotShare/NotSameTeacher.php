@@ -9,8 +9,7 @@ use App\Scheduler\Condition;
 
 class NotSameTeacher implements Condition
 {
-
-    public function check($event1, $event2): bool
+ public function check($event1, $event2): bool
     {
         assert($event1 instanceof Event, 'Invalid type');
         assert($event2 instanceof Event, 'Invalid type');

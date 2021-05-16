@@ -16,7 +16,6 @@ use App\Tests\Fake\Mother\SubjectMother;
  */
 class RoomHasRequiredFeaturesTest extends TestCase
 {
-
     public function test_if_gives_positive_result_when_room_has_all_features_required_by_event()
     {
         $features = [];

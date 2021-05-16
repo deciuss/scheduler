@@ -15,8 +15,7 @@ use App\Scheduler\Handler\CalculateScheduleChain\NormalisationErrorHandler as No
 
 class CalculationErrorHandler extends ChainHandlerAbstract implements CalculationErrorHandlerInterface
 {
-
-    private PlanRepository $planRepository;
+ private PlanRepository $planRepository;
 
     public function canHandle(Message $message): bool
     {

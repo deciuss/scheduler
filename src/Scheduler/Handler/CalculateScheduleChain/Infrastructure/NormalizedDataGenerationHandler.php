@@ -18,7 +18,6 @@ use App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler as MapIdFil
 
 class NormalizedDataGenerationHandler extends ChainHandlerAbstract implements NormalizedDataGenerationHandlerInterface
 {
-
     private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
     private PlanRepository $planRepository;

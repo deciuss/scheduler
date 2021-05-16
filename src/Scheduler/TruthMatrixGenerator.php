@@ -7,7 +7,6 @@ namespace App\Scheduler;
 
 class TruthMatrixGenerator
 {
-
     public function generate(array $array1, array $array2, Condition ...$conditions) : array
     {
         $matrix = [];

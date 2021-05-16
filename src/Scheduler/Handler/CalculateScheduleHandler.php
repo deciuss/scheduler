@@ -16,7 +16,6 @@ use App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler
 
 class CalculateScheduleHandler extends ChainHandlerAbstract implements MessageHandlerInterface
 {
-
     private EntityManagerInterface $entityManager;
     private PlanRepository $planRepository;
 

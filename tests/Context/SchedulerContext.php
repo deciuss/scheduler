@@ -204,5 +204,4 @@ class SchedulerContext
         return $timeslot;
     }
 
-
 }

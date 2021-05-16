@@ -15,7 +15,6 @@ use App\Scheduler\TruthMatrixGenerator;
  */
 class TruthMatrixGeneratorTest extends TestCase
 {
-
     public function test_if_generates_matrix_with_false_values_when_condition_always_false() : void
     {
         $alwaysFalseConditionStub = $this->createStub(Condition::class);

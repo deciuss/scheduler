@@ -15,7 +15,6 @@ use App\Tests\Fake\Mother\SubjectMother;
  */
 class NotSameStudentGroupTest extends TestCase
 {
-
     public function test_if_gives_positive_result_when_events_not_for_same_group() : void
     {
         $event1 = EventMother::withSubject(

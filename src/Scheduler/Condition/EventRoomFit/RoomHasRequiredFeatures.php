@@ -12,7 +12,6 @@ use App\Scheduler\Condition;
 
 class RoomHasRequiredFeatures implements Condition
 {
-
     public function check($event, $room): bool
     {
         assert($event instanceof Event, 'Invalid type');

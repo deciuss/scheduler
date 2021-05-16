@@ -12,7 +12,6 @@ use App\Scheduler\Encoder\FileEncoder;
  */
 class FileEncoderTest extends TestCase
 {
-
     public function test_if_encodes_integer(): void
     {
         $integer = 123;

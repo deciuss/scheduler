@@ -18,7 +18,6 @@ use App\Scheduler\Handler\CalculateScheduleChain\LockHandler as LockHandlerInter
 
 class EventFillingHandler extends ChainHandlerAbstract implements EventFillingHandlerInterface
 {
-
     private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
     private PlanRepository $planRepository;

@@ -7,15 +7,12 @@ namespace App\Controller;
 use App\Entity\ScheduleEvent;
 use App\Repository\RoomRepository;
 use App\Repository\ScheduleEventRepository;
-use App\Repository\ScheduleRepository;
 use App\Repository\TimeslotRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class ScheduleShowController extends AbstractController
 {
-
     private TimeslotRepository $timeslotRepository;
     private RoomRepository $roomRepository;
 

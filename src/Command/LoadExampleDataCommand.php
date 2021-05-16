@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class LoadExampleDataCommand extends Command
 {
-
     protected static $defaultName = 'dev:example:load';
 
     private ContainerInterface $container;
@@ -20,16 +19,14 @@ class LoadExampleDataCommand extends Command
         parent::__construct();
     }
 
-
     protected function configure()
     {
-        // ...
+        $this->setDescription("Loads example plan.");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
-    {
-
-        $files = [
+{
+    $files = [
             'src/Resources/example/loader/user.yml',
             'src/Resources/example/loader/plan.yml',
             'src/Resources/example/loader/teacher.yml',

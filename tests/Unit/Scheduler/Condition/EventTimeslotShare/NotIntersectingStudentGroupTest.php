@@ -15,7 +15,6 @@ use App\Tests\Fake\Mother\SubjectMother;
  */
 class NotIntersectingStudentGroupTest extends TestCase
 {
-
     public function test_if_gives_positive_result_when_events_for_groups_that_do_not_intersect() : void
     {
         $event1 = EventMother::withSubject(

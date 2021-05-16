@@ -14,7 +14,6 @@ use App\Tests\Integration\IntegrationTestCase;
  */
 class CalculateScheduleChainTest extends IntegrationTestCase
 {
-
     public function test_if_handlers_goes_through_whole_chain() : void
     {
         $plan = $this->schedulerContext->givenPlanExists(

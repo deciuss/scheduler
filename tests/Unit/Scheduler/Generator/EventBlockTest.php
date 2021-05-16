@@ -14,7 +14,6 @@ use App\Tests\Fake\Mother\SubjectMother;
  */
 class EventBlockTest extends TestCase
 {
-
     public function test_if_generates_empty_output_when_no_data_present() : void
     {
         $subjects = [];
@@ -53,7 +52,6 @@ class EventBlockTest extends TestCase
 
     public function test_if_separates_for_blocks_when_there_is_only_one_hour() : void
     {
-
         $subject = SubjectMother::withEvents(
                 EventMother::withMapId(0)
             )

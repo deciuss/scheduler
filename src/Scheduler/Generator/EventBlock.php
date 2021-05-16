@@ -10,8 +10,7 @@ use App\Scheduler\Generator;
 
 class EventBlock implements Generator
 {
-
-    public function getMode() : string
+ public function getMode() : string
     {
         return 'intOneToMany';
     }

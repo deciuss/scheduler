@@ -8,8 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class EventFiller
 {
-
-    private EntityManagerInterface $entityManager;
+ private EntityManagerInterface $entityManager;
 
     private SubjectRepository $subjectRepository;
 

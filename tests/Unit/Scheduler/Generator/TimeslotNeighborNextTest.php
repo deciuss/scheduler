@@ -17,7 +17,6 @@ use App\Tests\Fake\Mother\TimeslotMother;
  */
 class TimeslotNeighborNextTest extends TestCase
 {
-
     public function test_if_generates_empty_output_when_no_data_present() : void
     {
         $timeslots = [];
