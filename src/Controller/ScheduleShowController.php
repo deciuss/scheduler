@@ -79,8 +79,6 @@ class ScheduleShowController extends AbstractController
                 . $scheduleEvent->getEvent()->getSubject()->getTeacher()->getName() . "<br/>"
                 . $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getName() . "<br/>"
             ;
-
-
         }
 
         return $this->render('schedule_show/index.html.twig', [
