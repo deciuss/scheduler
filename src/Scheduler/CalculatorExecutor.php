@@ -26,14 +26,12 @@ class CalculatorExecutor
         $this->calculatorMaxExecutionTimeSeconds = $parameterBag->get('scheduler.calculator.max_execution_time_seconds');
     }
 
-    public function __invoke(int $planId) : void
+    public function __invoke(string $filename) : void
     {
-        ini_set('max_execution_time', $this->calculatorMaxExecutionTimeSeconds);
-
         $process = new Process([
             $this->calculatorBinPathname,
-            sprintf("%s/%d", $this->calculatorDataPath, $planId),
-            sprintf("%s/%d", $this->calculatorOutputPath, $planId),
+            sprintf("%s/%s", $this->calculatorDataPath, $filename),
+            sprintf("%s/%s", $this->calculatorOutputPath, $filename),
             $this->calculatorMaxIterationNumber
         ]);
 
@@ -43,9 +41,9 @@ class CalculatorExecutor
             case 0:
                 return;
             case 13:
-                throw new FeasibleSolutionNotFoundException($planId);
+                throw new FeasibleSolutionNotFoundException($filename);
             default:
-                throw new \RuntimeException(sprintf("Calculation for plan %d failed. Exit code: %d", $planId, $exitCode));
+                throw new \RuntimeException(sprintf("Calculation for plan file %s failed. Exit code: %d", $filename, $exitCode));
         }
 
     }

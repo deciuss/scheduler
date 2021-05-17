@@ -15,6 +15,7 @@ use App\Scheduler\Handler\CalculateScheduleHandler;
 use App\Tests\Context\SchedulerContext;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 abstract class IntegrationTestCase extends KernelTestCase
 {
@@ -25,6 +26,7 @@ abstract class IntegrationTestCase extends KernelTestCase
         parent::bootKernel();
 
         $this->schedulerContext = new SchedulerContext(
+            self::$container->get(ParameterBagInterface::class),
             self::$container->get(EntityManagerInterface::class),
             self::$container->get(PlanRepository::class),
             self::$container->get(SubjectRepository::class),

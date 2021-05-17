@@ -103,7 +103,8 @@
         ],
         "tests:integration": [
             "@db:test:reset",
-            "mkdir -p var/tmp",
+            "mkdir -p var/tmp/calculator/data",
+            "mkdir -p var/tmp/calculator/output",
             "./vendor/bin/phpunit --testsuite integration",
             "rm -rf var/tmp"
         ],

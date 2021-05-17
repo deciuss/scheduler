@@ -54,7 +54,7 @@ class CalculateScheduleHandler extends ChainHandlerAbstract implements MessageHa
         $this->entityManager->flush();
 
         try {
-            ($this->calculatorExecutor)($message->getPlanId());
+            ($this->calculatorExecutor)((string) $message->getPlanId());
             $plan->setStatus(PlanStatus::PLAN_STATUS_SCHEDULE_CALCULATION_FINISHED);
             $this->entityManager->flush();
         } catch (\Exception $e) {

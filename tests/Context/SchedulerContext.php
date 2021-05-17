@@ -22,9 +22,12 @@ use App\Repository\TeacherRepository;
 use App\Repository\TimeslotRepository;
 use App\Scheduler\Handler\CalculateScheduleHandler;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class SchedulerContext
 {
+    private ParameterBagInterface $parameterBag;
+
     private EntityManagerInterface $entityManager;
 
     private PlanRepository $planRepository;
@@ -38,6 +41,7 @@ class SchedulerContext
     private CalculateScheduleHandler $calculateScheduleHandler;
 
     public function __construct(
+        ParameterBagInterface $parameterBag,
         EntityManagerInterface $entityManager,
         PlanRepository $planRepository,
         SubjectRepository $subjectRepository,
@@ -48,6 +52,7 @@ class SchedulerContext
         TimeslotRepository $timeslotRepository,
         CalculateScheduleHandler $calculateScheduleHandler
     ) {
+        $this->parameterBag = $parameterBag;
         $this->entityManager = $entityManager;
         $this->planRepository = $planRepository;
         $this->subjectRepository = $subjectRepository;
@@ -57,6 +62,11 @@ class SchedulerContext
         $this->teacherRepository = $teacherRepository;
         $this->timeslotRepository = $timeslotRepository;
         $this->calculateScheduleHandler = $calculateScheduleHandler;
+    }
+
+    public function getParameterBag() : ParameterBagInterface
+    {
+        return $this->parameterBag;
     }
 
     public function getEntityManager() : EntityManagerInterface
