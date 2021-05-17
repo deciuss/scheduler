@@ -8,6 +8,7 @@ parameters:
     scheduler.calculator.data_path: '%env(CALCULATOR_DATA_PATH)%'
     scheduler.calculator.output_path: '%env(CALCULATOR_OUTPUT_PATH)%'
     scheduler.calculator.max_iteration_number: '%env(CALCULATOR_MAX_ITERATION_NUMBER)%'
+    scheduler.calculator.max_execution_time_seconds: '%env(CALCULATOR_MAX_EXECUTION_TIME_SECONDS)%'
 
 services:
     # default configuration for services in *this* file

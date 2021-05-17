@@ -14,6 +14,7 @@ class CalculatorExecutor
     private string $calculatorDataPath;
     private string $calculatorOutputPath;
     private string $calculatorMaxIterationNumber;
+    private string $calculatorMaxExecutionTimeSeconds;
 
     public function __construct(
         ParameterBagInterface $parameterBag
@@ -22,11 +23,12 @@ class CalculatorExecutor
         $this->calculatorDataPath = $parameterBag->get('scheduler.calculator.data_path');
         $this->calculatorOutputPath = $parameterBag->get('scheduler.calculator.output_path');
         $this->calculatorMaxIterationNumber = $parameterBag->get('scheduler.calculator.max_iteration_number');
+        $this->calculatorMaxExecutionTimeSeconds = $parameterBag->get('scheduler.calculator.max_execution_time_seconds');
     }
 
     public function __invoke(int $planId) : void
     {
-        ini_set('max_execution_time', '600');
+        ini_set('max_execution_time', $this->calculatorMaxExecutionTimeSeconds);
 
         $process = new Process([
             $this->calculatorBinPathname,
@@ -35,7 +37,7 @@ class CalculatorExecutor
             $this->calculatorMaxIterationNumber
         ]);
 
-        $process->setTimeout(600.0);
+        $process->setTimeout((float) $this->calculatorMaxExecutionTimeSeconds);
 
         switch ($exitCode = $process->run()) {
             case 0:
