@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Scheduler\Handler;
 
 use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
+use App\Scheduler\CalculatorExecutor;
 use App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler;
 use App\Scheduler\Handler\CalculateScheduleHandler;
 use App\Scheduler\Message\CalculateSchedule;
@@ -32,7 +33,8 @@ class CalculateScheduleHandlerTest extends ScheduleCalculatorChainAbstractTest
             $this->createStub(NormalizedDataGenerationHandler::class),
             $this->createStub(LoggerInterface::class),
             $this->createStub(EntityManagerInterface::class),
-            $planRepositoryStub
+            $planRepositoryStub,
+            $this->createStub(CalculatorExecutor::class)
         ))->executeHandler(new CalculateSchedule($planMock));
     }
 
@@ -51,7 +53,8 @@ class CalculateScheduleHandlerTest extends ScheduleCalculatorChainAbstractTest
             $this->createStub(NormalizedDataGenerationHandler::class),
             $this->createStub(LoggerInterface::class),
             $this->createStub(EntityManagerInterface::class),
-            $planRepositoryStub
+            $planRepositoryStub,
+            $this->createStub(CalculatorExecutor::class)
         ))->executeHandler(new CalculateSchedule($planMock));
     }
 }
