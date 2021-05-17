@@ -4,7 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    scheduler.calculator.bin_pathname: '%env(CALCULATOR_BIN_PATHNAME)%'
     scheduler.calculator.data_path: '%env(CALCULATOR_DATA_PATH)%'
+    scheduler.calculator.output_path: '%env(CALCULATOR_OUTPUT_PATH)%'
+    scheduler.calculator.max_iteration_number: '%env(CALCULATOR_MAX_ITERATION_NUMBER)%'
 
 services:
     # default configuration for services in *this* file

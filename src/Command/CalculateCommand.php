@@ -37,19 +37,20 @@ class CalculateCommand extends Command
 
         try {
             $this->scheduler->calculate($planId);
+
+            $output->writeln(
+                sprintf(
+                    "Plan generation successfull. Calculator file: %s/%d",
+                    $this->calculatorDataPath,
+                    $planId
+                )
+            );
+
         } catch (PlanDoesNotExistException $e) {
             $output->writeln($e->getMessage());
         } catch (\Exception $e) {
             $output->writeln(sprintf("During plan calculation error has occurred: %s", $e->getMessage()));
         }
-
-        $output->writeln(
-            sprintf(
-                "Plan generation successfull. Calculator file: %s/%d",
-                $this->calculatorDataPath,
-                $planId
-            )
-        );
 
         return Command::SUCCESS;
     }
