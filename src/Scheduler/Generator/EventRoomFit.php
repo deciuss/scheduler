@@ -20,11 +20,6 @@ class EventRoomFit implements Generator
      */
     private array $conditions;
 
-    public function getMode() : string
-    {
-        return 'boolMatrix';
-    }
-
     public function __construct(
         TruthMatrixGenerator $truthMatrixGenerator,
         RoomHasRequiredFeatures $roomHasRequiredFeatures

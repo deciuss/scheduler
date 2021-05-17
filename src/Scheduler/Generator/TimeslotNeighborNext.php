@@ -9,11 +9,6 @@ use App\Scheduler\Generator;
 
 class TimeslotNeighborNext implements Generator
 {
-    public function getMode() : string
-    {
-        return 'intArray';
-    }
-
     public function generate(Timeslot ...$timeslots) : array
     {
         $timeslotNeighborNextArray = [];

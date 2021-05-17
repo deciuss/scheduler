@@ -9,11 +9,6 @@ use App\Scheduler\Generator;
 
 class EventGroups implements Generator
 {
-    public function getMode() : string
-    {
-        return 'intOneToMany';
-    }
-
     public function generate(Event ...$events) : array
     {
         $eventGroups = [];

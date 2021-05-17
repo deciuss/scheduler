@@ -9,11 +9,6 @@ use App\Scheduler\Generator;
 
 class EventTeacher implements Generator
 {
-    public function getMode() : string
-    {
-        return 'intArray';
-    }
-
     public function generate(Event ...$events) : array
     {
         $eventTeacher = [];

@@ -7,5 +7,4 @@ namespace App\Scheduler;
 
 interface Generator
 {
-    public function getMode() : string;
 }
