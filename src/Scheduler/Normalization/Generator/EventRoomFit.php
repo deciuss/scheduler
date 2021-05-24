@@ -6,17 +6,17 @@ namespace App\Scheduler\Normalization\Generator;
 
 use App\Entity\Event;
 use App\Entity\Room;
-use App\Scheduler\Condition;
-use App\Scheduler\Condition\EventRoomFit\RoomHasRequiredFeatures;
+use App\Scheduler\Normalization\Condition;
+use App\Scheduler\Normalization\Generator\EventRoomFit\RoomHasRequiredFeatures;
 use App\Scheduler\Normalization\Generator;
-use App\Scheduler\TruthMatrixGenerator;
+use App\Scheduler\Normalization\TruthMatrixGenerator;
 
 class EventRoomFit implements Generator
 {
     private TruthMatrixGenerator $truthMatrixGenerator;
 
     /**
-     * @var Condition[]
+     * @var \App\Scheduler\Normalization\Condition[]
      */
     private array $conditions;
 

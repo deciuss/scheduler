@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Condition\EventTimeslotShare;
+namespace App\Scheduler\Normalization\Generator\EventTimeslotShare;
 
 use App\Entity\Event;
-use App\Scheduler\Condition;
+use App\Scheduler\Normalization\Condition;
 
 class NotSameStudentGroup implements Condition
 {

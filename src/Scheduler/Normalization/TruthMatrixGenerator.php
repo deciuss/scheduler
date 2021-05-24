@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler;
-
+namespace App\Scheduler\Normalization;
 
 class TruthMatrixGenerator
 {
+
     public function generate(array $array1, array $array2, Condition ...$conditions) : array
     {
         $matrix = [];
@@ -21,5 +21,4 @@ class TruthMatrixGenerator
         }
         return $matrix;
     }
-
 }

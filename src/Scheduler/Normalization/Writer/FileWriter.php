@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Writer;
+namespace App\Scheduler\Normalization\Writer;
 
 use App\Scheduler\Normalization\Encoder;
-use App\Scheduler\Writer;
+use App\Scheduler\Normalization\Writer;
 
 class FileWriter implements Writer
 {

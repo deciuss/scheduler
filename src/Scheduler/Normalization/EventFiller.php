@@ -1,5 +1,5 @@
 <?php
-namespace App\Scheduler;
+namespace App\Scheduler\Normalization;
 
 use App\Entity\Event;
 use App\Entity\Plan;

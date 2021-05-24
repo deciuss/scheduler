@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
+namespace App\Scheduler\Handler\CalculateScheduleChain\InProgressHandler;
 
 use App\DBAL\PlanStatus;
 use App\Scheduler\Handler\ChainHandlerAbstract;
@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\InProgressHandler as InProgressHandlerInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\CalculationErrorHandler as CalculationErrorHandlerInterface;
 
-class InProgressHandler extends ChainHandlerAbstract implements InProgressHandlerInterface
+class DefaultInProgressHandler extends ChainHandlerAbstract implements InProgressHandlerInterface
 {
     private PlanRepository $planRepository;
 

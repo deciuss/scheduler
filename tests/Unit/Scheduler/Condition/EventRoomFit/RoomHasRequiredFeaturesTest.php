@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Scheduler\Condition\EventRoomFit;
 
 use PHPUnit\Framework\TestCase;
-use App\Scheduler\Condition\EventRoomFit\RoomHasRequiredFeatures;
+use App\Scheduler\Normalization\Generator\EventRoomFit\RoomHasRequiredFeatures;
 use App\Tests\Fake\Mother\EventMother;
 use App\Tests\Fake\Mother\FeatureMother;
 use App\Tests\Fake\Mother\RoomMother;
 use App\Tests\Fake\Mother\SubjectMother;
 
 /**
- * @covers \App\Scheduler\Condition\EventRoomFit\RoomHasRequiredFeatures
+ * @covers \App\Scheduler\Normalization\Generator\EventRoomFit\RoomHasRequiredFeatures
  */
 class RoomHasRequiredFeaturesTest extends TestCase
 {

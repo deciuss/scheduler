@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Scheduler\Condition\EventTimeslotShare;
 
 use PHPUnit\Framework\TestCase;
-use App\Scheduler\Condition\EventTimeslotShare\NotIntersectingStudentGroup;
+use App\Scheduler\Normalization\Generator\EventTimeslotShare\NotIntersectingStudentGroup;
 use App\Tests\Fake\Mother\EventMother;
 use App\Tests\Fake\Mother\StudentGroupMother;
 use App\Tests\Fake\Mother\SubjectMother;
 
 /**
- * @covers \App\Scheduler\Condition\EventTimeslotShare\NotIntersectingStudentGroup
+ * @covers \App\Scheduler\Normalization\Generator\EventTimeslotShare\NotIntersectingStudentGroup
  */
 class NotIntersectingStudentGroupTest extends TestCase
 {

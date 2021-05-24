@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Encoder;
+namespace App\Scheduler\Normalization\Encoder;
 
 use App\Scheduler\Normalization\Encoder;
 

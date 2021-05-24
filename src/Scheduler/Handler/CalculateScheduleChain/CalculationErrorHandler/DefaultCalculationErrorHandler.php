@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
+namespace App\Scheduler\Handler\CalculateScheduleChain\CalculationErrorHandler;
 
 use App\DBAL\PlanStatus;
 use App\Scheduler\Handler\ChainHandlerAbstract;
@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\CalculationErrorHandler as CalculationErrorHandlerInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\NormalisationErrorHandler as NormalisationErrorHandlerInterface;
 
-class CalculationErrorHandler extends ChainHandlerAbstract implements CalculationErrorHandlerInterface
+class DefaultCalculationErrorHandler extends ChainHandlerAbstract implements CalculationErrorHandlerInterface
 {
  private PlanRepository $planRepository;
 

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Scheduler;
 
 use PHPUnit\Framework\TestCase;
-use App\Scheduler\Condition;
-use App\Scheduler\TruthMatrixGenerator;
+use App\Scheduler\Normalization\Condition;
+use App\Scheduler\Normalization\TruthMatrixGenerator;
 
 /**
- * @covers \App\Scheduler\TruthMatrixGenerator
+ * @covers \App\Scheduler\Normalization\TruthMatrixGenerator
  * @covers \App\Scheduler\Normalization\Generator\EventRoomFit
  * @covers \App\Scheduler\Normalization\Generator\EventTimeslotShare
  */
@@ -17,10 +17,10 @@ class TruthMatrixGeneratorTest extends TestCase
 {
     public function test_if_generates_matrix_with_false_values_when_condition_always_false() : void
     {
-        $alwaysFalseConditionStub = $this->createStub(Condition::class);
+        $alwaysFalseConditionStub = $this->createStub(\App\Scheduler\Normalization\Condition::class);
         $alwaysFalseConditionStub->method("check")->willReturn(false);
 
-        $actualMatrix = (new TruthMatrixGenerator())->generate([1, 2], [3, 4, 5], $alwaysFalseConditionStub);
+        $actualMatrix = (new \App\Scheduler\Normalization\TruthMatrixGenerator())->generate([1, 2], [3, 4, 5], $alwaysFalseConditionStub);
 
         $this->assertEquals(
             [
@@ -33,10 +33,10 @@ class TruthMatrixGeneratorTest extends TestCase
 
     public function test_if_generates_matrix_with_true_values_when_condition_always_true() : void
     {
-        $alwaysTrueConditionStub = $this->createStub(Condition::class);
+        $alwaysTrueConditionStub = $this->createStub(\App\Scheduler\Normalization\Condition::class);
         $alwaysTrueConditionStub->method("check")->willReturn(true);
 
-        $actualMatrix = (new TruthMatrixGenerator())->generate([1, 2], [3, 4, 5], $alwaysTrueConditionStub);
+        $actualMatrix = (new \App\Scheduler\Normalization\TruthMatrixGenerator())->generate([1, 2], [3, 4, 5], $alwaysTrueConditionStub);
 
         $this->assertEquals(
             [
@@ -49,7 +49,7 @@ class TruthMatrixGeneratorTest extends TestCase
 
     public function test_if_generates_matrix_with_alternating_values_when_condition_alternating() : void
     {
-        $conditionStub = $this->createStub(Condition::class);
+        $conditionStub = $this->createStub(\App\Scheduler\Normalization\Condition::class);
         $conditionStub->method("check")->willReturn(true, false, false, true);
 
         $actualMatrix = (new TruthMatrixGenerator())->generate([1, 2], [3, 4], $conditionStub);
@@ -65,13 +65,13 @@ class TruthMatrixGeneratorTest extends TestCase
 
     public function test_if_generates_matrix_with_conjunction_when_multiple_condition_present() : void
     {
-        $conditionStub1 = $this->createStub(Condition::class);
+        $conditionStub1 = $this->createStub(\App\Scheduler\Normalization\Condition::class);
         $conditionStub1->method("check")->willReturn(true, false, false, true);
 
-        $conditionStub2 = $this->createStub(Condition::class);
+        $conditionStub2 = $this->createStub(\App\Scheduler\Normalization\Condition::class);
         $conditionStub2->method("check")->willReturn(true, false, true, false);
 
-        $actualMatrix = (new TruthMatrixGenerator())->generate([1, 2], [3, 4], $conditionStub1, $conditionStub2);
+        $actualMatrix = (new \App\Scheduler\Normalization\TruthMatrixGenerator())->generate([1, 2], [3, 4], $conditionStub1, $conditionStub2);
 
         $this->assertEquals(
             [

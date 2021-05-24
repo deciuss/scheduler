@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Condition\EventRoomFit;
+namespace App\Scheduler\Normalization\Generator\EventRoomFit;
 
 use App\Entity\Event;
 use App\Entity\Feature;
 use App\Entity\Room;
 use App\Scheduler\CalculatorMapping;
-use App\Scheduler\Condition;
+use App\Scheduler\Normalization\Condition;
 
 class RoomHasRequiredFeatures implements Condition
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Writer;
+namespace App\Scheduler\Normalization\Writer;
 
 use App\Scheduler\Normalization\Encoder;
-use App\Scheduler\Encoder\FileEncoder;
-use App\Scheduler\Writer;
-use App\Scheduler\WriterFactory;
+use App\Scheduler\Normalization\Encoder\FileEncoder;
+use App\Scheduler\Normalization\Writer;
+use App\Scheduler\Normalization\WriterFactory;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class FileWriterFactory implements WriterFactory

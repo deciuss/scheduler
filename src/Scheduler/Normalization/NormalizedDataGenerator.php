@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler;
+namespace App\Scheduler\Normalization;
 
 use App\Entity\Plan;
 use App\Repository\SubjectRepository;
@@ -18,6 +18,7 @@ use App\Repository\RoomRepository;
 use App\Repository\StudentGroupRepository;
 use App\Repository\TeacherRepository;
 use App\Repository\TimeslotRepository;
+use App\Scheduler\Normalization\WriterFactory;
 
 class NormalizedDataGenerator
 {

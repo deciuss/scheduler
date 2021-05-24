@@ -7,7 +7,7 @@ namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\Infrastructure
 use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
 use App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler;
-use App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\MapIdFillingHandler;
+use App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler\DefaultMapIdFillingHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Stub\MessageBusStub;
 use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;
@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 use App\Scheduler\Normalization\MapIdFiller;
 
 /**
- * @covers \App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\MapIdFillingHandler
+ * @covers \App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler\DefaultMapIdFillingHandler
  */
 class MapIdFillingHandlerTestTest extends ScheduleCalculatorChainAbstractTest
 {
@@ -31,7 +31,7 @@ class MapIdFillingHandlerTestTest extends ScheduleCalculatorChainAbstractTest
         $planRepositoryStub = $this->createStub(PlanRepository::class);
         $planRepositoryStub->method("findOneBy")->willReturn($planMock);
 
-        (new MapIdFillingHandler(
+        (new DefaultMapIdFillingHandler(
             $this->createStub(EventFillingHandler::class),
             $this->createStub(LoggerInterface::class),
             new MessageBusStub(),

@@ -6,9 +6,9 @@ namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\Infrastructure
 
 use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
-use App\Scheduler\EventFiller;
+use App\Scheduler\Normalization\EventFiller;
 use App\Scheduler\Handler\CalculateScheduleChain\LockHandler;
-use App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\EventFillingHandler;
+use App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler\DefaultEventFillingHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Stub\MessageBusStub;
 use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;
@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * @covers \App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\EventFillingHandler
+ * @covers \App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler\DefaultEventFillingHandler
  */
 class EventFillingHandlerTest extends ScheduleCalculatorChainAbstractTest
 {
@@ -31,7 +31,7 @@ class EventFillingHandlerTest extends ScheduleCalculatorChainAbstractTest
         $planRepositoryStub = $this->createStub(PlanRepository::class);
         $planRepositoryStub->method("findOneBy")->willReturn($planMock);
 
-        (new EventFillingHandler(
+        (new \App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler\DefaultEventFillingHandler(
             $this->createStub(LockHandler::class),
             $this->createStub(LoggerInterface::class),
             new MessageBusStub(),

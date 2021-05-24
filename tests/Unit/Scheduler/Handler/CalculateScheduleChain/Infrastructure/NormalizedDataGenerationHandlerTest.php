@@ -7,16 +7,16 @@ namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\Infrastructure
 use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
 use App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler;
-use App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\NormalizedDataGenerationHandler;
+use App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler\DefaultNormalizedDataGenerationHandler;
 use App\Scheduler\Message\CalculateSchedule;
-use App\Scheduler\NormalizedDataGenerator;
+use App\Scheduler\Normalization\NormalizedDataGenerator;
 use App\Tests\Stub\MessageBusStub;
 use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * @covers \App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\NormalizedDataGenerationHandler
+ * @covers \App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler\DefaultNormalizedDataGenerationHandler
  */
 class NormalizedDataGenerationHandlerTest extends ScheduleCalculatorChainAbstractTest
 {
@@ -31,7 +31,7 @@ class NormalizedDataGenerationHandlerTest extends ScheduleCalculatorChainAbstrac
         $planRepositoryStub = $this->createStub(PlanRepository::class);
         $planRepositoryStub->method("findOneBy")->willReturn($planMock);
 
-        (new NormalizedDataGenerationHandler(
+        (new DefaultNormalizedDataGenerationHandler(
             $this->createStub(MapIdFillingHandler::class),
             $this->createStub(LoggerInterface::class),
             new MessageBusStub(),

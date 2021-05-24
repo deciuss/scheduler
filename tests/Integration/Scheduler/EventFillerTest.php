@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Scheduler;
 
-use App\Scheduler\EventFiller;
+use App\Scheduler\Normalization\EventFiller;
 use App\Tests\Integration\IntegrationTestCase;
 
 /**
- * @covers \App\Scheduler\EventFiller
+ * @covers \App\Scheduler\Normalization\EventFiller
  */
 class EventFillerTest extends IntegrationTestCase
 {

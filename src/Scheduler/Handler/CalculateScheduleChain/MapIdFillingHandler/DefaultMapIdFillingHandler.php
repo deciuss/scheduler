@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
+namespace App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler;
 
 use App\DBAL\PlanStatus;
 use App\Scheduler\Handler\ChainHandlerAbstract;
@@ -16,7 +16,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler as MapIdFillingHandlerInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler as EventFillingHandlerInterface;
 
-class MapIdFillingHandler extends ChainHandlerAbstract implements MapIdFillingHandlerInterface
+class DefaultMapIdFillingHandler extends ChainHandlerAbstract implements MapIdFillingHandlerInterface
 {
     private MessageBusInterface $messageBus;
     private EntityManagerInterface $entityManager;
