@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduler\Generator;
+namespace App\Tests\Unit\Scheduler\Normalization\Generator;
 
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Normalization\Generator\EventGroups;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduler;
+namespace App\Tests\Unit\Scheduler\Normalization;
 
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Normalization\Condition;

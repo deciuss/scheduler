@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Scheduler\MapIdFiller;
+namespace App\Tests\Integration\Scheduler\Normalization\MapIdFiller;
 
 use App\Scheduler\Normalization\MapIdFiller\TimeslotFiller;
 use App\Tests\Integration\IntegrationTestCase;

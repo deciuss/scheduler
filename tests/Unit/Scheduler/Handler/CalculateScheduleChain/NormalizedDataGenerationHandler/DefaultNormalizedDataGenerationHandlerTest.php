@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
+namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler;
 
 use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler\DefaultNormalizedDataGenerationHandler
  */
-class NormalizedDataGenerationHandlerTest extends ScheduleCalculatorChainAbstractTest
+class DefaultNormalizedDataGenerationHandlerTest extends ScheduleCalculatorChainAbstractTest
 {
     public function test_if_handles_when_plan_status_is_map_id_filling_finished() : void
     {

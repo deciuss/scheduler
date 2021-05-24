@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
+namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler;
 
 use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
@@ -18,7 +18,7 @@ use App\Scheduler\Normalization\MapIdFiller;
 /**
  * @covers \App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler\DefaultMapIdFillingHandler
  */
-class MapIdFillingHandlerTestTest extends ScheduleCalculatorChainAbstractTest
+class DefaultMapIdFillingHandlerTestTest extends ScheduleCalculatorChainAbstractTest
 {
     public function test_if_handles_when_plan_status_is_event_filling_finished() : void
     {

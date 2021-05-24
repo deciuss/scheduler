@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\Infrastructure;
+namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler;
 
 use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @covers \App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler\DefaultEventFillingHandler
  */
-class EventFillingHandlerTest extends ScheduleCalculatorChainAbstractTest
+class DefaultEventFillingHandlerTest extends ScheduleCalculatorChainAbstractTest
 {
     public function test_if_handles_when_plan_status_is_locked() : void
     {

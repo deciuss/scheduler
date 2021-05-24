@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Integration\Scheduler;
+namespace App\Tests\Integration\Scheduler\Normalization;
 
 use App\Scheduler\Normalization\EventFiller;
 use App\Tests\Integration\IntegrationTestCase;

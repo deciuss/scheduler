@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Scheduler\Condition\EventTimeslotShare;
+namespace App\Tests\Unit\Scheduler\Normalization\Generator\EventTimeslotShare;
 
 use PHPUnit\Framework\TestCase;
 use App\Scheduler\Normalization\Generator\EventTimeslotShare\NotSameTeacher;
