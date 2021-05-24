@@ -6,12 +6,10 @@ namespace App\Scheduler\Handler;
 
 use App\DBAL\PlanStatus;
 use App\Scheduler\CalculatorExecutor;
-use App\Scheduler\Handler\ChainHandlerAbstract;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Scheduler\Message;
 use App\Repository\PlanRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use League\Uri\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler as NormalizedDataGenerationHandlerInterface;

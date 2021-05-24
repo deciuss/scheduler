@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Scheduler\Generator;
 
 use PHPUnit\Framework\TestCase;
-use App\Scheduler\Generator\EventTeacher;
-use App\Scheduler\Generator\TimeslotNeighborNext;
+use App\Scheduler\Normalization\Generator\EventTeacher;
+use App\Scheduler\Normalization\Generator\TimeslotNeighborNext;
 use App\Tests\Fake\Mother\EventMother;
 use App\Tests\Fake\Mother\SubjectMother;
 use App\Tests\Fake\Mother\TeacherMother;
 use App\Tests\Fake\Mother\TimeslotMother;
 
 /**
- * @covers \App\Scheduler\Generator\TimeslotNeighborNext
+ * @covers \App\Scheduler\Normalization\Generator\TimeslotNeighborNext
  */
 class TimeslotNeighborNextTest extends TestCase
 {

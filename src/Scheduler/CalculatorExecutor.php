@@ -45,6 +45,6 @@ class CalculatorExecutor
             default:
                 throw new \RuntimeException(sprintf("Calculation for plan file %s failed. Exit code: %d", $filename, $exitCode));
         }
-
     }
+
 }

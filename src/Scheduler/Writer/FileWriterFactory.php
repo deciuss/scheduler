@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scheduler\Writer;
 
-use App\Scheduler\Encoder;
+use App\Scheduler\Normalization\Encoder;
 use App\Scheduler\Encoder\FileEncoder;
 use App\Scheduler\Writer;
 use App\Scheduler\WriterFactory;

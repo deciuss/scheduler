@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Generator;
+namespace App\Scheduler\Normalization\Generator;
 
 use App\Entity\Event;
 use App\Scheduler\Condition;
 use App\Scheduler\Condition\EventTimeslotShare\NotIntersectingStudentGroup;
 use App\Scheduler\Condition\EventTimeslotShare\NotSameStudentGroup;
 use App\Scheduler\Condition\EventTimeslotShare\NotSameTeacher;
-use App\Scheduler\Generator;
+use App\Scheduler\Normalization\Generator;
 use App\Scheduler\TruthMatrixGenerator;
 
 class EventTimeslotShare implements Generator

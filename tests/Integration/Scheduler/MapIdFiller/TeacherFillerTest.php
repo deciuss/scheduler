@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Scheduler\MapIdFiller;
 
-use App\Scheduler\MapIdFiller\TeacherFiller;
+use App\Scheduler\Normalization\MapIdFiller\TeacherFiller;
 use App\Tests\Integration\IntegrationTestCase;
 
 /**
- * @covers \App\Scheduler\MapIdFiller\TeacherFiller
+ * @covers \App\Scheduler\Normalization\MapIdFiller\TeacherFiller
  */
 class TeacherFillerTest extends IntegrationTestCase
 {

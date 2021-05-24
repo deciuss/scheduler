@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Generator;
+namespace App\Scheduler\Normalization\Generator;
 
 use App\Entity\Event;
-use App\Scheduler\Generator;
+use App\Scheduler\Normalization\Generator;
 
 class EventGroups implements Generator
 {

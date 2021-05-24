@@ -10,8 +10,8 @@ use App\Scheduler\TruthMatrixGenerator;
 
 /**
  * @covers \App\Scheduler\TruthMatrixGenerator
- * @covers \App\Scheduler\Generator\EventRoomFit
- * @covers \App\Scheduler\Generator\EventTimeslotShare
+ * @covers \App\Scheduler\Normalization\Generator\EventRoomFit
+ * @covers \App\Scheduler\Normalization\Generator\EventTimeslotShare
  */
 class TruthMatrixGeneratorTest extends TestCase
 {

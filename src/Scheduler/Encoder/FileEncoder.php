@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scheduler\Encoder;
 
-use App\Scheduler\Encoder;
+use App\Scheduler\Normalization\Encoder;
 
 class FileEncoder implements Encoder
 {

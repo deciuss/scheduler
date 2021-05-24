@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Generator;
+namespace App\Scheduler\Normalization\Generator;
 
 use App\Entity\Subject;
 use App\Scheduler\Condition\EventBlock\IsOfTheSameSubject;
-use App\Scheduler\Generator;
+use App\Scheduler\Normalization\Generator;
 
 class EventBlock implements Generator
 {

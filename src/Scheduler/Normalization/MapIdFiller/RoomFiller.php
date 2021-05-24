@@ -1,9 +1,9 @@
 <?php
-namespace App\Scheduler\MapIdFiller;
+namespace App\Scheduler\Normalization\MapIdFiller;
 
 use App\Entity\Plan;
 use App\Repository\RoomRepository;
-use App\Scheduler\MapIdFiller;
+use App\Scheduler\Normalization\MapIdFiller;
 use Doctrine\ORM\EntityManagerInterface;
 
 class RoomFiller implements MapIdFiller

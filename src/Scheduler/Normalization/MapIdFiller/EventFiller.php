@@ -1,10 +1,10 @@
 <?php
-namespace App\Scheduler\MapIdFiller;
+namespace App\Scheduler\Normalization\MapIdFiller;
 
 use App\Entity\Plan;
 use App\Repository\EventRepository;
 use App\Repository\StudentGroupRepository;
-use App\Scheduler\MapIdFiller;
+use App\Scheduler\Normalization\MapIdFiller;
 use Doctrine\ORM\EntityManagerInterface;
 
 class EventFiller implements MapIdFiller

@@ -8,7 +8,7 @@ use App\DBAL\PlanStatus;
 use App\Scheduler\Handler\ChainHandlerAbstract;
 use App\Scheduler\Message;
 use App\Scheduler\Message\CalculateSchedule;
-use App\Scheduler\MapIdFiller;
+use App\Scheduler\Normalization\MapIdFiller;
 use App\Repository\PlanRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;

@@ -1,27 +1,27 @@
-version: '3.5'
+version: '2.0'
 services:
-  php:
-    image: scheduler:latest
+  scheduler-server:
+    build: .
     volumes:
-      - ./:/var/www/html/
+      - ./:/var/www/
     ports:
       - "8080:80"
     networks:
-      - scheduler
+      - scheduler-network
 
   sql:
     image: mysql:5.7.33
     ports:
       - "3316:3306"
+    command: --init-file /data/application/init.sql
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
-      - ./data/sql57:/var/lib/mysql
+      - ./.data:/var/lib/mysql
+      - ./mysql/init.sql:/data/application/init.sql
     networks:
-      - scheduler
+      - scheduler-network
 
 networks:
-  scheduler:
-    external:
-      name: scheduler
+  scheduler-network:

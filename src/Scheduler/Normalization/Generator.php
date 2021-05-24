@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler;
+namespace App\Scheduler\Normalization;
 
 
 interface Generator

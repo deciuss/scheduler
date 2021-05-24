@@ -13,7 +13,7 @@ use App\Tests\Stub\MessageBusStub;
 use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use App\Scheduler\MapIdFiller;
+use App\Scheduler\Normalization\MapIdFiller;
 
 /**
  * @covers \App\Scheduler\Handler\CalculateScheduleChain\Infrastructure\MapIdFillingHandler

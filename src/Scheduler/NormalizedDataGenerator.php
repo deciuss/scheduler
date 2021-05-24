@@ -6,12 +6,12 @@ namespace App\Scheduler;
 
 use App\Entity\Plan;
 use App\Repository\SubjectRepository;
-use App\Scheduler\Generator\EventBlock;
-use App\Scheduler\Generator\EventGroups;
-use App\Scheduler\Generator\EventRoomFit;
-use App\Scheduler\Generator\EventTeacher;
-use App\Scheduler\Generator\EventTimeslotShare;
-use App\Scheduler\Generator\TimeslotNeighborNext;
+use App\Scheduler\Normalization\Generator\EventBlock;
+use App\Scheduler\Normalization\Generator\EventGroups;
+use App\Scheduler\Normalization\Generator\EventRoomFit;
+use App\Scheduler\Normalization\Generator\EventTeacher;
+use App\Scheduler\Normalization\Generator\EventTimeslotShare;
+use App\Scheduler\Normalization\Generator\TimeslotNeighborNext;
 use App\Repository\EventRepository;
 use App\Repository\PlanRepository;
 use App\Repository\RoomRepository;

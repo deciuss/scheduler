@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Generator;
+namespace App\Scheduler\Normalization\Generator;
 
 use App\Entity\Event;
 use App\Entity\Room;
 use App\Scheduler\Condition;
 use App\Scheduler\Condition\EventRoomFit\RoomHasRequiredFeatures;
-use App\Scheduler\Generator;
+use App\Scheduler\Normalization\Generator;
 use App\Scheduler\TruthMatrixGenerator;
 
 class EventRoomFit implements Generator

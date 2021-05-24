@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Scheduler;
+namespace App\Scheduler\Normalization;
 
 
 use App\Entity\Plan;
