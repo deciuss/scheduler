@@ -5,9 +5,7 @@ framework:
             audit_trail:
                 enabled: true
             marking_store:
-#                originalMarkingStore: method
                 type: method
-#                service: 'App\Workflow\Persistent\Doctrine\DoctrinePersistentMarkingStore'
                 property: 'status'
             supports:
                 - App\Entity\Plan

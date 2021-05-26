@@ -3,6 +3,7 @@ namespace App\DBAL;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 class PlanStatus extends Type
 {
