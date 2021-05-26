@@ -28,6 +28,8 @@ class EventFillerTest extends IntegrationTestCase
             $this->schedulerContext->getEventRepository()
         ))($plan);
 
+        $this->schedulerContext->getEntityManager()->clear();
+
         $this->assertEquals(0, ($this->schedulerContext->getEventRepository()->findBy(['subject' => $subject], ['id' => 'ASC'], 1, 0))[0]->getMapId());
         $this->assertEquals(1, ($this->schedulerContext->getEventRepository()->findBy(['subject' => $subject], ['id' => 'ASC'], 1, 1))[0]->getMapId());
         $this->assertEquals(2, ($this->schedulerContext->getEventRepository()->findBy(['subject' => $subject], ['id' => 'ASC'], 1, 2))[0]->getMapId());

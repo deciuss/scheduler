@@ -25,6 +25,8 @@ class TeacherFillerTest extends IntegrationTestCase
             $this->schedulerContext->getTeacherRepository()
         ))($plan);
 
+        $this->schedulerContext->getEntityManager()->clear();
+
         $this->assertEquals(0, ($this->schedulerContext->getTeacherRepository()->findBy(['plan' => $plan], ['id' => 'ASC'], 1, 0))[0]->getMapId());
         $this->assertEquals(1, ($this->schedulerContext->getTeacherRepository()->findBy(['plan' => $plan], ['id' => 'ASC'], 1, 1))[0]->getMapId());
         $this->assertEquals(2, ($this->schedulerContext->getTeacherRepository()->findBy(['plan' => $plan], ['id' => 'ASC'], 1, 2))[0]->getMapId());

@@ -23,46 +23,24 @@ use App\Repository\TimeslotRepository;
 use App\Scheduler\Handler\CalculateScheduleHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 class SchedulerContext
 {
-    private ParameterBagInterface $parameterBag;
-
-    private EntityManagerInterface $entityManager;
-
-    private PlanRepository $planRepository;
-    private SubjectRepository $subjectRepository;
-    private EventRepository $eventRepository;
-    private RoomRepository $roomRepository;
-    private StudentGroupRepository $studentGroupRepository;
-    private TeacherRepository $teacherRepository;
-    private TimeslotRepository $timeslotRepository;
-
-    private CalculateScheduleHandler $calculateScheduleHandler;
 
     public function __construct(
-        ParameterBagInterface $parameterBag,
-        EntityManagerInterface $entityManager,
-        PlanRepository $planRepository,
-        SubjectRepository $subjectRepository,
-        EventRepository $eventRepository,
-        RoomRepository $roomRepository,
-        StudentGroupRepository $studentGroupRepository,
-        TeacherRepository $teacherRepository,
-        TimeslotRepository $timeslotRepository,
-        CalculateScheduleHandler $calculateScheduleHandler
-    ) {
-        $this->parameterBag = $parameterBag;
-        $this->entityManager = $entityManager;
-        $this->planRepository = $planRepository;
-        $this->subjectRepository = $subjectRepository;
-        $this->eventRepository = $eventRepository;
-        $this->roomRepository = $roomRepository;
-        $this->studentGroupRepository = $studentGroupRepository;
-        $this->teacherRepository = $teacherRepository;
-        $this->timeslotRepository = $timeslotRepository;
-        $this->calculateScheduleHandler = $calculateScheduleHandler;
-    }
+        private ParameterBagInterface $parameterBag,
+        private EntityManagerInterface $entityManager,
+        private PlanRepository $planRepository,
+        private SubjectRepository $subjectRepository,
+        private EventRepository $eventRepository,
+        private RoomRepository $roomRepository,
+        private StudentGroupRepository $studentGroupRepository,
+        private TeacherRepository $teacherRepository,
+        private TimeslotRepository $timeslotRepository,
+        private CalculateScheduleHandler $calculateScheduleHandler,
+        private WorkflowInterface $planStatusStateMachine
+    ) {}
 
     public function getParameterBag() : ParameterBagInterface
     {
@@ -112,6 +90,11 @@ class SchedulerContext
     public function getCalculateScheduleHandler() : CalculateScheduleHandler
     {
         return $this->calculateScheduleHandler;
+    }
+
+    public function getPlanStatusStateMachine() : WorkflowInterface
+    {
+        return $this->planStatusStateMachine;
     }
 
     public function givenPlanExists(

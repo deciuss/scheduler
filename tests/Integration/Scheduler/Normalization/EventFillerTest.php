@@ -25,6 +25,8 @@ class EventFillerTest extends IntegrationTestCase
             $this->schedulerContext->getSubjectRepository()
         ))($plan);
 
+        $this->schedulerContext->getEntityManager()->clear();
+
         $this->assertEquals(4, ($this->schedulerContext->getEventRepository()->count(['subject' => $subject1])));
         $this->assertEquals(7, ($this->schedulerContext->getEventRepository()->count(['subject' => $subject2])));
     }

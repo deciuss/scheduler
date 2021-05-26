@@ -8,7 +8,6 @@ use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
 use App\Scheduler\Normalization\EventFiller;
 use App\Scheduler\Handler\CalculateScheduleChain\LockHandler;
-use App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler\DefaultEventFillingHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Stub\MessageBusStub;
 use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;

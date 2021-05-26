@@ -25,6 +25,8 @@ class TimeslotFillerTest extends IntegrationTestCase
             $this->schedulerContext->getTimeslotRepository()
         ))($plan);
 
+        $this->schedulerContext->getEntityManager()->clear();
+
         $this->assertEquals(0, ($this->schedulerContext->getTimeslotRepository()->findBy(['plan' => $plan], ['id' => 'ASC'], 1, 0))[0]->getMapId());
         $this->assertEquals(1, ($this->schedulerContext->getTimeslotRepository()->findBy(['plan' => $plan], ['id' => 'ASC'], 1, 1))[0]->getMapId());
         $this->assertEquals(2, ($this->schedulerContext->getTimeslotRepository()->findBy(['plan' => $plan], ['id' => 'ASC'], 1, 2))[0]->getMapId());

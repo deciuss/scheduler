@@ -16,6 +16,7 @@ use App\Tests\Context\SchedulerContext;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 abstract class IntegrationTestCase extends KernelTestCase
 {
@@ -36,6 +37,7 @@ abstract class IntegrationTestCase extends KernelTestCase
             self::$container->get(TeacherRepository::class),
             self::$container->get(TimeslotRepository::class),
             self::$container->get(CalculateScheduleHandler::class),
+            self::$container->get('state_machine.plan_status'),
         );
     }
 
