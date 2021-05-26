@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler;
 
-use App\DBAL\PlanStatus;
 use App\Scheduler\Handler\ChainHandlerAbstract;
 use App\Scheduler\Message;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Scheduler\Normalization\MapIdFiller;
-use App\Repository\PlanRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\StateMachine\Entity\Plan\PlanStatusStateMachine;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler as MapIdFillingHandlerInterface;
@@ -18,44 +16,24 @@ use App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler as EventFil
 
 class DefaultMapIdFillingHandler extends ChainHandlerAbstract implements MapIdFillingHandlerInterface
 {
-    private MessageBusInterface $messageBus;
-    private EntityManagerInterface $entityManager;
-    private PlanRepository $planRepository;
 
     /**
      * @var MapIdFiller[]
      */
     private array $mapIdFillers;
 
-    public function canHandle(Message $message): bool
-    {
-        return
-            $message instanceof CalculateSchedule
-            && in_array(
-                $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
-                [
-                    PlanStatus::PLAN_STATUS_EVENT_FILLING_FINISHED
-                ]
-            );
-    }
-
     public function __construct(
-        EventFillingHandlerInterface $eventFillingHandler,
-        LoggerInterface $logger,
-        MessageBusInterface $messageBus,
-        EntityManagerInterface $entityManager,
-        PlanRepository $planRepository,
+        private PlanStatusStateMachine $planStatusStateMachine,
+        private MessageBusInterface $messageBus,
         MapIdFiller\EventFiller $eventFiller,
         MapIdFiller\RoomFiller $roomFiller,
         MapIdFiller\StudentGroupFiller $studentGroupFiller,
         MapIdFiller\TeacherFiller $teacherFiller,
-        MapIdFiller\TimeslotFiller $timeslotFiller
+        MapIdFiller\TimeslotFiller $timeslotFiller,
+        EventFillingHandlerInterface $eventFillingHandler,
+        LoggerInterface $logger
     ) {
         parent::__construct($eventFillingHandler, $logger);
-        $this->messageBus = $messageBus;
-        $this->entityManager = $entityManager;
-        $this->planRepository = $planRepository;
-
         $this->mapIdFillers = [
             $eventFiller,
             $roomFiller,
@@ -65,20 +43,22 @@ class DefaultMapIdFillingHandler extends ChainHandlerAbstract implements MapIdFi
         ];
     }
 
-    public function handle(Message $message) : void
+    public function canHandle(Message $message): bool
     {
-        $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
-
-        $plan->setStatus(PlanStatus::PLAN_STATUS_MAP_ID_FILLING_STARTED);
-        $this->entityManager->flush();
-
-        foreach ($this->mapIdFillers as $mapIdFiller) {
-            $mapIdFiller($plan);
+        if (! $message instanceof CalculateSchedule) {
+            return false;
         }
 
-        $plan->setStatus(PlanStatus::PLAN_STATUS_MAP_ID_FILLING_FINISHED);
-        $this->entityManager->flush();
+        return $this->planStatusStateMachine->can($message->getPlanId(),'map_id_filling_starting');
+    }
 
+    public function handle(Message $message) : void
+    {
+        $this->planStatusStateMachine->apply($message->getPlanId(),'map_id_filling_starting');
+        foreach ($this->mapIdFillers as $mapIdFiller) {
+            $mapIdFiller($message->getPlanId());
+        }
+        $this->planStatusStateMachine->apply($message->getPlanId(),'map_id_filling_finishing');
         $this->messageBus->dispatch($message);
     }
 }

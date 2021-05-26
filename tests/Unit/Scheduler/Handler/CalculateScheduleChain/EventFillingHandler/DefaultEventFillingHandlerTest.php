@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler;
 
-use App\DBAL\PlanStatus;
-use App\Repository\PlanRepository;
+use App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler\DefaultEventFillingHandler;
 use App\Scheduler\Normalization\EventFiller;
 use App\Scheduler\Handler\CalculateScheduleChain\LockHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Stub\MessageBusStub;
 use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -21,22 +19,21 @@ class DefaultEventFillingHandlerTest extends ScheduleCalculatorChainAbstractTest
 {
     public function test_if_handles_when_plan_status_is_locked() : void
     {
-        $planMock = $this->createPlanMockWithStatusAndExpectingStatusChanges(
-            PlanStatus::PLAN_STATUS_LOCKED,
-            PlanStatus::PLAN_STATUS_EVENT_FILLING_STARTED,
-            PlanStatus::PLAN_STATUS_EVENT_FILLING_FINISHED,
+        $planStatusStateMachineMock = $this->createPlanStatusStateMachineMock(
+            $planId = 1,
+            'event_filling_starting',
+            'event_filling_finishing'
         );
 
-        $planRepositoryStub = $this->createStub(PlanRepository::class);
-        $planRepositoryStub->method("findOneBy")->willReturn($planMock);
+        $calculateScheduleMessageStub = $this->createStub(CalculateSchedule::class);
+        $calculateScheduleMessageStub->method('getPlanId')->willReturn($planId);
 
-        (new \App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler\DefaultEventFillingHandler(
+        (new DefaultEventFillingHandler(
+            $planStatusStateMachineMock,
+            new MessageBusStub(),
+            $this->createStub(EventFiller::class),
             $this->createStub(LockHandler::class),
             $this->createStub(LoggerInterface::class),
-            new MessageBusStub(),
-            $this->createStub(EntityManagerInterface::class),
-            $planRepositoryStub,
-            $this->createStub(EventFiller::class)
-        ))->executeHandler(new CalculateSchedule($planMock));
+        ))->executeHandler($calculateScheduleMessageStub);
     }
 }

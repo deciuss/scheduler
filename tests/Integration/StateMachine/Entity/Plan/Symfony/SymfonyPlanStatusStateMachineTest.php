@@ -55,7 +55,7 @@ class SymfonyPlanStatusStateMachineTest extends IntegrationTestCase
         );
     }
 
-    public function test_state_machine_returns_current_state() : void
+    public function test_state_machine_confirms_current_state() : void
     {
         $plan = $this->schedulerContext->givenPlanExists('plan', PlanStatus::PLAN_STATUS_LOCKED);
 

@@ -6,38 +6,42 @@ namespace App\Scheduler\Handler\CalculateScheduleChain\InProgressHandler;
 
 use App\DBAL\PlanStatus;
 use App\Scheduler\Handler\ChainHandlerAbstract;
-use App\Scheduler\Message\CalculateSchedule;
 use App\Scheduler\Message;
-use App\Repository\PlanRepository;
+use App\Scheduler\Message\CalculateSchedule;
+use App\StateMachine\Entity\Plan\PlanStatusStateMachine;
 use Psr\Log\LoggerInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\InProgressHandler as InProgressHandlerInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\CalculationErrorHandler as CalculationErrorHandlerInterface;
 
 class DefaultInProgressHandler extends ChainHandlerAbstract implements InProgressHandlerInterface
 {
-    private PlanRepository $planRepository;
 
     public function __construct(
+        private PlanStatusStateMachine $planStatusStateMachine,
         CalculationErrorHandlerInterface $calculationErrorHandler,
-        LoggerInterface $logger,
-        PlanRepository $planRepository
+        LoggerInterface $logger
     ) {
         parent::__construct($calculationErrorHandler, $logger);
-        $this->planRepository = $planRepository;
     }
 
     public function canHandle(Message $message): bool
     {
+        if (! $message instanceof CalculateSchedule) {
+            return false;
+        }
+
         return
-            $message instanceof CalculateSchedule
-            && in_array(
-                $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
-                [
-                    PlanStatus::PLAN_STATUS_EVENT_FILLING_STARTED,
-                    PlanStatus::PLAN_STATUS_MAP_ID_FILLING_STARTED,
-                    PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_STARTED,
-                    PlanStatus::PLAN_STATUS_SCHEDULE_CALCULATION_STARTED
-                ]
+            $this->planStatusStateMachine->is(
+                $message->getPlanId(), PlanStatus::PLAN_STATUS_EVENT_FILLING_STARTED
+            )
+            || $this->planStatusStateMachine->is(
+                $message->getPlanId(), PlanStatus::PLAN_STATUS_MAP_ID_FILLING_STARTED
+            )
+            || $this->planStatusStateMachine->is(
+                $message->getPlanId(), PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_STARTED
+            )
+            || $this->planStatusStateMachine->is(
+                $message->getPlanId(), PlanStatus::PLAN_STATUS_SCHEDULE_CALCULATION_STARTED
             );
     }
 

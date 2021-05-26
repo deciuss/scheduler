@@ -19,10 +19,10 @@ class StudentGroupFiller implements MapIdFiller
         $this->studentGroupRepository = $studentGroupRepository;
     }
 
-    public function __invoke(Plan $plan) : void
+    public function __invoke(int $planId) : void
     {
         $studentGroupCounter = 0;
-        foreach ($this->studentGroupRepository->findBy(['plan' => $plan], ['id' => 'ASC']) as $studentGroup) {
+        foreach ($this->studentGroupRepository->findBy(['plan' => $planId], ['id' => 'ASC']) as $studentGroup) {
             $studentGroup->setMapId($studentGroupCounter++);
         }
 

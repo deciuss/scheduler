@@ -23,7 +23,7 @@ class TeacherFillerTest extends IntegrationTestCase
         (new TeacherFiller(
             $this->schedulerContext->getEntityManager(),
             $this->schedulerContext->getTeacherRepository()
-        ))($plan);
+        ))($plan->getId());
 
         $this->schedulerContext->getEntityManager()->clear();
 

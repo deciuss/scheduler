@@ -19,10 +19,10 @@ class RoomFiller implements MapIdFiller
         $this->roomRepository = $roomRepository;
     }
 
-    public function __invoke(Plan $plan) : void
+    public function __invoke(int $planId) : void
     {
         $roomCounter = 0;
-        foreach ($this->roomRepository->findBy(['plan' => $plan], ['id' => 'ASC']) as $room) {
+        foreach ($this->roomRepository->findBy(['plan' => $planId], ['id' => 'ASC']) as $room) {
             $room->setMapId($roomCounter++);
         }
 

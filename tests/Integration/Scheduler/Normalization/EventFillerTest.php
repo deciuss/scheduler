@@ -23,7 +23,7 @@ class EventFillerTest extends IntegrationTestCase
         (new EventFiller(
             $this->schedulerContext->getEntityManager(),
             $this->schedulerContext->getSubjectRepository()
-        ))($plan);
+        ))($plan->getId());
 
         $this->schedulerContext->getEntityManager()->clear();
 

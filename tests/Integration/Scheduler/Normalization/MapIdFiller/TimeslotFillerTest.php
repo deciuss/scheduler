@@ -23,7 +23,7 @@ class TimeslotFillerTest extends IntegrationTestCase
         (new TimeslotFiller(
             $this->schedulerContext->getEntityManager(),
             $this->schedulerContext->getTimeslotRepository()
-        ))($plan);
+        ))($plan->getId());
 
         $this->schedulerContext->getEntityManager()->clear();
 

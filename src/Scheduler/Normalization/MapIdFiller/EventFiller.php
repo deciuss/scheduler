@@ -20,10 +20,10 @@ class EventFiller implements MapIdFiller
         $this->eventRepository = $eventRepository;
     }
 
-    public function __invoke(Plan $plan) : void
+    public function __invoke(int $planId) : void
     {
         $eventCounter = 0;
-        foreach ($this->eventRepository->findByPlanOrderByIdAsc($plan) as $event) {
+        foreach ($this->eventRepository->findByPlanIdOrderByIdAsc($planId) as $event) {
             $event->setMapId($eventCounter++);
 
         }

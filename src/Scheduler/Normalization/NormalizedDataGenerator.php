@@ -73,18 +73,18 @@ class NormalizedDataGenerator
         $this->eventTeacher = $eventTeacher;
     }
 
-    public function generateNormalizedData(Plan $plan) : void
+    public function generateNormalizedData(int $planId) : void
     {
-        $writer = $this->writerFactory->create((string) $plan->getId());
+        $writer = $this->writerFactory->create((string) $planId);
 
-        $events = $this->eventRepository->findByPlanOrderByIdAsc($plan);
-        $eventBlockGenerated = $this->eventBlock->generate(...$this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']));
+        $events = $this->eventRepository->findByPlanIdOrderByIdAsc($planId);
+        $eventBlockGenerated = $this->eventBlock->generate(...$this->subjectRepository->findBy(['plan' => $planId], ['id' => 'asc']));
 
-        $writer->appendInt($this->eventRepository->countByPlan($plan));
-        $writer->appendInt($this->roomRepository->count(['plan' => $plan]));
-        $writer->appendInt($this->timeslotRepository->count(['plan' => $plan]));
-        $writer->appendInt($this->studentGroupRepository->count(['plan' => $plan]));
-        $writer->appendInt($this->teacherRepository->count(['plan' => $plan]));
+        $writer->appendInt($this->eventRepository->countByPlanId($planId));
+        $writer->appendInt($this->roomRepository->count(['plan' => $planId]));
+        $writer->appendInt($this->timeslotRepository->count(['plan' => $planId]));
+        $writer->appendInt($this->studentGroupRepository->count(['plan' => $planId]));
+        $writer->appendInt($this->teacherRepository->count(['plan' => $planId]));
         $writer->appendInt(count($eventBlockGenerated));
         $writer->appendIntOneToMany($eventBlockGenerated);
         $writer->appendBoolMatrix($this->eventTimeslotShare->generate(...$events));
@@ -92,13 +92,13 @@ class NormalizedDataGenerator
         $writer->appendBoolMatrix(
             $this->eventRoomFit->generate(
                 $events,
-                $this->roomRepository->findBy(['plan' => $plan], ['id' => 'asc'])
+                $this->roomRepository->findBy(['plan' => $planId], ['id' => 'asc'])
             )
         );
 
         $writer->appendIntArray(
             $this->timeslotNeighborNext->generate(
-                ...$this->timeslotRepository->findBy(['plan' => $plan], ['id' => 'asc'])
+                ...$this->timeslotRepository->findBy(['plan' => $planId], ['id' => 'asc'])
             )
         );
 

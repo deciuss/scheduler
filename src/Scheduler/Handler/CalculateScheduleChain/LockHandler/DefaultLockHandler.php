@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Scheduler\Handler\CalculateScheduleChain\LockHandler;
 
-use App\DBAL\PlanStatus;
 use App\Scheduler\Handler\ChainHandlerAbstract;
-use App\Scheduler\Message\CalculateSchedule;
 use App\Scheduler\Message;
-use App\Repository\PlanRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Scheduler\Message\CalculateSchedule;
+use App\StateMachine\Entity\Plan\PlanStatusStateMachine;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\LockHandler as LockHandlerInterface;
@@ -17,42 +15,28 @@ use App\Scheduler\Handler\CalculateScheduleChain\InProgressHandler as InProgress
 
 class DefaultLockHandler extends ChainHandlerAbstract implements LockHandlerInterface
 {
-    private MessageBusInterface $messageBus;
-    private EntityManagerInterface $entityManager;
-    private PlanRepository $planRepository;
+
+    public function __construct(
+        private PlanStatusStateMachine $planStatusStateMachine,
+        private MessageBusInterface $messageBus,
+        InProgressHandlerInterface $inProgressHandler,
+        LoggerInterface $logger
+    ) {
+        parent::__construct($inProgressHandler, $logger);
+    }
 
     public function canHandle(Message $message): bool
     {
-        return
-            $message instanceof CalculateSchedule
-            && in_array(
-                $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
-                [
-                    PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION
-                ]
-        );
-    }
+        if (! $message instanceof CalculateSchedule) {
+            return false;
+        }
 
-    public function __construct(
-        InProgressHandlerInterface $inProgressHandler,
-        LoggerInterface $logger,
-        MessageBusInterface $messageBus,
-        EntityManagerInterface $entityManager,
-        PlanRepository $planRepository
-    ) {
-        parent::__construct($inProgressHandler, $logger);
-        $this->messageBus = $messageBus;
-        $this->entityManager = $entityManager;
-        $this->planRepository = $planRepository;
+        return $this->planStatusStateMachine->can($message->getPlanId(), 'locking');
     }
 
     public function handle(Message $message) : void
     {
-        $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
-
-        $plan->setStatus(PlanStatus::PLAN_STATUS_LOCKED);
-        $this->entityManager->flush();
-
+        $this->planStatusStateMachine->apply($message->getPlanId(), 'locking');
         $this->messageBus->dispatch($message);
     }
 }

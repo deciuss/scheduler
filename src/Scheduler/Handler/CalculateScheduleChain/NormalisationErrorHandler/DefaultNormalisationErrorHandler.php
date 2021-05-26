@@ -8,32 +8,27 @@ use App\DBAL\PlanStatus;
 use App\Scheduler\Handler\ChainHandlerAbstract;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Scheduler\Message;
-use App\Repository\PlanRepository;
+use App\StateMachine\Entity\Plan\PlanStatusStateMachine;
 use Psr\Log\LoggerInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\NormalisationErrorHandler as NormalisationErrorHandlerInterface;
 
 class DefaultNormalisationErrorHandler extends ChainHandlerAbstract implements NormalisationErrorHandlerInterface
 {
-    private PlanRepository $planRepository;
-
-    public function canHandle(Message $message): bool
-    {
-        return
-            $message instanceof CalculateSchedule
-            && in_array(
-                $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
-                [
-                    PlanStatus::PLAN_STATUS_NORMALISATION_ERROR
-                ]
-            );
-    }
 
     public function __construct(
-        PlanRepository $planRepository,
+        private PlanStatusStateMachine $planStatusStateMachine,
         LoggerInterface $logger
     ) {
         parent::__construct(null, $logger);
-        $this->planRepository = $planRepository;
+    }
+
+    public function canHandle(Message $message): bool
+    {
+        if (! $message instanceof CalculateSchedule) {
+            return false;
+        }
+
+        return $this->planStatusStateMachine->is($message->getPlanId(), PlanStatus::PLAN_STATUS_NORMALISATION_ERROR);
     }
 
     /**

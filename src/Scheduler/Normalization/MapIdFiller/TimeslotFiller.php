@@ -19,10 +19,10 @@ class TimeslotFiller implements MapIdFiller
         $this->timeslotRepository = $timeslotRepository;
     }
 
-    public function __invoke(Plan $plan) : void
+    public function __invoke(int $planId) : void
     {
         $teacherCounter = 0;
-        foreach ($this->timeslotRepository->findBy(['plan' => $plan], ['id' => 'ASC']) as $timeslot) {
+        foreach ($this->timeslotRepository->findBy(['plan' => $planId], ['id' => 'ASC']) as $timeslot) {
             $timeslot->setMapId($teacherCounter++);
         }
 

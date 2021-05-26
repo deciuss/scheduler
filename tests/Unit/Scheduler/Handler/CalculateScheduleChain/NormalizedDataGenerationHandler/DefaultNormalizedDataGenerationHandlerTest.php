@@ -22,22 +22,21 @@ class DefaultNormalizedDataGenerationHandlerTest extends ScheduleCalculatorChain
 {
     public function test_if_handles_when_plan_status_is_map_id_filling_finished() : void
     {
-        $planMock = $this->createPlanMockWithStatusAndExpectingStatusChanges(
-            PlanStatus::PLAN_STATUS_MAP_ID_FILLING_FINISHED,
-            PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_STARTED,
-            PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED,
+        $planStatusStateMachineMock = $this->createPlanStatusStateMachineMock(
+            $planId = 1,
+            'normalized_data_generation_starting',
+            'normalized_data_generation_finishing'
         );
 
-        $planRepositoryStub = $this->createStub(PlanRepository::class);
-        $planRepositoryStub->method("findOneBy")->willReturn($planMock);
+        $calculateScheduleMessageStub = $this->createStub(CalculateSchedule::class);
+        $calculateScheduleMessageStub->method('getPlanId')->willReturn($planId);
 
         (new DefaultNormalizedDataGenerationHandler(
-            $this->createStub(MapIdFillingHandler::class),
-            $this->createStub(LoggerInterface::class),
+            $planStatusStateMachineMock,
             new MessageBusStub(),
-            $this->createStub(EntityManagerInterface::class),
-            $planRepositoryStub,
-            $this->createStub(NormalizedDataGenerator::class)
-        ))->executeHandler(new CalculateSchedule($planMock));
+            $this->createStub(NormalizedDataGenerator::class),
+            $this->createStub(LoggerInterface::class),
+            $this->createStub(MapIdFillingHandler::class)
+        ))->executeHandler($calculateScheduleMessageStub);
     }
 }

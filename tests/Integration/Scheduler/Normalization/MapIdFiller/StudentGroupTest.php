@@ -23,7 +23,7 @@ class StudentGroupTest extends IntegrationTestCase
         (new StudentGroupFiller(
             $this->schedulerContext->getEntityManager(),
             $this->schedulerContext->getStudentGroupRepository()
-        ))($plan);
+        ))($plan->getId());
 
         $this->schedulerContext->getEntityManager()->clear();
 

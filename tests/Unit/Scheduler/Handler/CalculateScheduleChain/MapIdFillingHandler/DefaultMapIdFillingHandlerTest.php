@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler;
 
-use App\DBAL\PlanStatus;
-use App\Repository\PlanRepository;
 use App\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler;
 use App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler\DefaultMapIdFillingHandler;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Tests\Stub\MessageBusStub;
 use App\Tests\Unit\Scheduler\Handler\ScheduleCalculatorChainAbstractTest;
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use App\Scheduler\Normalization\MapIdFiller;
 
@@ -22,26 +19,25 @@ class DefaultMapIdFillingHandlerTestTest extends ScheduleCalculatorChainAbstract
 {
     public function test_if_handles_when_plan_status_is_event_filling_finished() : void
     {
-        $planMock = $this->createPlanMockWithStatusAndExpectingStatusChanges(
-            PlanStatus::PLAN_STATUS_EVENT_FILLING_FINISHED,
-            PlanStatus::PLAN_STATUS_MAP_ID_FILLING_STARTED,
-            PlanStatus::PLAN_STATUS_MAP_ID_FILLING_FINISHED,
+        $planStatusStateMachineMock = $this->createPlanStatusStateMachineMock(
+            $planId = 1,
+            'map_id_filling_starting',
+            'map_id_filling_finishing'
         );
 
-        $planRepositoryStub = $this->createStub(PlanRepository::class);
-        $planRepositoryStub->method("findOneBy")->willReturn($planMock);
+        $calculateScheduleMessageStub = $this->createStub(CalculateSchedule::class);
+        $calculateScheduleMessageStub->method('getPlanId')->willReturn($planId);
 
         (new DefaultMapIdFillingHandler(
-            $this->createStub(EventFillingHandler::class),
-            $this->createStub(LoggerInterface::class),
+            $planStatusStateMachineMock,
             new MessageBusStub(),
-            $this->createStub(EntityManagerInterface::class),
-            $planRepositoryStub,
             $this->createStub(MapIdFiller\EventFiller::class),
             $this->createStub(MapIdFiller\RoomFiller::class),
             $this->createStub(MapIdFiller\StudentGroupFiller::class),
             $this->createStub(MapIdFiller\TeacherFiller::class),
-            $this->createStub(MapIdFiller\TimeslotFiller::class)
-        ))->executeHandler(new CalculateSchedule($planMock));
+            $this->createStub(MapIdFiller\TimeslotFiller::class),
+            $this->createStub(EventFillingHandler::class),
+            $this->createStub(LoggerInterface::class)
+        ))->executeHandler($calculateScheduleMessageStub);
     }
 }

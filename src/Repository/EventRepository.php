@@ -27,26 +27,26 @@ class EventRepository extends ServiceEntityRepository
      * @param Plan $plan
      * @return Event[]
      */
-    public function findByPlanOrderByIdAsc(Plan $plan) : array
+    public function findByPlanIdOrderByIdAsc(int $planId) : array
     {
         return $this->createQueryBuilder('e1')
             ->innerJoin('e1.subject', 's1', Join::WITH)
             ->innerJoin('s1.plan', 'p1', Join::WITH)
-            ->andWhere('p1 = :plan')
-            ->setParameter('plan', $plan)
+            ->andWhere('p1.id = :plan_id')
+            ->setParameter('plan_id', $planId)
             ->orderBy('e1.id', 'ASC')
             ->getQuery()
             ->getResult();
     }
 
-    public function countByPlan(Plan $plan) : int
+    public function countByPlanId(int $planId) : int
     {
         return (int) $this->createQueryBuilder('e1')
             ->select('count(e1.id)')
             ->innerJoin('e1.subject', 's1', Join::WITH)
             ->innerJoin('s1.plan', 'p1', Join::WITH)
-            ->andWhere('p1 = :plan')
-            ->setParameter('plan', $plan)
+            ->andWhere('p1.id = :plan_id')
+            ->setParameter('plan_id', $planId)
             ->orderBy('e1.id', 'ASC')
             ->getQuery()
             ->getSingleScalarResult();
@@ -64,5 +64,4 @@ class EventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleResult();
     }
-
 }

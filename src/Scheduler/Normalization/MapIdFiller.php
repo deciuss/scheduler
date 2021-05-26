@@ -8,5 +8,5 @@ use App\Entity\Plan;
 
 interface MapIdFiller
 {
-    public function __invoke(Plan $plan) : void;
+    public function __invoke(int $planId) : void;
 }

@@ -23,7 +23,7 @@ class RoomFillerTest extends IntegrationTestCase
         (new RoomFiller(
             $this->schedulerContext->getEntityManager(),
             $this->schedulerContext->getRoomRepository()
-        ))($plan);
+        ))($plan->getId());
 
         $this->schedulerContext->getEntityManager()->clear();
 

@@ -30,7 +30,7 @@ framework:
                 event_filling_starting:
                     from: locked
                     to:   event_filling_started
-                event_filling_finising:
+                event_filling_finishing:
                     from: event_filling_started
                     to:   event_filling_finished
                 map_id_filling_starting:
@@ -46,7 +46,7 @@ framework:
                     from: normalized_data_generation_started
                     to:   normalized_data_generation_finished
                 schedule_calculation_starting:
-                    from: normalized_data_generation_finished
+                    from: [normalized_data_generation_finished, schedule_calculation_finished]
                     to:   schedule_calculation_started
                 schedule_calculation_finishing:
                     from: schedule_calculation_started

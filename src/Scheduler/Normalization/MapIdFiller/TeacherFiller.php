@@ -19,10 +19,10 @@ class TeacherFiller implements MapIdFiller
         $this->teacherRepository = $teacherRepository;
     }
 
-    public function __invoke(Plan $plan) : void
+    public function __invoke(int $planId) : void
     {
         $teacherCounter = 0;
-        foreach ($this->teacherRepository->findBy(['plan' => $plan], ['id' => 'ASC']) as $teacher) {
+        foreach ($this->teacherRepository->findBy(['plan' => $planId], ['id' => 'ASC']) as $teacher) {
             $teacher->setMapId($teacherCounter++);
         }
 

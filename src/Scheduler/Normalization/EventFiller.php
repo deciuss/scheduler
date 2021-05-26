@@ -2,7 +2,6 @@
 namespace App\Scheduler\Normalization;
 
 use App\Entity\Event;
-use App\Entity\Plan;
 use App\Repository\SubjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -18,9 +17,9 @@ class EventFiller
         $this->subjectRepository = $subjectRepository;
     }
 
-    public function __invoke(Plan $plan) : void
+    public function __invoke(int $planId) : void
     {
-        foreach ($this->subjectRepository->findBy(['plan' => $plan], ['id' => 'asc']) as $subject) {
+        foreach ($this->subjectRepository->findBy(['plan' => $planId], ['id' => 'asc']) as $subject) {
             for($i = 0; $i < $subject->getHours(); $i++) {
                 $this->entityManager->persist((new Event())->setSubject($subject));
             }
@@ -28,5 +27,4 @@ class EventFiller
 
         $this->entityManager->flush();
     }
-
 }

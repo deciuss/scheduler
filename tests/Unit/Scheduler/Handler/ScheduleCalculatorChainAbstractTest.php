@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Scheduler\Handler;
 
-use App\Entity\Plan;
+use App\StateMachine\Entity\Plan\PlanStatusStateMachine;
 use PHPUnit\Framework\TestCase;
 
 abstract class ScheduleCalculatorChainAbstractTest extends TestCase
 {
-    protected function createPlanMockWithStatusAndExpectingStatusChanges(
-        string $actualStatus,
-        string $firstStatusChange,
-        string $secondStatusChange
-    ) {
-        $planMock = $this->getMockBuilder(Plan::class)->getMock();
-        $planMock->method("getId")->willReturn(1);
-        $planMock->method("getStatus")->willReturn($actualStatus);
-        $planMock->expects($this->exactly(2))->method("setStatus")->withConsecutive(
-            [$firstStatusChange],
-            [$secondStatusChange]
+    protected function createPlanStatusStateMachineMock(
+        int $planId,
+        string $firstTransition,
+        string $secondTransition
+    ) : PlanStatusStateMachine
+    {
+        $planStatusStateMachineMock = $this->getMockBuilder(PlanStatusStateMachine::class)->getMock();
+        $planStatusStateMachineMock->expects($this->once())->method("can")->with($planId, $firstTransition)->willReturn(true);
+        $planStatusStateMachineMock->expects($this->exactly(2))->method("apply")->withConsecutive(
+            [$planId, $firstTransition],
+            [$planId, $secondTransition]
         );
 
-        return $planMock;
+        return $planStatusStateMachineMock;
     }
 }

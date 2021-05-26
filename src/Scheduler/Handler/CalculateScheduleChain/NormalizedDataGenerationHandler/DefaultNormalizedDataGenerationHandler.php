@@ -10,6 +10,7 @@ use App\Scheduler\Message\CalculateSchedule;
 use App\Scheduler\Message;
 use App\Scheduler\Normalization\NormalizedDataGenerator;
 use App\Repository\PlanRepository;
+use App\StateMachine\Entity\Plan\PlanStatusStateMachine;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -18,50 +19,32 @@ use App\Scheduler\Handler\CalculateScheduleChain\MapIdFillingHandler as MapIdFil
 
 class DefaultNormalizedDataGenerationHandler extends ChainHandlerAbstract implements NormalizedDataGenerationHandlerInterface
 {
-    private MessageBusInterface $messageBus;
-    private EntityManagerInterface $entityManager;
-    private PlanRepository $planRepository;
-    private NormalizedDataGenerator $normalizedDataGenerator;
+
+    public function __construct(
+        private PlanStatusStateMachine $planStatusStateMachine,
+        private MessageBusInterface $messageBus,
+        private NormalizedDataGenerator $normalizedDataGenerator,
+        LoggerInterface $logger,
+        MapIdFillingHandlerInterface $mapIdFillingHandler
+    ) {
+        parent::__construct($mapIdFillingHandler, $logger);
+
+    }
 
     public function canHandle(Message $message): bool
     {
-        return
-            $message instanceof CalculateSchedule
-            && in_array(
-                $this->planRepository->findOneBy(['id' => $message->getPlanId()])->getStatus(),
-                [
-                    PlanStatus::PLAN_STATUS_MAP_ID_FILLING_FINISHED
-                ]
-            );
-    }
+        if (! $message instanceof CalculateSchedule) {
+            return false;
+        }
 
-    public function __construct(
-        MapIdFillingHandlerInterface $mapIdFillingHandler,
-        LoggerInterface $logger,
-        MessageBusInterface $messageBus,
-        EntityManagerInterface $entityManager,
-        PlanRepository $planRepository,
-        NormalizedDataGenerator $normalizedDataGenerator
-    ) {
-        parent::__construct($mapIdFillingHandler, $logger);
-        $this->messageBus = $messageBus;
-        $this->entityManager = $entityManager;
-        $this->planRepository = $planRepository;
-        $this->normalizedDataGenerator = $normalizedDataGenerator;
+        return $this->planStatusStateMachine->can($message->getPlanId(),'normalized_data_generation_starting');
     }
 
     public function handle(Message $message) : void
     {
-        $plan = $this->planRepository->findOneBy(['id' => $message->getPlanId()]);
-
-        $plan->setStatus(PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_STARTED);
-        $this->entityManager->flush();
-
-        $this->normalizedDataGenerator->generateNormalizedData($plan);
-
-        $plan->setStatus(PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED);
-        $this->entityManager->flush();
-
+        $this->planStatusStateMachine->apply($message->getPlanId(),'normalized_data_generation_starting');
+        $this->normalizedDataGenerator->generateNormalizedData($message->getPlanId());
+        $this->planStatusStateMachine->apply($message->getPlanId(),'normalized_data_generation_finishing');
         $this->messageBus->dispatch($message);
     }
 }
