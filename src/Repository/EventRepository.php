@@ -52,14 +52,14 @@ class EventRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function findOneByPlanAndMapId(Plan $plan, int $mapId) : Event
+    public function findOneByPlanAndMapId(int $planId, int $mapId) : Event
     {
         return $this->createQueryBuilder('e1')
             ->innerJoin('e1.subject', 's1', Join::WITH)
             ->innerJoin('s1.plan', 'p1', Join::WITH)
-            ->andWhere('p1 = :plan')
+            ->andWhere('p1.id = :plan_id')
             ->andWhere('e1.map_id = :mapId')
-            ->setParameter('plan', $plan)
+            ->setParameter('plan_id', $planId)
             ->setParameter('mapId', $mapId)
             ->getQuery()
             ->getSingleResult();

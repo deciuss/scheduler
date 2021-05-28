@@ -19,10 +19,14 @@ framework:
                 - map_id_filling_finished
                 - normalized_data_generation_started
                 - normalized_data_generation_finished
-                - schedule_calculation_started
-                - schedule_calculation_finished
+                - calculation_started
+                - calculation_finished
+                - calculation_unsuccessful
+                - result_import_started
+                - result_import_finished
                 - normalisation_error
                 - calculation_error
+                - result_import_error
             transitions:
                 locking:
                     from: under_construction
@@ -45,15 +49,28 @@ framework:
                 normalized_data_generation_finishing:
                     from: normalized_data_generation_started
                     to:   normalized_data_generation_finished
-                schedule_calculation_starting:
-                    from: [normalized_data_generation_finished, schedule_calculation_finished]
-                    to:   schedule_calculation_started
-                schedule_calculation_finishing:
-                    from: schedule_calculation_started
-                    to:   schedule_calculation_finished
-                normalisation_error_rising:
+                calculation_starting:
+                    from: [normalized_data_generation_finished, result_import_finished, calculation_unsuccessful]
+                    to:   calculation_started
+                calculation_finishing:
+                    from: calculation_started
+                    to:   calculation_finished
+                calculation_unsuccessful_marking:
+                    from: calculation_started
+                    to: calculation_unsuccessful
+                result_import_starting:
+                    from: calculation_finished
+                    to:   result_import_started
+                result_import_finishing:
+                    from: result_import_started
+                    to: result_import_finished
+                normalisation_error_marking:
                     from: [event_filling_started, map_id_filling_started, normalized_data_generation_started]
                     to:   normalisation_error
-                calculation_error_rising:
-                    from: schedule_calculation_started
+                calculation_error_marking:
+                    from: calculation_started
                     to:   calculation_error
+                result_import_error_marking:
+                    from: result_import_started
+                    to:   result_import_error
+

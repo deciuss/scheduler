@@ -15,7 +15,7 @@ use App\Scheduler\Normalization\TruthMatrixGenerator;
  */
 class TruthMatrixGeneratorTest extends TestCase
 {
-    public function test_if_generates_matrix_with_false_values_when_condition_always_false() : void
+    public function test_generates_matrix_with_false_values_when_condition_always_false() : void
     {
         $alwaysFalseConditionStub = $this->createStub(\App\Scheduler\Normalization\Condition::class);
         $alwaysFalseConditionStub->method("check")->willReturn(false);
@@ -31,7 +31,7 @@ class TruthMatrixGeneratorTest extends TestCase
         );
     }
 
-    public function test_if_generates_matrix_with_true_values_when_condition_always_true() : void
+    public function test_generates_matrix_with_true_values_when_condition_always_true() : void
     {
         $alwaysTrueConditionStub = $this->createStub(\App\Scheduler\Normalization\Condition::class);
         $alwaysTrueConditionStub->method("check")->willReturn(true);
@@ -47,7 +47,7 @@ class TruthMatrixGeneratorTest extends TestCase
         );
     }
 
-    public function test_if_generates_matrix_with_alternating_values_when_condition_alternating() : void
+    public function test_generates_matrix_with_alternating_values_when_condition_alternating() : void
     {
         $conditionStub = $this->createStub(\App\Scheduler\Normalization\Condition::class);
         $conditionStub->method("check")->willReturn(true, false, false, true);
@@ -63,7 +63,7 @@ class TruthMatrixGeneratorTest extends TestCase
         );
     }
 
-    public function test_if_generates_matrix_with_conjunction_when_multiple_condition_present() : void
+    public function test_generates_matrix_with_conjunction_when_multiple_condition_present() : void
     {
         $conditionStub1 = $this->createStub(\App\Scheduler\Normalization\Condition::class);
         $conditionStub1->method("check")->willReturn(true, false, false, true);

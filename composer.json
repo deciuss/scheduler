@@ -114,13 +114,16 @@
             "@tests:unit",
             "@tests:integration"
         ],
+        "dev:compare": "diff var/calculator/data/1 tests/resources/calculator/data/to_compare",
         "dev:calculate:fresh":  [
-            "rm -f var/calculator/data/*",
+            "rm -rf var/calculator/data/*",
+            "rm -rf var/calculator/output/*",
             "php bin/console doctrine:database:drop --force --if-exists",
             "php bin/console doctrine:database:create",
             "php bin/console doctrine:migrations:migrate latest -n",
             "php bin/console dev:example:load",
-            "php bin/console app:calculate 1 -vvv"
+            "php bin/console app:calculate 1 -vvv",
+            "@dev:compare"
         ]
     },
     "conflict": {

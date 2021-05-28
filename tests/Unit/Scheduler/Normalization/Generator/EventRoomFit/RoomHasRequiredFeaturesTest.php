@@ -17,7 +17,7 @@ use App\Tests\Fake\Mother\SubjectMother;
 class RoomHasRequiredFeaturesTest extends TestCase
 {
 
-    public function test_if_gives_positive_result_when_room_has_all_features_required_by_event()
+    public function test_gives_positive_result_when_room_has_all_features_required_by_event()
     {
         $features = [];
 
@@ -35,7 +35,7 @@ class RoomHasRequiredFeaturesTest extends TestCase
         $this->assertTrue($actualRoomHasRequiredFeaturesValue);
     }
 
-    public function test_if_gives_negative_result_when_room_does_not_have_all_features_required_by_event()
+    public function test_gives_negative_result_when_room_does_not_have_all_features_required_by_event()
     {
         $features = [];
 

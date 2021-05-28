@@ -7,7 +7,7 @@ namespace App\Scheduler\Handler;
 use App\Scheduler\Message;
 use Psr\Log\LoggerInterface;
 
-abstract class ChainHandlerAbstract
+abstract class ChainHandlerAbstract implements ChainHandler
 {
     private ?ChainHandler $nextHandler;
     protected LoggerInterface $logger;

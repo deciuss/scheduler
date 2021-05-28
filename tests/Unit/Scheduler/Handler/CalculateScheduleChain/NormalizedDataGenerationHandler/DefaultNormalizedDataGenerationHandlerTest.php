@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
  */
 class DefaultNormalizedDataGenerationHandlerTest extends ScheduleCalculatorChainAbstractTest
 {
-    public function test_if_handles_when_plan_status_is_map_id_filling_finished() : void
+    public function test_handles_normalized_data_generation() : void
     {
         $planStatusStateMachineMock = $this->createPlanStatusStateMachineMock(
             $planId = 1,

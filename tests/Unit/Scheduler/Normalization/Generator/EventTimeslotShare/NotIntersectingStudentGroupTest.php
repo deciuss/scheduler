@@ -15,7 +15,7 @@ use App\Tests\Fake\Mother\SubjectMother;
  */
 class NotIntersectingStudentGroupTest extends TestCase
 {
-    public function test_if_gives_positive_result_when_events_for_groups_that_do_not_intersect() : void
+    public function test_gives_positive_result_when_events_for_groups_that_do_not_intersect() : void
     {
         $event1 = EventMother::withSubject(
             SubjectMother::withStudentGroup(
@@ -34,7 +34,7 @@ class NotIntersectingStudentGroupTest extends TestCase
         $this->assertTrue($actualNotIntersectingStudentGroupValue);
     }
 
-    public function test_if_gives_negative_result_when_events_for_groups_that_do_intersect() : void
+    public function test_gives_negative_result_when_events_for_groups_that_do_intersect() : void
     {
         $event1 = EventMother::withSubject(
             SubjectMother::withStudentGroup(
@@ -56,7 +56,7 @@ class NotIntersectingStudentGroupTest extends TestCase
         $this->assertFalse($actualNotIntersectingStudentGroupValue);
     }
 
-    public function test_if_gives_positive_result_when_events_for_groups_that_do_not_intersect_with_each_other_but_have_other_intersections() : void
+    public function test_gives_positive_result_when_events_for_groups_that_do_not_intersect_with_each_other_but_have_other_intersections() : void
     {
         $event1 = EventMother::withSubject(
             SubjectMother::withStudentGroup(

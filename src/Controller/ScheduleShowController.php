@@ -10,6 +10,7 @@ use App\Repository\ScheduleEventRepository;
 use App\Repository\TimeslotRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ScheduleShowController extends AbstractController
 {
@@ -29,7 +30,7 @@ class ScheduleShowController extends AbstractController
     }
 
     #[Route('/schedule/show/{scheduleId}/group/{groupId}/teacher/{teacherId}', name: 'schedule_show')]
-    public function index(int $scheduleId, $groupId, $teacherId): Response
+    public function show(int $scheduleId, $groupId, $teacherId): Response
     {
         $criteria = ["schedule" => $scheduleId];
 
@@ -37,7 +38,6 @@ class ScheduleShowController extends AbstractController
 
         $rooms = $this->roomRepository->findAll();
         $timeslots = $this->timeslotRepository->findAll();
-
 
         $table = [];
 
@@ -84,5 +84,4 @@ class ScheduleShowController extends AbstractController
             'table' => $table,
         ]);
     }
-
 }

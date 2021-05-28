@@ -4,36 +4,33 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Scheduler;
 
-use App\Scheduler\CalculatorExecutor;
+use App\Scheduler\Calculator\CalculatorCountExecutor;
 use App\Scheduler\Exception\FeasibleSolutionNotFoundException;
 use App\Tests\Integration\IntegrationTestCase;
 
 /**
- * @covers \App\Scheduler\CalculatorExecutor
+ * @covers \App\Scheduler\Calculator\CalculatorCountExecutor
  */
-class CalculatorExecutorTest extends IntegrationTestCase
+class CalculatorCountExecutorTest extends IntegrationTestCase
 {
     public function test_if_generates_output_file_for_trivial_data() : void
     {
         copy(
+            "tests/resources/calculator/data/trivial",
             sprintf(
-                "tests/resources/calculator/data/%s",
-                $filename = "trivial"
-            ),
-            sprintf(
-                "%s/%s",
+                "%s/%d",
                 $this->schedulerContext->getParameterBag()->get('scheduler.calculator.data_path'),
-                $filename
+                $trivialPlanId = 7
             )
         );
 
-        (new CalculatorExecutor($this->schedulerContext->getParameterBag()))($filename);
+        (new CalculatorCountExecutor($this->schedulerContext->getParameterBag()))($trivialPlanId);
 
         $this->assertFileExists(
             sprintf(
-                "%s/%s",
+                "%s/%d",
                 $this->schedulerContext->getParameterBag()->get('scheduler.calculator.output_path'),
-                $filename
+                $trivialPlanId
             )
         );
     }
@@ -41,19 +38,16 @@ class CalculatorExecutorTest extends IntegrationTestCase
     public function test_if_generates_exception_for_impossible_data() : void
     {
         copy(
+            "tests/resources/calculator/data/impossible",
             sprintf(
-                "tests/resources/calculator/data/%s",
-                $filename = "impossible"
-            ),
-            sprintf(
-                "%s/%s",
+                "%s/%d",
                 $this->schedulerContext->getParameterBag()->get('scheduler.calculator.data_path'),
-                $filename
+                $impossiblePlanId = 13
             )
         );
 
         $this->expectException(FeasibleSolutionNotFoundException::class);
 
-        (new CalculatorExecutor($this->schedulerContext->getParameterBag()))($filename);
+        (new CalculatorCountExecutor($this->schedulerContext->getParameterBag()))($impossiblePlanId);
     }
 }

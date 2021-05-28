@@ -10,19 +10,19 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210512233141 extends AbstractMigration
+final class Version20210527222223 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE event (id INT AUTO_INCREMENT NOT NULL, subject_id INT NOT NULL, map_id INT DEFAULT NULL, INDEX IDX_3BAE0AA723EDC87 (subject_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE feature (id INT AUTO_INCREMENT NOT NULL, plan_id INT NOT NULL, name VARCHAR(255) NOT NULL, INDEX IDX_1FD77566E899029B (plan_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE plan (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, name VARCHAR(255) NOT NULL, status ENUM(\'under_construction\', \'locked\', \'event_filling_started\', \'event_filling_finished\', \'map_id_filling_started\', \'map_id_filling_finished\', \'normalized_data_generation_started\', \'normalized_data_generation_finished\', \'schedule_calculation_started\', \'schedule_calculation_finished\', \'normalisation_error\', \'calculation_error\') NOT NULL COMMENT \'(DC2Type:plan_status)\', INDEX IDX_DD5A5B7DA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE plan (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, name VARCHAR(255) NOT NULL, status ENUM(\'under_construction\', \'locked\', \'event_filling_started\', \'event_filling_finished\', \'map_id_filling_started\', \'map_id_filling_finished\', \'normalized_data_generation_started\', \'normalized_data_generation_finished\', \'calculation_started\', \'calculation_finished\', \'calculation_unsuccessful\', \'result_import_started\', \'result_import_finished\', \'normalisation_error\', \'calculation_error\', \'result_import_error\') NOT NULL COMMENT \'(DC2Type:plan_status)\', INDEX IDX_DD5A5B7DA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE room (id INT AUTO_INCREMENT NOT NULL, plan_id INT NOT NULL, name VARCHAR(255) NOT NULL, capacity INT NOT NULL, map_id INT DEFAULT NULL, INDEX IDX_729F519BE899029B (plan_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE room_feature (room_id INT NOT NULL, feature_id INT NOT NULL, INDEX IDX_F3F5C98654177093 (room_id), INDEX IDX_F3F5C98660E4B879 (feature_id), PRIMARY KEY(room_id, feature_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE schedule (id INT AUTO_INCREMENT NOT NULL, plan_id INT NOT NULL, name VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, INDEX IDX_5A3811FBE899029B (plan_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -58,7 +58,7 @@ final class Version20210512233141 extends AbstractMigration
         $this->addSql('ALTER TABLE timeslot ADD CONSTRAINT FK_3BE452F7E899029B FOREIGN KEY (plan_id) REFERENCES plan (id)');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE schedule_event DROP FOREIGN KEY FK_C7F7CAFB71F7E88B');

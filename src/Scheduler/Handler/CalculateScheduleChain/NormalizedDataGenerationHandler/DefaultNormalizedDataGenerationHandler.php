@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler;
 
-use App\DBAL\PlanStatus;
 use App\Scheduler\Handler\ChainHandlerAbstract;
 use App\Scheduler\Message\CalculateSchedule;
 use App\Scheduler\Message;
 use App\Scheduler\Normalization\NormalizedDataGenerator;
-use App\Repository\PlanRepository;
 use App\StateMachine\Entity\Plan\PlanStatusStateMachine;
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler as NormalizedDataGenerationHandlerInterface;

@@ -15,7 +15,7 @@ use App\Tests\Fake\Mother\SubjectMother;
  */
 class EventGroupsTest extends TestCase
 {
-    public function test_if_generates_empty_output_when_no_data_present() : void
+    public function test_generates_empty_output_when_no_data_present() : void
     {
         $events = [];
 
@@ -24,7 +24,7 @@ class EventGroupsTest extends TestCase
         $this->assertEquals([], $actualEventGroupsArray);
     }
 
-    public function test_if_assigning_child_group_to_parents_event() : void
+    public function test_assigning_child_group_to_parents_event() : void
     {
         $subject = SubjectMother::withStudentGroup(
             StudentGroupMother::withMapId(0)
@@ -49,7 +49,7 @@ class EventGroupsTest extends TestCase
         );
     }
 
-    public function test_if_not_assigning_parent_group_to_childs_event() : void
+    public function test_not_assigning_parent_group_to_childs_event() : void
     {
         $subject = SubjectMother::withStudentGroup(
             StudentGroupMother::withMapId(0)
@@ -74,7 +74,7 @@ class EventGroupsTest extends TestCase
         );
     }
 
-    public function test_if_assigning_groups_when_multiple_groups_present() : void
+    public function test_assigning_groups_when_multiple_groups_present() : void
     {
         $events = [];
 

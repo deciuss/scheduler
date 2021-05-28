@@ -15,7 +15,7 @@ use App\Tests\Fake\Mother\TeacherMother;
  */
 class NotSameTeacherTest extends TestCase
 {
-    public function test_if_gives_positive_result_when_events_with_different_teachers() : void
+    public function test_gives_positive_result_when_events_with_different_teachers() : void
     {
         $event1 = EventMother::withSubject(
             SubjectMother::withTeacher(
@@ -34,7 +34,7 @@ class NotSameTeacherTest extends TestCase
         $this->assertTrue($actualNotSameTeacherValue);
     }
 
-    public function test_if_gives_negative_result_when_events_with_the_same_teacher() : void
+    public function test_gives_negative_result_when_events_with_the_same_teacher() : void
     {
         $event1 = EventMother::withSubject(
             SubjectMother::withTeacher(

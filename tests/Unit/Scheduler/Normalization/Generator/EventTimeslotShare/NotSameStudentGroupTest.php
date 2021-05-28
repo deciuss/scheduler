@@ -15,7 +15,7 @@ use App\Tests\Fake\Mother\SubjectMother;
  */
 class NotSameStudentGroupTest extends TestCase
 {
-    public function test_if_gives_positive_result_when_events_not_for_same_group() : void
+    public function test_gives_positive_result_when_events_not_for_same_group() : void
     {
         $event1 = EventMother::withSubject(
             SubjectMother::withStudentGroup(
@@ -34,7 +34,7 @@ class NotSameStudentGroupTest extends TestCase
         $this->assertTrue($actualNotSameStudentGroupValue);
     }
 
-    public function test_if_gives_negative_result_when_events_for_the_same_group() : void
+    public function test_gives_negative_result_when_events_for_the_same_group() : void
     {
         $event1 = EventMother::withSubject(
             SubjectMother::withStudentGroup(

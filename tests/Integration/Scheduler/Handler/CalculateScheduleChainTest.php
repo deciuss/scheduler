@@ -24,7 +24,7 @@ class CalculateScheduleChainTest extends IntegrationTestCase
         ($this->schedulerContext->getCalculateScheduleHandler())(new CalculateSchedule($plan));
 
         $this->assertEquals(
-            PlanStatus::PLAN_STATUS_SCHEDULE_CALCULATION_FINISHED,
+            PlanStatus::PLAN_STATUS_RESULT_IMPORT_FINISHED,
             ($this->schedulerContext->getPlanRepository()->findOneBy(['id' => $plan->getId()]))->getStatus()
         );
     }

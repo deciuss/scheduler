@@ -15,7 +15,7 @@ use App\Tests\Fake\Mother\TeacherMother;
  */
 class EventTeacherTest extends TestCase
 {
-    public function test_if_generates_empty_output_when_no_data_present() : void
+    public function test_generates_empty_output_when_no_data_present() : void
     {
         $events = [];
 
@@ -24,7 +24,7 @@ class EventTeacherTest extends TestCase
         $this->assertEquals([], $actualEventTeacherArray);
     }
 
-    public function test_if_assigns_teachers_when_multiple_teachers_present() : void
+    public function test_assigns_teachers_when_multiple_teachers_present() : void
     {
         $events = [];
 

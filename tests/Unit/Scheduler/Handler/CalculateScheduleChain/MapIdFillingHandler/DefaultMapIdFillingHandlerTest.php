@@ -17,7 +17,7 @@ use App\Scheduler\Normalization\MapIdFiller;
  */
 class DefaultMapIdFillingHandlerTestTest extends ScheduleCalculatorChainAbstractTest
 {
-    public function test_if_handles_when_plan_status_is_event_filling_finished() : void
+    public function test_handles_map_id_filling() : void
     {
         $planStatusStateMachineMock = $this->createPlanStatusStateMachineMock(
             $planId = 1,

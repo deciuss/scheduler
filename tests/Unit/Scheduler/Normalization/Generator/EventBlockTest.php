@@ -14,7 +14,7 @@ use App\Tests\Fake\Mother\SubjectMother;
  */
 class EventBlockTest extends TestCase
 {
-    public function test_if_generates_empty_output_when_no_data_present() : void
+    public function test_generates_empty_output_when_no_data_present() : void
     {
         $subjects = [];
 
@@ -23,7 +23,7 @@ class EventBlockTest extends TestCase
         $this->assertEquals([], $actualEventBlockArray);
     }
 
-    public function test_if_separates_for_many_blocks_when_hours_greater_than_block_size() : void
+    public function test_separates_for_many_blocks_when_hours_greater_than_block_size() : void
     {
         $subjects = [];
 
@@ -50,7 +50,7 @@ class EventBlockTest extends TestCase
         );
     }
 
-    public function test_if_separates_for_blocks_when_there_is_only_one_hour() : void
+    public function test_separates_for_blocks_when_there_is_only_one_hour() : void
     {
         $subject = SubjectMother::withEvents(
                 EventMother::withMapId(0)
@@ -68,7 +68,7 @@ class EventBlockTest extends TestCase
         );
     }
 
-    public function test_if_separates_for_blocks_when_multiple_subjects_present() : void
+    public function test_separates_for_blocks_when_multiple_subjects_present() : void
     {
         $subjects = [];
 

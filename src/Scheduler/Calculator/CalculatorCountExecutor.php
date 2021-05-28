@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler;
+namespace App\Scheduler\Calculator;
 
+use App\Scheduler\CountExecutor;
 use App\Scheduler\Exception\FeasibleSolutionNotFoundException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Process\Process;
 
-class CalculatorExecutor
+class CalculatorCountExecutor implements CountExecutor
 {
     private string $calculatorBinPathname;
     private string $calculatorDataPath;
@@ -26,12 +27,12 @@ class CalculatorExecutor
         $this->calculatorMaxExecutionTimeSeconds = $parameterBag->get('scheduler.calculator.max_execution_time_seconds');
     }
 
-    public function __invoke(string $filename) : void
+    public function __invoke(int $planId) : void
     {
         $process = new Process([
             $this->calculatorBinPathname,
-            sprintf("%s/%s", $this->calculatorDataPath, $filename),
-            sprintf("%s/%s", $this->calculatorOutputPath, $filename),
+            sprintf("%s/%d", $this->calculatorDataPath, $planId),
+            sprintf("%s/%d", $this->calculatorOutputPath, $planId),
             $this->calculatorMaxIterationNumber
         ]);
 
@@ -41,10 +42,9 @@ class CalculatorExecutor
             case 0:
                 return;
             case 13:
-                throw new FeasibleSolutionNotFoundException($filename);
+                throw new FeasibleSolutionNotFoundException($planId);
             default:
-                throw new \RuntimeException(sprintf("Calculation for plan file %s failed. Exit code: %d", $filename, $exitCode));
+                throw new \RuntimeException(sprintf("Calculation for plan %d failed. Exit code: %d", $planId, $exitCode));
         }
     }
-
 }

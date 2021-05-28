@@ -17,10 +17,14 @@ class PlanStatus extends Type
     const PLAN_STATUS_MAP_ID_FILLING_FINISHED = 'map_id_filling_finished';
     const PLAN_STATUS_NORMALIZED_DATA_GENERATION_STARTED = 'normalized_data_generation_started';
     const PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED = 'normalized_data_generation_finished';
-    const PLAN_STATUS_SCHEDULE_CALCULATION_STARTED = 'schedule_calculation_started';
-    const PLAN_STATUS_SCHEDULE_CALCULATION_FINISHED = 'schedule_calculation_finished';
+    const PLAN_STATUS_CALCULATION_STARTED = 'calculation_started';
+    const PLAN_STATUS_CALCULATION_FINISHED = 'calculation_finished';
+    const PLAN_STATUS_CALCULATION_UNSUCCESSFUL = 'calculation_unsuccessful';
+    const PLAN_STATUS_RESULT_IMPORT_STARTED = 'result_import_started';
+    const PLAN_STATUS_RESULT_IMPORT_FINISHED = 'result_import_finished';
     const PLAN_STATUS_NORMALISATION_ERROR = 'normalisation_error';
     const PLAN_STATUS_CALCULATION_ERROR = 'calculation_error';
+    const PLAN_STATUS_RESULT_IMPORT_ERROR = 'result_import_error';
 
     private function getPlanStatusList() : array
     {
@@ -33,10 +37,14 @@ class PlanStatus extends Type
             self::PLAN_STATUS_MAP_ID_FILLING_FINISHED,
             self::PLAN_STATUS_NORMALIZED_DATA_GENERATION_STARTED,
             self::PLAN_STATUS_NORMALIZED_DATA_GENERATION_FINISHED,
-            self::PLAN_STATUS_SCHEDULE_CALCULATION_STARTED,
-            self::PLAN_STATUS_SCHEDULE_CALCULATION_FINISHED,
+            self::PLAN_STATUS_CALCULATION_STARTED,
+            self::PLAN_STATUS_CALCULATION_FINISHED,
+            self::PLAN_STATUS_CALCULATION_UNSUCCESSFUL,
+            self::PLAN_STATUS_RESULT_IMPORT_STARTED,
+            self::PLAN_STATUS_RESULT_IMPORT_FINISHED,
             self::PLAN_STATUS_NORMALISATION_ERROR,
             self::PLAN_STATUS_CALCULATION_ERROR,
+            self::PLAN_STATUS_RESULT_IMPORT_ERROR
         ];
     }
     

@@ -1,6 +1,7 @@
 FROM php:8.0.2-apache-buster
 
 ADD ./ /var/www/
+ADD ./build/apache/sites-available/default.conf /etc/apache2/sites-enabled/000-default.conf
 
 RUN cd ~ \
     && apt update \
@@ -10,7 +11,6 @@ RUN cd ~ \
     && curl -sS https://getcomposer.org/installer -o composer-setup.php \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && rm composer-setup.php \
-    && sed -ri -e 's!/var/www/html!/var/www/public!g' /etc/apache2/sites-available/*.conf \
     && a2enmod rewrite \
     && mkdir /.composer \
     && chmod -R 777 /var/www/ \

@@ -12,7 +12,7 @@ use App\Scheduler\Normalization\Encoder\FileEncoder;
  */
 class FileEncoderTest extends TestCase
 {
-    public function test_if_encodes_integer(): void
+    public function test_encodes_integer(): void
     {
         $integer = 123;
 
@@ -21,7 +21,7 @@ class FileEncoderTest extends TestCase
         $this->assertEquals("123\n\n", $actualEncodedIntegerValue);
     }
 
-    public function test_if_encodes_bool_matrix(): void
+    public function test_encodes_bool_matrix(): void
     {
         $matrix = [
             [true, false, true, true],
@@ -34,7 +34,7 @@ class FileEncoderTest extends TestCase
         $this->assertEquals("101111000110\n\n", $actualEncodedBoolMatrix);
     }
 
-    public function test_if_encodes_int_one_to_many(): void
+    public function test_encodes_int_one_to_many(): void
     {
         $matrix = [
             [1, 2, 3],
@@ -55,7 +55,7 @@ class FileEncoderTest extends TestCase
         );
     }
 
-    public function test_if_encodes_int_array(): void
+    public function test_encodes_int_array(): void
     {
         $array = [1, 2, 3, 4, 5];
 
