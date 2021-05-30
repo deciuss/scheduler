@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Timeslot index{% endblock %}
+
+{% block body %}
+    <h1>Timeslot index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Map_id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for timeslot in timeslots %}
+            <tr>
+                <td>{{ timeslot.id }}</td>
+                <td>{{ timeslot.start ? timeslot.start|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ timeslot.end ? timeslot.end|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ timeslot.mapId }}</td>
+                <td>
+                    <a href="{{ path('timeslot_show', {'id': timeslot.id}) }}">show</a>
+                    <a href="{{ path('timeslot_edit', {'id': timeslot.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('timeslot_new', {'plan': plan.id}) }}">Create new</a>
+{% endblock %}

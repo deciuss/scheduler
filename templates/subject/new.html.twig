@@ -7,5 +7,5 @@
 
     {{ include('subject/_form.html.twig') }}
 
-    <a href="{{ path('subject_index') }}">back to list</a>
+    <a href="{{ path('subject_index', {'plan': subject.plan.id})}}">back to list</a>
 {% endblock %}

@@ -1,43 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
-use App\Entity\Feature;
 use App\Entity\StudentGroup;
-use App\Entity\Subject;
-use App\Entity\Teacher;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SubjectType extends AbstractType
+class StudentGroupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('hours')
-            ->add('block_size')
             ->add('name')
+            ->add('cardinality')
             ->add(
-                'teacher',
-                EntityType::class,
-                [
-                    'class' => Teacher::class,
-                    'query_builder' =>
-                        fn(EntityRepository $er) =>
-                            $er->createQueryBuilder('t')
-                                ->where('t.plan = :plan')
-                                ->setParameter('plan', $builder->getData()->getPlan()),
-                    'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],
-                ]
-            )
-            ->add(
-                'studentGroup',
+                'studentGroupsIntersected',
                 EntityType::class,
                 [
                     'class' => StudentGroup::class,
+                    'multiple' => true,
+                    'required' => false,
                     'query_builder' =>
                         fn(EntityRepository $er) =>
                         $er->createQueryBuilder('g')
@@ -47,15 +34,15 @@ class SubjectType extends AbstractType
                 ]
             )
             ->add(
-                'features',
+                'parent',
                 EntityType::class,
                 [
-                    'class' => Feature::class,
-                    'multiple' => true,
+                    'class' => StudentGroup::class,
+                    'required' => false,
                     'query_builder' =>
                         fn(EntityRepository $er) =>
-                        $er->createQueryBuilder('f')
-                            ->where('f.plan = :plan')
+                        $er->createQueryBuilder('g')
+                            ->where('g.plan = :plan')
                             ->setParameter('plan', $builder->getData()->getPlan()),
                     'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],
                 ]
@@ -66,7 +53,7 @@ class SubjectType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Subject::class,
+            'data_class' => StudentGroup::class,
         ]);
     }
 }

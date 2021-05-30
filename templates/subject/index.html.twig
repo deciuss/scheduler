@@ -5,7 +5,7 @@
 {% block body %}
     <h1>{% trans %}Subject index{% endtrans %}</h1>
 
-    <a class="btn btn-primary" href="{{ path('subject_new') }}">Create new</a>
+    <a class="btn btn-primary" href="{{ path('subject_new', {'plan': plan.id}) }}">Create new</a>
 
     <table class="table mt-2">
         <thead>
