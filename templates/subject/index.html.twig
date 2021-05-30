@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% trans %}Subject index{% endtrans %}{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Subject index{% endtrans %}</h1>
+
+    <a class="btn btn-primary" href="{{ path('subject_new') }}">Create new</a>
+
+    <table class="table mt-2">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Hours</th>
+                <th>Block Size</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for subject in subjects %}
+            <tr>
+                <td>{{ subject.id }}</td>
+                <td>{{ subject.hours }}</td>
+                <td>{{ subject.blockSize }}</td>
+                <td>{{ subject.name }}</td>
+                <td>
+
+                    <a class="btn btn-primary btn-sm" href="{{ path('subject_edit', {'id': subject.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

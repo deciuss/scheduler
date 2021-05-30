@@ -29,7 +29,7 @@ class Subject
     /**
      * @ORM\Column(type="smallint")
      */
-    private $block_size;
+    private $blockSize;
 
     /**
      * @ORM\ManyToOne(targetEntity=Teacher::class, inversedBy="subjects")
@@ -89,12 +89,12 @@ class Subject
 
     public function getBlockSize(): ?int
     {
-        return $this->block_size;
+        return $this->blockSize;
     }
 
-    public function setBlockSize(int $block_size): self
+    public function setBlockSize(int $blockSize): self
     {
-        $this->block_size = $block_size;
+        $this->blockSize = $blockSize;
 
         return $this;
     }
