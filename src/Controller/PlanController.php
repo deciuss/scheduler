@@ -44,10 +44,10 @@ class PlanController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'plan_show', methods: ['GET'])]
-    public function show(Plan $plan): Response
+    #[Route('/{id}', name: 'plan_dashboard', methods: ['GET'])]
+    public function dashboard(Plan $plan): Response
     {
-        return $this->render('plan/show.html.twig', [
+        return $this->render('plan/dashboard.html.twig', [
             'plan' => $plan,
         ]);
     }
@@ -65,7 +65,7 @@ class PlanController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('plan_index');
+            return $this->redirectToRoute('plan_dashboard', ['id' => $plan->getId()]);
         }
 
         return $this->render('plan/edit.html.twig', [

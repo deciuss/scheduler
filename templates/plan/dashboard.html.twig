@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plan dashboard{% endblock %}
+
+{% block body %}
+
+    <h1 class="h1 my-3">Plan dashboard</h1>
+    <p class="lead my-3">
+        Dashboard for plan #{{ plan.id }}
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('plan_index') }}">Back to list</a>
+    </div>
+
+    <div class="my-3">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ plan.id }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ plan.name }}</td>
+                    <td><a class="btn btn-primary" href="{{ path('plan_edit', {'id': plan.id}) }}">Change name</a></td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ plan.status }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row my-3">
+        <a class="btn btn-primary p-3 m-1 rounded col-md-2" href="{{ path('student_group_index', {'plan': plan.id}) }}">
+            <i class="fas fa-3x fa-user-friends"></i><br/>
+            <div class="mt-2">Student groups</div>
+        </a>
+
+        <a class="btn btn-primary p-3 m-1 rounded col-md-2" href="{{ path('teacher_index', {'plan': plan.id}) }}">
+            <i class="fas fa-3x fa-chalkboard-teacher"></i><br/>
+            <div class="mt-2">Teachers</div>
+        </a>
+
+        <a class="btn btn-primary p-3 m-1 rounded col-md-2" href="{{ path('feature_index', {'plan': plan.id}) }}">
+            <i class="fas fa-3x fa-calendar-check"></i><br/>
+            <div class="mt-2">Features</div>
+        </a>
+
+        <a class="btn btn-primary p-3 m-1 rounded col-md-2" href="{{ path('room_index', {'plan': plan.id}) }}">
+            <i class="fas fa-3x fa-school"></i><br/>
+            <div class="mt-2">Rooms</div>
+        </a>
+
+        <a class="btn btn-primary p-3 m-1 rounded col-md-2" href="{{ path('timeslot_index', {'plan': plan.id}) }}">
+            <i class="fas fa-3x fa-clock"></i><br/>
+            <div class="mt-2">Timeslots</div>
+        </a>
+
+        <a class="btn btn-primary p-3 m-1 rounded col-md-2" href="{{ path('subject_index', {'plan': plan.id}) }}">
+            <i class="fas fa-3x fa-lightbulb"></i><br/>
+            <div class="mt-2">Subjects</div>
+        </a>
+
+        <a class="btn btn-primary p-3 m-1 rounded col-md-2" href="{{ path('subject_index', {'plan': plan.id}) }}">
+            <i class="fas fa-3x fa-calendar-alt"></i><br/>
+            <div class="mt-2">Schedules</div>
+        </a>
+
+    </div>
+
+{% endblock %}

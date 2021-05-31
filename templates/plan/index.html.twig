@@ -1,17 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Plan index{% endblock %}
+{% block title %}Plan list{% endblock %}
 
 {% block body %}
-    <h1>Plan index</h1>
 
+    <h1 class="h1 my-3">Plan list</h1>
+    <p class="lead my-3">
+        List of your plans
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('plan_new') }}">Create new</a>
+    </div>
+
+    <div class="my-3">
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Status</th>
-                <th>actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -21,8 +30,7 @@
                 <td>{{ plan.name }}</td>
                 <td>{{ plan.status }}</td>
                 <td>
-                    <a href="{{ path('plan_show', {'id': plan.id}) }}">show</a>
-                    <a href="{{ path('plan_edit', {'id': plan.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('plan_dashboard', {'id': plan.id}) }}">Dashboard</a>
                 </td>
             </tr>
         {% else %}
@@ -32,6 +40,6 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
 
-    <a href="{{ path('plan_new') }}">Create new</a>
 {% endblock %}

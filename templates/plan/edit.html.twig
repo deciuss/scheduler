@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Plan{% endblock %}
+{% block title %}Change plan name{% endblock %}
 
 {% block body %}
-    <h1>Edit Plan</h1>
+    <h1 class="h1 my-3">Change plan name</h1>
 
-    {{ include('plan/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('plan_dashboard', {'id': plan.id}) }}">Back to dashboard</a>
+    </div>
 
-    <a href="{{ path('plan_index') }}">back to list</a>
+    {{ include('plan/_form.html.twig', {'button_label': 'Save'}) }}
 
-    {{ include('plan/_delete_form.html.twig') }}
 {% endblock %}
