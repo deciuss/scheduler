@@ -3,9 +3,9 @@
 {% block title %}New StudentGroup{% endblock %}
 
 {% block body %}
-    <h1>Create new StudentGroup</h1>
+    <h1>Create New StudentGroup</h1>
 
     {{ include('student_group/_form.html.twig') }}
 
-    <a href="{{ path('student_group_index', {'plan': student_group.plan.id}) }}">back to list</a>
+    <a href="{{ path('student_group_index', {'plan': student_group.plan.id}) }}"> Back To List</a>
 {% endblock %}

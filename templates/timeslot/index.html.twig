@@ -3,7 +3,16 @@
 {% block title %}Timeslot index{% endblock %}
 
 {% block body %}
-    <h1>Timeslot index</h1>
+
+    <h1 class="h1 my-3">Timeslot List</h1>
+    <p class="lead my-3">
+        List of timeslots for plan "{{ plan.name }}" (#{{ plan.id }})
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('plan_dashboard', {'id': plan.id}) }}"> Back To Dashboard</a>
+        <a class="btn btn-primary float-right mr-3" href="{{ path('timeslot_new', {'plan': plan.id}) }}">Create New</a>
+    </div>
 
     <table class="table">
         <thead>
@@ -11,8 +20,7 @@
                 <th>Id</th>
                 <th>Start</th>
                 <th>End</th>
-                <th>Map_id</th>
-                <th>actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -21,10 +29,9 @@
                 <td>{{ timeslot.id }}</td>
                 <td>{{ timeslot.start ? timeslot.start|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ timeslot.end ? timeslot.end|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ timeslot.mapId }}</td>
                 <td>
-                    <a href="{{ path('timeslot_show', {'id': timeslot.id}) }}">show</a>
-                    <a href="{{ path('timeslot_edit', {'id': timeslot.id}) }}">edit</a>
+                    <a class="btn btn-primary float-right mx-1" href="{{ path('timeslot_edit', {'id': timeslot.id}) }}">Edit</a>
+                    <a class="btn btn-primary float-right mx-1" href="{{ path('timeslot_show', {'id': timeslot.id}) }}">Show</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +42,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('timeslot_new', {'plan': plan.id}) }}">Create new</a>
 {% endblock %}

@@ -1,16 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Feature index{% endblock %}
+{% block title %}Feature List{% endblock %}
 
 {% block body %}
-    <h1>Feature index</h1>
+
+    <h1 class="h1 my-3">Feature List</h1>
+    <p class="lead my-3">
+        List of features for plan "{{ plan.name }}" (#{{ plan.id }})
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('plan_dashboard', {'id': plan.id}) }}"> Back To Dashboard</a>
+        <a class="btn btn-primary float-right mr-3" href="{{ path('feature_new', {'plan': plan.id}) }}">Create New</a>
+    </div>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -19,8 +28,8 @@
                 <td>{{ feature.id }}</td>
                 <td>{{ feature.name }}</td>
                 <td>
-                    <a href="{{ path('feature_show', {'id': feature.id}) }}">show</a>
-                    <a href="{{ path('feature_edit', {'id': feature.id}) }}">edit</a>
+                    <a class="btn btn-primary float-right mx-1" href="{{ path('feature_edit', {'id': feature.id}) }}">Edit</a>
+                    <a class="btn btn-primary float-right mx-1" href="{{ path('feature_show', {'id': feature.id}) }}">Show</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +40,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('feature_new', {'plan': plan.id}) }}">Create new</a>
 {% endblock %}

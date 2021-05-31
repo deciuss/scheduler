@@ -1,32 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}Subject index{% endtrans %}{% endblock %}
+{% block title %}{% trans %}Subject List{% endtrans %}{% endblock %}
 
 {% block body %}
-    <h1>{% trans %}Subject index{% endtrans %}</h1>
 
-    <a class="btn btn-primary" href="{{ path('subject_new', {'plan': plan.id}) }}">Create new</a>
+    <h1 class="h1 my-3">Subject List</h1>
+    <p class="lead my-3">
+        List of subjects for plan "{{ plan.name }}" (#{{ plan.id }})
+    </p>
 
-    <table class="table mt-2">
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('plan_dashboard', {'id': plan.id}) }}"> Back To Dashboard</a>
+        <a class="btn btn-primary float-right mr-3" href="{{ path('subject_new', {'plan': plan.id}) }}">Create New</a>
+    </div>
+
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Hours</th>
                 <th>Block Size</th>
-                <th>actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for subject in subjects %}
             <tr>
                 <td>{{ subject.id }}</td>
+                <td>{{ subject.name }}</td>
                 <td>{{ subject.hours }}</td>
                 <td>{{ subject.blockSize }}</td>
-                <td>{{ subject.name }}</td>
                 <td>
 
-                    <a class="btn btn-primary btn-sm" href="{{ path('subject_edit', {'id': subject.id}) }}">edit</a>
+                    <a class="btn btn-primary float-right mx-1" href="{{ path('subject_edit', {'id': subject.id}) }}">Edit</a>
+                    <a class="btn btn-primary float-right mx-1" href="{{ path('subject_show', {'id': subject.id}) }}">Show</a>
                 </td>
             </tr>
         {% else %}

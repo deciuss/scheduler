@@ -3,11 +3,17 @@
 {% block title %}Edit Teacher{% endblock %}
 
 {% block body %}
-    <h1>Edit Teacher</h1>
+
+    <h1 class="h1 my-3">Edit Teacher</h1>
+    <p class="lead my-3">
+        Edit student group "{{ teacher.name }}" (#{{ teacher.id }})
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('student_group_index', {'plan': teacher.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('teacher/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('teacher_index', {'plan': teacher.plan.id}) }}">back to list</a>
-
     {{ include('teacher/_delete_form.html.twig') }}
+
 {% endblock %}

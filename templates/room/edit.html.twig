@@ -3,11 +3,17 @@
 {% block title %}Edit Room{% endblock %}
 
 {% block body %}
-    <h1>Edit Room</h1>
+
+    <h1 class="h1 my-3">Edit Room</h1>
+    <p class="lead my-3">
+        Edit room "{{ room.name }}" (#{{ room.id }})
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('room_index', {'plan': room.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('room/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('room_index') }}">back to list</a>
-
     {{ include('room/_delete_form.html.twig') }}
+
 {% endblock %}

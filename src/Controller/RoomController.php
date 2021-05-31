@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Plan;
 use App\Entity\Room;
 use App\Form\RoomType;
 use App\Repository\RoomRepository;
@@ -13,18 +14,28 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/room')]
 class RoomController extends AbstractController
 {
-    #[Route('/', name: 'room_index', methods: ['GET'])]
-    public function index(RoomRepository $roomRepository): Response
+    #[Route('/plan/{plan}', name: 'room_index', methods: ['GET'])]
+    public function index(RoomRepository $roomRepository, Plan $plan): Response
     {
+        if ($this->getUser() != $plan->getUser()) {
+            return new Response('unauthorized', 401);
+        }
+
         return $this->render('room/index.html.twig', [
-            'rooms' => $roomRepository->findAll(),
+            'rooms' => $roomRepository->findBy(['plan' => $plan]),
+            'plan' => $plan
         ]);
     }
 
-    #[Route('/new', name: 'room_new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response
+    #[Route('/new/plan/{plan}', name: 'room_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, Plan $plan): Response
     {
+        if ($this->getUser() != $plan->getUser()) {
+            return new Response('unauthorized', 401);
+        }
+
         $room = new Room();
+        $room->setPlan($plan);
         $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
 
@@ -33,7 +44,7 @@ class RoomController extends AbstractController
             $entityManager->persist($room);
             $entityManager->flush();
 
-            return $this->redirectToRoute('room_index');
+            return $this->redirectToRoute('student_group_index', ['plan' => $plan->getId()]);
         }
 
         return $this->render('room/new.html.twig', [
@@ -45,6 +56,10 @@ class RoomController extends AbstractController
     #[Route('/{id}', name: 'room_show', methods: ['GET'])]
     public function show(Room $room): Response
     {
+        if ($this->getUser() != $room->getPlan()->getUser()) {
+            return new Response('unauthorized', 401);
+        }
+
         return $this->render('room/show.html.twig', [
             'room' => $room,
         ]);
@@ -53,13 +68,17 @@ class RoomController extends AbstractController
     #[Route('/{id}/edit', name: 'room_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Room $room): Response
     {
+        if ($this->getUser() != $room->getPlan()->getUser()) {
+            return new Response('unauthorized', 401);
+        }
+
         $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('room_index');
+            return $this->redirectToRoute('room_index', ['plan' => $room->getPlan()->getId()]);
         }
 
         return $this->render('room/edit.html.twig', [
@@ -71,12 +90,18 @@ class RoomController extends AbstractController
     #[Route('/{id}', name: 'room_delete', methods: ['POST'])]
     public function delete(Request $request, Room $room): Response
     {
+        if ($this->getUser() != $room->getPlan()->getUser()) {
+            return new Response('unauthorized', 401);
+        }
+
+        $plan = $room->getPlan();
+
         if ($this->isCsrfTokenValid('delete'.$room->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($room);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('room_index');
+        return $this->redirectToRoute('student_group_index', ['plan' => $plan->getId()]);
     }
 }

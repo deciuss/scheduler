@@ -3,9 +3,9 @@
 {% block title %}New Teacher{% endblock %}
 
 {% block body %}
-    <h1>Create new Teacher</h1>
+    <h1>Create New Teacher</h1>
 
     {{ include('teacher/_form.html.twig') }}
 
-    <a href="{{ path('teacher_index', {'plan': teacher.plan.id}) }}">back to list</a>
+    <a href="{{ path('teacher_index', {'plan': teacher.plan.id}) }}"> Back To List</a>
 {% endblock %}

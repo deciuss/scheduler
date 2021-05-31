@@ -3,11 +3,17 @@
 {% block title %}Edit Subject{% endblock %}
 
 {% block body %}
-    <h1>Edit Subject</h1>
+
+    <h1 class="h1 my-3">Edit Subject</h1>
+    <p class="lead my-3">
+        Edit subject "{{ subject.name }}" (#{{ subject.id }})
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('subject_index', {'plan': subject.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('subject/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a class="btn btn-primary float-right mr-2" href="{{ path('subject_index', {'plan': subject.plan.id}) }}">Back to list</a>
-
     {{ include('subject/_delete_form.html.twig') }}
+
 {% endblock %}

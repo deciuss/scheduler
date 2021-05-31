@@ -53,6 +53,18 @@ class SubjectController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'subject_show', methods: ['GET'])]
+    public function show(Subject $subject): Response
+    {
+        if ($this->getUser() != $subject->getPlan()->getUser()) {
+            return new Response('unauthorized', 401);
+        }
+
+        return $this->render('subject/show.html.twig', [
+            'subject' => $subject,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'subject_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Subject $subject): Response
     {

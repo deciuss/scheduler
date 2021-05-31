@@ -3,9 +3,9 @@
 {% block title %}New Subject{% endblock %}
 
 {% block body %}
-    <h1>Create new Subject</h1>
+    <h1>Create New Subject</h1>
 
     {{ include('subject/_form.html.twig') }}
 
-    <a href="{{ path('subject_index', {'plan': subject.plan.id})}}">back to list</a>
+    <a href="{{ path('subject_index', {'plan': subject.plan.id})}}"> Back To List</a>
 {% endblock %}

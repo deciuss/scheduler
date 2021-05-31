@@ -1,17 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Teacher index{% endblock %}
+{% block title %}Teacher List{% endblock %}
 
 {% block body %}
-    <h1>Teacher index</h1>
+
+    <h1 class="h1 my-3">Teacher List</h1>
+    <p class="lead my-3">
+        List of teachers for plan "{{ plan.name }}" (#{{ plan.id }})
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('plan_dashboard', {'id': plan.id}) }}"> Back To Dashboard</a>
+        <a class="btn btn-primary float-right mr-3" href="{{ path('teacher_new', {'plan': plan.id}) }}">Create New</a>
+    </div>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Map_id</th>
-                <th>actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -19,10 +27,9 @@
             <tr>
                 <td>{{ teacher.id }}</td>
                 <td>{{ teacher.name }}</td>
-                <td>{{ teacher.mapId }}</td>
                 <td>
-                    <a href="{{ path('teacher_show', {'id': teacher.id}) }}">show</a>
-                    <a href="{{ path('teacher_edit', {'id': teacher.id}) }}">edit</a>
+                    <a class="btn btn-primary float-right mx-1" href="{{ path('teacher_edit', {'id': teacher.id}) }}">Edit</a>
+                    <a class="btn btn-primary float-right mx-1" href="{{ path('teacher_show', {'id': teacher.id}) }}">Show</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +40,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('teacher_new', {'plan': plan.id}) }}">Create new</a>
 {% endblock %}

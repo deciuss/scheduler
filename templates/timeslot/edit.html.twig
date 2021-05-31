@@ -3,11 +3,17 @@
 {% block title %}Edit Timeslot{% endblock %}
 
 {% block body %}
-    <h1>Edit Timeslot</h1>
+
+    <h1 class="h1 my-3">Edit Timeslot</h1>
+    <p class="lead my-3">
+        Edit timeslot #{{ timeslot.id }}
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('student_group_index', {'plan': timeslot.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('timeslot/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('timeslot_index', {'plan': timeslot.plan.id}) }}">back to list</a>
-
     {{ include('timeslot/_delete_form.html.twig') }}
+
 {% endblock %}
