@@ -3,7 +3,15 @@
 {% block title %}Feature{% endblock %}
 
 {% block body %}
-    <h1>Feature</h1>
+
+    <h1 class="h1 my-3">Feature</h1>
+    <p class="lead my-3">
+        Feature {{ feature }} details
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('feature_index', {'plan': feature.plan.id}) }}">Back To List</a>
+    </div>
 
     <table class="table">
         <tbody>
@@ -18,9 +26,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('feature_index', {'plan': feature.plan.id}) }}"> Back To List</a>
-
-    <a href="{{ path('feature_edit', {'id': feature.id}) }}">edit</a>
-
-    {{ include('feature/_delete_form.html.twig') }}
 {% endblock %}

@@ -3,7 +3,15 @@
 {% block title %}Teacher{% endblock %}
 
 {% block body %}
-    <h1>Teacher</h1>
+
+    <h1 class="h1 my-3">Teacher</h1>
+    <p class="lead my-3">
+        Teacher {{ teacher }} details
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('teacher_index', {'plan': teacher.plan.id}) }}">Back To List</a>
+    </div>
 
     <table class="table">
         <tbody>
@@ -15,16 +23,7 @@
                 <th>Name</th>
                 <td>{{ teacher.name }}</td>
             </tr>
-            <tr>
-                <th>Map_id</th>
-                <td>{{ teacher.mapId }}</td>
-            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('teacher_index', {'plan': teacher.plan.id}) }}"> Back To List</a>
-
-    <a href="{{ path('teacher_edit', {'id': teacher.id}) }}">edit</a>
-
-    {{ include('teacher/_delete_form.html.twig') }}
 {% endblock %}

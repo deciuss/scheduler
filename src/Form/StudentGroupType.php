@@ -19,11 +19,10 @@ class StudentGroupType extends AbstractType
             ->add('name')
             ->add('cardinality')
             ->add(
-                'studentGroupsIntersected',
+                'parent',
                 EntityType::class,
                 [
                     'class' => StudentGroup::class,
-                    'multiple' => true,
                     'required' => false,
                     'query_builder' =>
                         fn(EntityRepository $er) =>
@@ -34,10 +33,11 @@ class StudentGroupType extends AbstractType
                 ]
             )
             ->add(
-                'parent',
+                'studentGroupsIntersected',
                 EntityType::class,
                 [
                     'class' => StudentGroup::class,
+                    'multiple' => true,
                     'required' => false,
                     'query_builder' =>
                         fn(EntityRepository $er) =>

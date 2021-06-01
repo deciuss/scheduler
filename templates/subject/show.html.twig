@@ -3,7 +3,15 @@
 {% block title %}Subject{% endblock %}
 
 {% block body %}
-    <h1>Subject</h1>
+
+    <h1 class="h1 my-3">Subject</h1>
+    <p class="lead my-3">
+        Subject {{ subject }} details
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('subject_index', {'plan': subject.plan.id}) }}">Back To List</a>
+    </div>
 
     <table class="table">
         <tbody>
@@ -15,6 +23,28 @@
                 <th>Name</th>
                 <td>{{ subject.name }}</td>
             </tr>
+            <tr>
+                <th>Teacher</th>
+                <td>{{ subject.teacher }}</td>
+            </tr>
+            <tr>
+                <th>Student Group</th>
+                <td>{{ subject.studentGroup }}</td>
+            </tr>
+            <tr>
+                <th>Hours</th>
+                <td>{{ subject.hours }}</td>
+            </tr>
+            <tr>
+                <th>Block Size</th>
+                <td>{{ subject.blockSize }}</td>
+            </tr>
+            <th>Features</th>
+            <td>
+                {% for feature in subject.features %}
+                    {{ feature }},
+                {% endfor %}
+            </td>
         </tbody>
     </table>
 

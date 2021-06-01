@@ -3,7 +3,15 @@
 {% block title %}Room{% endblock %}
 
 {% block body %}
-    <h1>Room</h1>
+
+    <h1 class="h1 my-3">Room</h1>
+    <p class="lead my-3">
+        Room {{ room }} details
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('room_index', {'plan': room.plan.id}) }}">Back To List</a>
+    </div>
 
     <table class="table">
         <tbody>
@@ -20,15 +28,14 @@
                 <td>{{ room.capacity }}</td>
             </tr>
             <tr>
-                <th>Map_id</th>
-                <td>{{ room.mapId }}</td>
+                <th>Features</th>
+                <td>
+                    {% for feature in room.features %}
+                        {{ feature }},
+                    {% endfor %}
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('room_index') }}"> Back To List</a>
-
-    <a href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
-
-    {{ include('room/_delete_form.html.twig') }}
 {% endblock %}

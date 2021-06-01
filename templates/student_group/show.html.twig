@@ -1,9 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}StudentGroup{% endblock %}
+{% block title %}Student Group{% endblock %}
 
 {% block body %}
-    <h1>StudentGroup</h1>
+
+    <h1 class="h1 my-3">Student Group</h1>
+    <p class="lead my-3">
+        Student Group {{ student_group }} details
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('student_group_index', {'plan': student_group.plan.id}) }}">Back To List</a>
+    </div>
 
     <table class="table">
         <tbody>
@@ -20,15 +28,18 @@
                 <td>{{ student_group.cardinality }}</td>
             </tr>
             <tr>
-                <th>Map_id</th>
-                <td>{{ student_group.mapId }}</td>
+                <th>Parent</th>
+                <td>{{ student_group.parent }}</td>
+            </tr>
+            <tr>
+                <th>Student Groups intersected</th>
+                <td>
+                    {% for intersection in student_group.studentGroupsIntersected %}
+                        {{ intersection }},
+                    {% endfor %}
+                </td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('student_group_index', {'plan': student_group.plan.id}) }}"> Back To List</a>
-
-    <a href="{{ path('student_group_edit', {'id': student_group.id}) }}">edit</a>
-
-    {{ include('student_group/_delete_form.html.twig') }}
 {% endblock %}

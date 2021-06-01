@@ -92,4 +92,9 @@ class Timeslot
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return sprintf('#%d', $this->id);
+    }
 }

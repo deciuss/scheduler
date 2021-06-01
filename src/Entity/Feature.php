@@ -61,6 +61,6 @@ class Feature
 
     public function __toString(): string
     {
-        return $this->name;
+        return sprintf('%s (#%d)', $this->name, $this->id);
     }
 }

@@ -18,8 +18,6 @@ class SubjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('hours')
-            ->add('block_size', IntegerType::class)
             ->add('name')
             ->add(
                 'teacher',
@@ -47,6 +45,8 @@ class SubjectType extends AbstractType
                     'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],
                 ]
             )
+            ->add('hours')
+            ->add('block_size', IntegerType::class)
             ->add(
                 'features',
                 EntityType::class,

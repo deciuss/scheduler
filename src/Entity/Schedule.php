@@ -75,4 +75,9 @@ class Schedule
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return sprintf('%s (#%d)', $this->name, $this->id);
+    }
 }
