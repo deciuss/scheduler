@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Feature;
@@ -18,7 +20,7 @@ class FeatureController extends AbstractController
     public function index(FeatureRepository $featureRepository, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('feature/index.html.twig', [
@@ -31,7 +33,11 @@ class FeatureController extends AbstractController
     public function new(Request $request, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($plan->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $feature = new Feature();
@@ -57,7 +63,7 @@ class FeatureController extends AbstractController
     public function show(Feature $feature): Response
     {
         if ($this->getUser() != $feature->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('feature/show.html.twig', [
@@ -69,7 +75,11 @@ class FeatureController extends AbstractController
     public function edit(Request $request, Feature $feature): Response
     {
         if ($this->getUser() != $feature->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($feature->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $form = $this->createForm(FeatureType::class, $feature);
@@ -91,13 +101,17 @@ class FeatureController extends AbstractController
     public function delete(Request $request, Feature $feature): Response
     {
         if ($this->getUser() != $feature->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($feature->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $plan = $feature->getPlan();
 
         if ($this->getUser() != $feature->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         if ($this->isCsrfTokenValid('delete'.$feature->getId(), $request->request->get('_token'))) {

@@ -3,9 +3,16 @@
 {% block title %}New Room{% endblock %}
 
 {% block body %}
-    <h1>Create New Room</h1>
+
+    <h1 class="h1">New Room</h1>
+    <p class="lead my-3">
+        Create new Room for plan {{ room.plan }}
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('room_index', {'plan': room.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('room/_form.html.twig') }}
 
-    <a href="{{ path('room_index', {'plan': room.plan.id}) }}"> Back To List</a>
 {% endblock %}

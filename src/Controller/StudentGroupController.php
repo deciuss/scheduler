@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Plan;
@@ -18,7 +20,7 @@ class StudentGroupController extends AbstractController
     public function index(StudentGroupRepository $studentGroupRepository, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('student_group/index.html.twig', [
@@ -31,7 +33,11 @@ class StudentGroupController extends AbstractController
     public function new(Request $request, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($plan->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $studentGroup = new StudentGroup();
@@ -57,7 +63,7 @@ class StudentGroupController extends AbstractController
     public function show(StudentGroup $studentGroup): Response
     {
         if ($this->getUser() != $studentGroup->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('student_group/show.html.twig', [
@@ -69,7 +75,11 @@ class StudentGroupController extends AbstractController
     public function edit(Request $request, StudentGroup $studentGroup): Response
     {
         if ($this->getUser() != $studentGroup->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($studentGroup->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $form = $this->createForm(StudentGroupType::class, $studentGroup);
@@ -91,13 +101,17 @@ class StudentGroupController extends AbstractController
     public function delete(Request $request, StudentGroup $studentGroup): Response
     {
         if ($this->getUser() != $studentGroup->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($studentGroup->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $plan = $studentGroup->getPlan();
 
         if ($this->getUser() != $studentGroup->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         if ($this->isCsrfTokenValid('delete'.$studentGroup->getId(), $request->request->get('_token'))) {

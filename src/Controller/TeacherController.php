@@ -20,7 +20,7 @@ class TeacherController extends AbstractController
     public function index(TeacherRepository $teacherRepository, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('teacher/index.html.twig', [
@@ -33,7 +33,11 @@ class TeacherController extends AbstractController
     public function new(Request $request, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($plan->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $teacher = new Teacher();
@@ -59,7 +63,7 @@ class TeacherController extends AbstractController
     public function show(Teacher $teacher): Response
     {
         if ($this->getUser() != $teacher->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('teacher/show.html.twig', [
@@ -71,7 +75,11 @@ class TeacherController extends AbstractController
     public function edit(Request $request, Teacher $teacher): Response
     {
         if ($this->getUser() != $teacher->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($teacher->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $form = $this->createForm(TeacherType::class, $teacher);
@@ -93,7 +101,11 @@ class TeacherController extends AbstractController
     public function delete(Request $request, Teacher $teacher): Response
     {
         if ($this->getUser() != $teacher->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($teacher->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $plan = $teacher->getPlan();

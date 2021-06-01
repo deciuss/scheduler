@@ -25,8 +25,23 @@
         {% endblock %}
     </head>
     <body>
-        <div class="container mt-2">
+
+        <div class="container-fluid">
+
+            <a class="nav-link d-inline p-0" href="{{ path('main') }}"><span style="font-size: 4em">ᛃ</span><span style="font-size: 2em"> scheduler</span></a>
+
+            {% if app.user %}
+                <div class="float-right">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+        <div class="container">
             {% block body %}{% endblock %}
         </div>
+
+    </div>
+
+
     </body>
 </html>

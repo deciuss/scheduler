@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\DBAL\PlanStatus;
 use App\Repository\PlanRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -74,6 +75,11 @@ class Plan
         $this->status = $status;
 
         return $this;
+    }
+
+    public function isLocked() : bool
+    {
+        return $this->status !== PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION;
     }
 
     public function __toString(): string

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Plan;
@@ -18,7 +20,7 @@ class SubjectController extends AbstractController
     public function index(SubjectRepository $subjectRepository, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('subject/index.html.twig', [
@@ -31,7 +33,11 @@ class SubjectController extends AbstractController
     public function new(Request $request, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($plan->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $subject = new Subject();
@@ -57,7 +63,7 @@ class SubjectController extends AbstractController
     public function show(Subject $subject): Response
     {
         if ($this->getUser() != $subject->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('subject/show.html.twig', [
@@ -69,7 +75,11 @@ class SubjectController extends AbstractController
     public function edit(Request $request, Subject $subject): Response
     {
         if ($this->getUser() != $subject->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($subject->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $form = $this->createForm(SubjectType::class, $subject);
@@ -91,7 +101,11 @@ class SubjectController extends AbstractController
     public function delete(Request $request, Subject $subject): Response
     {
         if ($this->getUser() != $subject->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($subject->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $plan = $subject->getPlan();

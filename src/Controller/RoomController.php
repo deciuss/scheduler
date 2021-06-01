@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Plan;
@@ -18,7 +20,7 @@ class RoomController extends AbstractController
     public function index(RoomRepository $roomRepository, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('room/index.html.twig', [
@@ -31,7 +33,11 @@ class RoomController extends AbstractController
     public function new(Request $request, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($plan->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $room = new Room();
@@ -57,7 +63,7 @@ class RoomController extends AbstractController
     public function show(Room $room): Response
     {
         if ($this->getUser() != $room->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         return $this->render('room/show.html.twig', [
@@ -69,7 +75,11 @@ class RoomController extends AbstractController
     public function edit(Request $request, Room $room): Response
     {
         if ($this->getUser() != $room->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($room->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $form = $this->createForm(RoomType::class, $room);
@@ -91,7 +101,11 @@ class RoomController extends AbstractController
     public function delete(Request $request, Room $room): Response
     {
         if ($this->getUser() != $room->getPlan()->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
+        }
+
+        if ($room->getPlan()->isLocked()) {
+            return new Response('Plan cannot be altered at this point', 409);
         }
 
         $plan = $room->getPlan();

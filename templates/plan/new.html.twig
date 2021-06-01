@@ -3,9 +3,16 @@
 {% block title %}New Plan{% endblock %}
 
 {% block body %}
-    <h1>Create New Plan</h1>
+
+    <h1 class="h1">New Plan</h1>
+    <p class="lead my-3">
+        Create new Plan
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('plan_index') }}">Back To List</a>
+    </div>
 
     {{ include('plan/_form.html.twig') }}
 
-    <a href="{{ path('plan_index') }}"> Back To List</a>
 {% endblock %}

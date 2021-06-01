@@ -3,9 +3,16 @@
 {% block title %}New Subject{% endblock %}
 
 {% block body %}
-    <h1>Create New Subject</h1>
+
+    <h1 class="h1">New Subject</h1>
+    <p class="lead my-3">
+        Create new Subject for plan {{ subject.plan }}
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('subject_index', {'plan': subject.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('subject/_form.html.twig') }}
 
-    <a href="{{ path('subject_index', {'plan': subject.plan.id})}}"> Back To List</a>
 {% endblock %}

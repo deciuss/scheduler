@@ -3,9 +3,16 @@
 {% block title %}New Feature{% endblock %}
 
 {% block body %}
-    <h1>Create New Feature</h1>
+
+    <h1 class="h1">New Feature</h1>
+    <p class="lead my-3">
+        Create new Feature for plan {{ feature.plan }}
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('feature_index', {'plan': feature.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('feature/_form.html.twig') }}
 
-    <a href="{{ path('feature_index', {'plan': feature.plan.id}) }}"> Back To List</a>
 {% endblock %}

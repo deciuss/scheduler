@@ -1,11 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New StudentGroup{% endblock %}
+{% block title %}New Student Group{% endblock %}
 
 {% block body %}
-    <h1>Create New StudentGroup</h1>
+
+    <h1 class="h1">New Student Group</h1>
+    <p class="lead my-3">
+        Create new Student Group for plan {{ student_group.plan }}
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('student_group_index', {'plan': student_group.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('student_group/_form.html.twig') }}
 
-    <a href="{{ path('student_group_index', {'plan': student_group.plan.id}) }}"> Back To List</a>
 {% endblock %}

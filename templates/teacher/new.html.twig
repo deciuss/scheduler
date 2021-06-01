@@ -3,9 +3,16 @@
 {% block title %}New Teacher{% endblock %}
 
 {% block body %}
-    <h1>Create New Teacher</h1>
+
+    <h1 class="h1">New Teacher</h1>
+    <p class="lead my-3">
+        Create new Teacher for plan {{ teacher.plan }}
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('teacher_index', {'plan': teacher.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('teacher/_form.html.twig') }}
 
-    <a href="{{ path('teacher_index', {'plan': teacher.plan.id}) }}"> Back To List</a>
 {% endblock %}

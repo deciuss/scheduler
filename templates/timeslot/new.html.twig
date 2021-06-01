@@ -3,9 +3,16 @@
 {% block title %}New Timeslot{% endblock %}
 
 {% block body %}
-    <h1>Create New Timeslot</h1>
+
+    <h1 class="h1">New Timeslot</h1>
+    <p class="lead my-3">
+        Create new Timeslot for plan {{ timeslot.plan }}
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('timeslot_index', {'plan': timeslot.plan.id}) }}">Back To List</a>
+    </div>
 
     {{ include('timeslot/_form.html.twig') }}
 
-    <a href="{{ path('timeslot_index', {'plan': timeslot.plan.id}) }}"> Back To List</a>
 {% endblock %}

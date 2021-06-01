@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\DBAL\PlanStatus;
@@ -56,7 +58,7 @@ class PlanController extends AbstractController
     public function edit(Request $request, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         $form = $this->createForm(PlanType::class, $plan);
@@ -78,7 +80,7 @@ class PlanController extends AbstractController
     public function delete(Request $request, Plan $plan): Response
     {
         if ($this->getUser() != $plan->getUser()) {
-            return new Response('unauthorized', 401);
+            return new Response('Unauthorized to access this resource', 401);
         }
 
         if ($this->isCsrfTokenValid('delete'.$plan->getId(), $request->request->get('_token'))) {
