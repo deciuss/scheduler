@@ -1,21 +1,47 @@
-{#{% extends 'base.html.twig' %}#}
+{% extends 'base.html.twig' %}
 
-{% block title %}Schedule Show!{% endblock %}
+{% block title %}Schedule{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
 
-    <table id="main_table">
-        {% for row in table %}
+    <h3 class="h3">Schedule</h3>
+    <p class="lead my-3">
+        Schedule <i>{{ schedule }}</i> generated for plan <i>{{ schedule.plan }}</i>
+    </p>
+
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('schedule_index', {'plan': schedule.plan.id}) }}">Back To List</a>
+    </div>
+
+    <table class="table table-bordered table-hover" style="overflow: auto; height: 100px;">
+        <tr>
+            <th scope="col"></th>
+            {% for room in rooms %}
+                <th scope="col" class="text-center" style="position: sticky; top: 0; z-index: 1; background-color: #FFFFFF";>
+                    {{ room.name }}
+                </th>
+            {% endfor %}
+        </tr>
+
+        {% for key, row in events %}
             <tr>
+
+                <th scope="row" style="max-width: 115px">{{ timeslots[key].start | date("d.m.Y l H:i", false) }}</th>
+
                 {% for col in row %}
-                    <td style="background-color: {{ calculateColor(col) }}">{{ col | raw}}</td>
+                    {% if col is not null %}
+                        <td style="background-color: {{ col.event.subject.color }}">
+                            <b>{{ col.event.subject.name }}</b><br/>
+                            {{ col.event.subject.studentGroup.name }}<br/>
+                            {{ col.event.subject.teacher.name }}
+                        </td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
                 {% endfor %}
             </tr>
         {% endfor %}
     </table>
+
 
 {% endblock %}

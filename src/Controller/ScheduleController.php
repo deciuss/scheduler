@@ -75,32 +75,19 @@ class ScheduleController extends AbstractController
             return new Response('Unauthorized to access this resource', 401);
         }
 
-        $criteria = ["schedule" => $schedule];
+        $scheduleEvents = $this->scheduleEventRepository->findBy(["schedule" => $schedule]);
+        $rooms = $this->roomRepository->findBy(['plan' => $schedule->getPlan()], ['map_id' => 'ASC']);
+        $timeslots = $this->timeslotRepository->findBy(['plan' => $schedule->getPlan()], ['map_id' => 'ASC']);
 
-        $scheduleEvents = $this->scheduleEventRepository->findBy($criteria);
+        $events = [];
 
-        $rooms = $this->roomRepository->findAll();
-        $timeslots = $this->timeslotRepository->findAll();
-
-        $table = [];
-
-        for ($i = 0; $i < count($timeslots) + 1; $i++){
-            for ($j = 0; $j < count($rooms) + 1; $j++) {
-                $table[$i][$j] = "";
-            }
+        for($rowIndex = 0; $rowIndex < count($timeslots); $rowIndex++) {
+            $events[$rowIndex] = [];
+            for($colIndex = 0; $colIndex < count($rooms); $colIndex++)
+                $events[$rowIndex][$colIndex] = null;
         }
 
-        for ($i = 0; $i < count($timeslots); $i++) {
-            $table[$i+1][0] = $timeslots[$i]->getStart()->format("D H:i");
-        }
-
-        for ($i = 0; $i < count($rooms); $i++) {
-            $table[0][$i+1] = $rooms[$i]->getName();
-        }
-
-        /** @var $scheduleEvent ScheduleEvent */
         foreach ($scheduleEvents as $scheduleEvent) {
-
             if (
                 $groupId != "all"
                 && $groupId != $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getId()
@@ -110,22 +97,68 @@ class ScheduleController extends AbstractController
                 continue;
             }
 
-            if ($teacherId != "all" && $teacherId != $scheduleEvent->getEvent()->getSubject()->getTeacher()->getId()) {
+            if (
+                $teacherId != "all"
+                && $teacherId != $scheduleEvent->getEvent()->getSubject()->getTeacher()->getId()
+            ) {
                 continue;
             }
 
-            $table[$scheduleEvent->getTimeslot()->getId()][$scheduleEvent->getRoom()->getId()] .=
-                $scheduleEvent->getEvent()->getSubject()->getName() . "<br/>"
-                . $scheduleEvent->getEvent()->getSubject()->getTeacher()->getName() . "<br/>"
-                . $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getName() . "<br/>"
-            ;
+            $events[$scheduleEvent->getTimeslot()->getMapId()][$scheduleEvent->getRoom()->getMapId()]
+                = $scheduleEvent;
         }
 
         return $this->render('schedule/show.html.twig', [
-            'controller_name' => 'ScheduleShowController',
-            'schedule_events' => $scheduleEvents,
-            'table' => $table,
+            'schedule' => $schedule,
+            'rooms' => $rooms,
+            'timeslots' => $timeslots,
+            'events' => $events
         ]);
+
+
+//        $table = [];
+//
+//        for ($i = 0; $i < count($timeslots) + 1; $i++){
+//            for ($j = 0; $j < count($rooms) + 1; $j++) {
+//                $table[$i][$j] = "";
+//            }
+//        }
+//
+//        for ($i = 0; $i < count($timeslots); $i++) {
+//            $table[$i+1][0] = $timeslots[$i]->getStart()->format("D H:i");
+//        }
+//
+//        for ($i = 0; $i < count($rooms); $i++) {
+//            $table[0][$i+1] = $rooms[$i]->getName();
+//        }
+//
+//        /** @var $scheduleEvent ScheduleEvent */
+//        foreach ($scheduleEvents as $scheduleEvent) {
+//
+//            if (
+//                $groupId != "all"
+//                && $groupId != $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getId()
+//                && (null == $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getParent()
+//                    || $groupId != $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getParent()->getId())
+//            ) {
+//                continue;
+//            }
+//
+//            if ($teacherId != "all" && $teacherId != $scheduleEvent->getEvent()->getSubject()->getTeacher()->getId()) {
+//                continue;
+//            }
+//
+//            $table[$scheduleEvent->getTimeslot()->getId()][$scheduleEvent->getRoom()->getId()] .=
+//                $scheduleEvent->getEvent()->getSubject()->getName() . "<br/>"
+//                . $scheduleEvent->getEvent()->getSubject()->getTeacher()->getName() . "<br/>"
+//                . $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getName() . "<br/>"
+//            ;
+//        }
+//
+//        return $this->render('schedule/show.html.twig', [
+////            'schedule_events' => $scheduleEvents,
+//            'table' => $table,
+//        ]);
     }
 
 

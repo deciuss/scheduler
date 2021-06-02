@@ -87,11 +87,6 @@ class Plan
         return $this->status !== PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION;
     }
 
-    public function __toString(): string
-    {
-        return sprintf('%s (#%d)', $this->name, $this->id);
-    }
-
     public function getIsWeekly(): ?bool
     {
         return $this->isWeekly;
@@ -102,5 +97,10 @@ class Plan
         $this->isWeekly = $isWeekly;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s (#%d)', $this->name, $this->id);
     }
 }

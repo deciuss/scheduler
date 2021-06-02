@@ -6,7 +6,7 @@
 
     <h3 class="h3">Schedule List</h3>
     <p class="lead my-3">
-        List of schedules generated for plan {{ plan }}
+        List of schedules generated for plan <i>{{ plan }}</i>
     </p>
 
     <div class="my-3">
@@ -19,10 +19,10 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Created_at</th>
-                <th>NumberOfGenerations</th>
-                <th>SoftViolationFactor</th>
-                <th>actions</th>
+                <th>Number Of Generations</th>
+                <th>Soft Violation Factor</th>
+                <th>Created at</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -30,11 +30,18 @@
             <tr>
                 <td>{{ schedule.id }}</td>
                 <td>{{ schedule.name }}</td>
-                <td>{{ schedule.createdAt ? schedule.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ schedule.numberOfGenerations }}</td>
                 <td>{{ schedule.softViolationFactor }}</td>
+                <td>{{ schedule.createdAt ? schedule.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('schedule_show', {'id': schedule.id, 'teacherId': 'all', 'groupId': 'all'}) }}">show</a>
+                    <a
+                        class="btn btn-primary float-right mx-1"
+                        href="{{ path(
+                            'schedule_show',
+                            {'id': schedule.id, 'teacherId': 'all', 'groupId': 'all'}
+                        ) }}">
+                        Show
+                    </a>
                 </td>
             </tr>
         {% else %}
