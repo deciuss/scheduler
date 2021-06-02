@@ -65,6 +65,11 @@ class Subject
      */
     private $events;
 
+    /**
+     * @ORM\Column(type="string", length=6, options={"default":"ffffff"})
+     */
+    private $color = 'ffffff';
+
     public function __construct()
     {
         $this->features = new ArrayCollection();
@@ -205,6 +210,18 @@ class Subject
     public function __toString(): string
     {
         return sprintf('%s (#%d)', $this->name, $this->id);
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
     }
 
 }

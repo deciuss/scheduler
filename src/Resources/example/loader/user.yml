@@ -1,4 +1,4 @@
 App\Entity\User:
   user1:
-    email: 'admin4@example.com'
-    password: 'abc123'
+    email: 'example@example.com'
+    password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$rTmnlMM5W+XXQ52+6uMQ9w\$ZJjLeTpcMjPZyQ+g25OgIbMQJa86Uv/tzVXessdujTw'

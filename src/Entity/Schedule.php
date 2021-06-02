@@ -35,6 +35,16 @@ class Schedule
      */
     private $plan;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $numberOfGenerations;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $softViolationFactor;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,5 +89,29 @@ class Schedule
     public function __toString(): string
     {
         return sprintf('%s (#%d)', $this->name, $this->id);
+    }
+
+    public function getNumberOfGenerations(): ?int
+    {
+        return $this->numberOfGenerations;
+    }
+
+    public function setNumberOfGenerations(int $numberOfGenerations): self
+    {
+        $this->numberOfGenerations = $numberOfGenerations;
+
+        return $this;
+    }
+
+    public function getSoftViolationFactor(): ?int
+    {
+        return $this->softViolationFactor;
+    }
+
+    public function setSoftViolationFactor(int $softViolationFactor): self
+    {
+        $this->softViolationFactor = $softViolationFactor;
+
+        return $this;
     }
 }

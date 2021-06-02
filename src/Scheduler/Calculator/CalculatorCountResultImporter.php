@@ -35,10 +35,20 @@ class CalculatorCountResultImporter implements CountResultImporter
 
     public function __invoke(int $planId) : void
     {
+        $report = $this->decoder->decode(
+            file_get_contents(
+                sprintf("%s/%d.report", $this->calculatorOutputPath, $planId),
+            ),
+            'csv'
+        )[0];
+
         $this->entityManager->persist(
             $schedule = (new Schedule())
                 ->setPlan($this->planRepository->find($planId))
                 ->setCreatedAt(new \DateTime())
+                ->setName(sprintf('Schedule for plan %d (%s)', $planId, $report['date_time']))
+                ->setNumberOfGenerations((int) $report['generation_number'])
+                ->setSoftViolationFactor((int) $report['overall_best_soft'])
         );
 
         foreach(

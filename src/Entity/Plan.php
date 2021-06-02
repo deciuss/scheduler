@@ -36,6 +36,11 @@ class Plan
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    private $isWeekly = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,5 +90,17 @@ class Plan
     public function __toString(): string
     {
         return sprintf('%s (#%d)', $this->name, $this->id);
+    }
+
+    public function getIsWeekly(): ?bool
+    {
+        return $this->isWeekly;
+    }
+
+    public function setIsWeekly(bool $isWeekly): self
+    {
+        $this->isWeekly = $isWeekly;
+
+        return $this;
     }
 }
