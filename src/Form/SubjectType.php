@@ -9,6 +9,7 @@ use App\Entity\Teacher;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -61,6 +62,7 @@ class SubjectType extends AbstractType
                     'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],
                 ]
             )
+            ->add('color', ColorType::class)
         ;
     }
 

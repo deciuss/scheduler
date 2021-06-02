@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210602110007 extends AbstractMigration
+final class Version20210602114105 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -29,7 +29,7 @@ final class Version20210602110007 extends AbstractMigration
         $this->addSql('CREATE TABLE schedule_event (id INT AUTO_INCREMENT NOT NULL, schedule_id INT NOT NULL, room_id INT NOT NULL, timeslot_id INT NOT NULL, event_id INT NOT NULL, INDEX IDX_C7F7CAFBA40BC2D5 (schedule_id), INDEX IDX_C7F7CAFB54177093 (room_id), INDEX IDX_C7F7CAFBF920B9E9 (timeslot_id), INDEX IDX_C7F7CAFB71F7E88B (event_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE student_group (id INT AUTO_INCREMENT NOT NULL, parent_id INT DEFAULT NULL, plan_id INT NOT NULL, name VARCHAR(255) NOT NULL, cardinality INT NOT NULL, map_id INT DEFAULT NULL, INDEX IDX_E5F73D58727ACA70 (parent_id), INDEX IDX_E5F73D58E899029B (plan_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE student_group_student_group (student_group_source INT NOT NULL, student_group_target INT NOT NULL, INDEX IDX_78D72DF215D21614 (student_group_source), INDEX IDX_78D72DF2C37469B (student_group_target), PRIMARY KEY(student_group_source, student_group_target)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE subject (id INT AUTO_INCREMENT NOT NULL, teacher_id INT NOT NULL, student_group_id INT NOT NULL, plan_id INT NOT NULL, hours INT NOT NULL, block_size SMALLINT NOT NULL, name VARCHAR(255) NOT NULL, color VARCHAR(6) DEFAULT \'ffffff\' NOT NULL, INDEX IDX_FBCE3E7A41807E1D (teacher_id), INDEX IDX_FBCE3E7A4DDF95DC (student_group_id), INDEX IDX_FBCE3E7AE899029B (plan_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE subject (id INT AUTO_INCREMENT NOT NULL, teacher_id INT NOT NULL, student_group_id INT NOT NULL, plan_id INT NOT NULL, hours INT NOT NULL, block_size SMALLINT NOT NULL, name VARCHAR(255) NOT NULL, color VARCHAR(7) DEFAULT \'#77BBFF\' NOT NULL, INDEX IDX_FBCE3E7A41807E1D (teacher_id), INDEX IDX_FBCE3E7A4DDF95DC (student_group_id), INDEX IDX_FBCE3E7AE899029B (plan_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE subject_feature (subject_id INT NOT NULL, feature_id INT NOT NULL, INDEX IDX_BA55D9C423EDC87 (subject_id), INDEX IDX_BA55D9C460E4B879 (feature_id), PRIMARY KEY(subject_id, feature_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE teacher (id INT AUTO_INCREMENT NOT NULL, plan_id INT NOT NULL, name VARCHAR(255) NOT NULL, map_id INT DEFAULT NULL, INDEX IDX_B0F6A6D5E899029B (plan_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE timeslot (id INT AUTO_INCREMENT NOT NULL, plan_id INT NOT NULL, start DATETIME NOT NULL, end DATETIME NOT NULL, map_id INT DEFAULT NULL, INDEX IDX_3BE452F7E899029B (plan_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

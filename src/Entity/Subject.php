@@ -66,9 +66,9 @@ class Subject
     private $events;
 
     /**
-     * @ORM\Column(type="string", length=6, options={"default":"ffffff"})
+     * @ORM\Column(type="string", length=7, options={"default":"#77BBFF"})
      */
-    private $color = 'ffffff';
+    private $color = '#77BBFF';
 
     public function __construct()
     {
