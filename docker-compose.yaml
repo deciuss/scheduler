@@ -23,5 +23,18 @@ services:
     networks:
       - scheduler-network
 
+  queue:
+    image: rabbitmq:3.8.16-management-alpine
+    networks:
+      - scheduler-network
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: -rabbit heartbeat 290
+      RABBITMQ_DEFAULT_USER: scheduler
+      RABBITMQ_DEFAULT_PASS: scheduler
+
+
 networks:
   scheduler-network:
