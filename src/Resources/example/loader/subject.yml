@@ -6,6 +6,7 @@ App\Entity\Subject:
     student_group: '@computer_science_W_1_1_<current()>'
     hours: 6
     block_size: 3
+    color: <hexColor()>
     features: ['@projector']
   ask_lab_1_2_{1..4}:
     plan: '@plan1'
@@ -14,6 +15,7 @@ App\Entity\Subject:
     student_group: '@computer_science_C_1_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@electronic_equipment']
   ask_lab_2_2_{1..4}:
     plan: '@plan1'
@@ -22,6 +24,7 @@ App\Entity\Subject:
     student_group: '@computer_science_C_2_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@electronic_equipment']
   ask_exercise_1_2_{1..4}:
     plan: '@plan1'
@@ -30,6 +33,7 @@ App\Entity\Subject:
     student_group: '@computer_science_C_1_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
   ask_exercise_2_2_{1..4}:
     plan: '@plan1'
     name: 'Architektura Systemów Komputerowych Ćwiczenia Gr 2/2 <current()>'
@@ -37,6 +41,7 @@ App\Entity\Subject:
     student_group: '@computer_science_C_2_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
 
   so_lecture_1_1_{1..4}:
     plan: '@plan1'
@@ -45,6 +50,7 @@ App\Entity\Subject:
     student_group: '@computer_science_W_1_1_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@projector']
   so_exercise_1_2_{1..4}:
     plan: '@plan1'
@@ -53,6 +59,7 @@ App\Entity\Subject:
     student_group: '@computer_science_C_1_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
   so_exercise_2_2_{1..4}:
     plan: '@plan1'
     name: 'Systemy Operacyjne Ćwiczenia Gr 2/2 <current()>'
@@ -60,6 +67,7 @@ App\Entity\Subject:
     student_group: '@computer_science_C_2_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
 
   java_lecture_1_1_{1..4}:
     plan: '@plan1'
@@ -68,6 +76,7 @@ App\Entity\Subject:
     student_group: '@computer_science_W_1_1_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@projector']
   java_lab_1_2_{1..4}:
     plan: '@plan1'
@@ -76,6 +85,7 @@ App\Entity\Subject:
     student_group: '@computer_science_C_1_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@computer_workstations']
   java_lab_2_2_{1..4}:
     plan: '@plan1'
@@ -84,6 +94,7 @@ App\Entity\Subject:
     student_group: '@computer_science_C_2_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@computer_workstations']
 
   to_lecture_1_1_{1..4}:
@@ -93,6 +104,7 @@ App\Entity\Subject:
     student_group: '@electronics_W_1_1_<current()>'
     hours: 4
     block_size: 4
+    color: <hexColor()>
     features: ['@projector']
   to_lab_1_2_{1..4}:
     plan: '@plan1'
@@ -101,6 +113,7 @@ App\Entity\Subject:
     student_group: '@electronics_C_1_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@electronic_equipment']
   to_lab_2_2_{1..4}:
     plan: '@plan1'
@@ -109,6 +122,7 @@ App\Entity\Subject:
     student_group: '@electronics_C_2_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@electronic_equipment']
   to_exercise_1_2_{1..4}:
     plan: '@plan1'
@@ -117,6 +131,7 @@ App\Entity\Subject:
     student_group: '@electronics_C_1_2_<current()>'
     hours: 3
     block_size: 3
+    color: <hexColor()>
   to_exercise_2_2_{1..4}:
     plan: '@plan1'
     name: 'Teoria Obwodów Ćwiczenia Gr 2/2 <current()>'
@@ -124,6 +139,7 @@ App\Entity\Subject:
     student_group: '@electronics_C_2_2_<current()>'
     hours: 3
     block_size: 3
+    color: <hexColor()>
 
   physics_lecture_1_1_{1..4}:
     plan: '@plan1'
@@ -132,6 +148,7 @@ App\Entity\Subject:
     student_group: '@electronics_W_1_1_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@projector']
   physics_exercise_1_2_{1..4}:
     plan: '@plan1'
@@ -139,6 +156,7 @@ App\Entity\Subject:
     teacher: '@teacher10'
     student_group: '@electronics_C_1_2_<current()>'
     hours: 4
+    color: <hexColor()>
     block_size: 2
   physics_exercise_2_2_{1..4}:
     plan: '@plan1'
@@ -147,6 +165,7 @@ App\Entity\Subject:
     student_group: '@electronics_C_2_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
 
   automation_lecture_1_1_{1..4}:
     plan: '@plan1'
@@ -155,6 +174,7 @@ App\Entity\Subject:
     student_group: '@electronics_W_1_1_<current()>'
     hours: 4
     block_size: 4
+    color: <hexColor()>
     features: ['@projector']
   automation_lab_1_2_{1..4}:
     plan: '@plan1'
@@ -163,6 +183,7 @@ App\Entity\Subject:
     student_group: '@electronics_C_1_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@computer_workstations']
   automation_lab_2_2_{1..4}:
     plan: '@plan1'
@@ -171,6 +192,5 @@ App\Entity\Subject:
     student_group: '@electronics_C_2_2_<current()>'
     hours: 4
     block_size: 2
+    color: <hexColor()>
     features: ['@computer_workstations']
-
-

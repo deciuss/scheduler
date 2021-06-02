@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h2 class="h2">Subject</h2>
+    <h3 class="h3">Subject</h3>
     <p class="lead my-3">
         Subject {{ subject }} details
     </p>
@@ -45,6 +45,14 @@
                     {{ feature }},
                 {% endfor %}
             </td>
+            <tr>
+                <th>Color</th>
+                <td>
+                    <div class="text-center rounded" style="background-color: {{ subject.color }}; min-width: 45px">
+                        {{ subject.color|upper }}
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 

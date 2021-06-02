@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <h2 class="h2">Subject List</h2>
+    <h3 class="h3">Subject List</h3>
     <p class="lead my-3">
         List of subjects for plan {{ plan }}
     </p>
@@ -19,8 +19,11 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Student Group</th>
+                <th>Teacher</th>
                 <th>Hours</th>
                 <th>Block Size</th>
+                <th>Color</th>
                 <th></th>
             </tr>
         </thead>
@@ -29,10 +32,16 @@
             <tr>
                 <td>{{ subject.id }}</td>
                 <td>{{ subject.name }}</td>
+                <td>{{ subject.studentGroup }}</td>
+                <td>{{ subject.teacher }}</td>
                 <td>{{ subject.hours }}</td>
                 <td>{{ subject.blockSize }}</td>
                 <td>
-
+                    <div class="text-center rounded" style="background-color: {{ subject.color }}; min-width: 45px">
+                        {{ subject.color|upper }}
+                    </div>
+                </td>
+                <td>
                     <a class="btn btn-primary float-right mx-1" href="{{ path('subject_edit', {'id': subject.id}) }}">Edit</a>
                     <a class="btn btn-primary float-right mx-1" href="{{ path('subject_show', {'id': subject.id}) }}">Show</a>
                 </td>

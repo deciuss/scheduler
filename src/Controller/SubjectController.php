@@ -42,6 +42,7 @@ class SubjectController extends AbstractController
 
         $subject = new Subject();
         $subject->setPlan($plan);
+        $subject->setColor(sprintf('#%s%s%s', dechex(rand(128, 255)), dechex(rand(128, 255)), dechex(rand(128, 255))));
         $form = $this->createForm(SubjectType::class, $subject);
         $form->handleRequest($request);
 
