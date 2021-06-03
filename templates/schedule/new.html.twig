@@ -1,11 +1,88 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Schedule{% endblock %}
+{% block title %}Generate Schedule{% endblock %}
 
 {% block body %}
-    <h1>Create new Schedule</h1>
 
-    {{ include('schedule/_form.html.twig') }}
+    <h3 class="h3">Generate Schedule</h3>
+    <p class="lead my-3">
+        Generate schedule for plan <i>{{ plan }}</i>
+    </p>
 
-    <a href="{{ path('schedule_index') }}">back to list</a>
+    <div class="my-3">
+        <a class="btn btn-primary" href="{{ path('schedule_index', {'plan': plan.id}) }}">Back To List</a>
+        <button id="schedule-generate-button" class="btn btn-primary float-right mr-3" onclick="generateButton()">Generate</button>
+    </div>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Status</th>
+            <td id="generator-info-plan-status"></td>
+        </tr>
+        <tr>
+            <th>Generation number</th>
+            <td id="generator-info-generation-number"></td>
+        </tr>
+        <tr>
+            <th>Overall Lowest Hard Violation Factor</th>
+            <td id="generator-info-overall-hard"></td>
+        </tr>
+        <tr>
+            <th>Overall Lowest Soft Violation Factor</th>
+            <td id="generator-info-overall-soft"></td>
+        </tr>
+        <tr>
+            <th>Current Hard Violation Factor</th>
+            <td id="generator-info-current-hard"></td>
+        </tr>
+        <tr>
+            <th>Current Soft Violation Factor</th>
+            <td id="generator-info-current-soft"></td>
+        </tr>
+        <tr>
+            <th>Current Step Mutation Factor</th>
+            <td id="generator-info-mutation-factor"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+<script>
+
+    function updateGeneratorInfo()
+    {
+        $.ajax({
+            type: "get",
+            url: "{{ path('schedule_generator_info', {'plan': plan.id}) }}",
+            success:function(data)
+            {
+                $('#generator-info-plan-status').html(data.plan_status);
+                $('#generator-info-generation-number').html(data.generation_number);
+                $('#generator-info-overall-hard').html(data.overall_best_hard);
+                $('#generator-info-overall-soft').html(data.overall_best_soft);
+                $('#generator-info-current-hard').html(data.current_best_hard);
+                $('#generator-info-current-soft').html(data.current_best_soft);
+                $('#generator-info-mutation-factor').html(data.step_current_factor);
+            }
+        })
+    }
+
+    function generateButton()
+    {
+        $('#schedule-generate-button').attr('disabled', true);
+        updateGeneratorInfo();
+    }
+
+    $(document).ready(updateGeneratorInfo());
+
+    setInterval(function()
+    {
+        updateGeneratorInfo();
+    }, 4000);
+
+
+</script>
+
+
 {% endblock %}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b2d1b90e9e1057dd8e511a1aaac00d4",
+    "content-hash": "a514dde740abb9b0e2dfc5713f3fafd6",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2365,16 +2365,16 @@
         },
         {
             "name": "symfony/amqp-messenger",
-            "version": "v5.2.7",
+            "version": "v5.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/amqp-messenger.git",
-                "reference": "2dbdde5e095c1ee8df84560db5bdd4e7e48cbeac"
+                "reference": "ce41f1ea7d72f4df1c83f6b28f11e6f68c502e5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/amqp-messenger/zipball/2dbdde5e095c1ee8df84560db5bdd4e7e48cbeac",
-                "reference": "2dbdde5e095c1ee8df84560db5bdd4e7e48cbeac",
+                "url": "https://api.github.com/repos/symfony/amqp-messenger/zipball/ce41f1ea7d72f4df1c83f6b28f11e6f68c502e5c",
+                "reference": "ce41f1ea7d72f4df1c83f6b28f11e6f68c502e5c",
                 "shasum": ""
             },
             "require": {
@@ -2414,7 +2414,7 @@
             "description": "Symfony AMQP extension Messenger Bridge",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/amqp-messenger/tree/v5.2.7"
+                "source": "https://github.com/symfony/amqp-messenger/tree/v5.2.10"
             },
             "funding": [
                 {
@@ -2430,7 +2430,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-07T16:27:53+00:00"
+            "time": "2021-05-26T17:33:56+00:00"
         },
         {
             "name": "symfony/asset",

@@ -15,6 +15,7 @@
         "doctrine/persistence": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
+        "symfony/amqp-messenger": "5.2.*",
         "symfony/asset": "5.2.*",
         "symfony/console": "5.2.*",
         "symfony/dotenv": "5.2.*",
@@ -122,8 +123,7 @@
             "php bin/console doctrine:database:create",
             "php bin/console doctrine:migrations:migrate latest -n",
             "php bin/console dev:example:load",
-            "php bin/console app:calculate 1 -vvv",
-            "@dev:compare"
+            "php bin/console app:calculate 1 -vvv"
         ]
     },
     "conflict": {

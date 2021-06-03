@@ -40,7 +40,7 @@ class CalculateCommand extends Command
 
             $output->writeln(
                 sprintf(
-                    "Plan generation successfull. Calculator file: %s/%d",
+                    "Plan generation commissioned. Calculator file: %s/%d",
                     $this->calculatorDataPath,
                     $planId
                 )

@@ -16,6 +16,7 @@ class CalculateScheduleHandler implements MessageHandlerInterface
 
     public function __invoke(CalculateSchedule $message)
     {
+        die('aaaaaaaaa');
         $this->resultImportHandler->executeHandler($message);
     }
 }

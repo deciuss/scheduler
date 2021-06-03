@@ -2,6 +2,8 @@ version: '2.0'
 services:
   scheduler-server:
     build: .
+    image: scheduler-image
+    restart: always
     volumes:
       - ./:/var/www/
     ports:
@@ -9,8 +11,18 @@ services:
     networks:
       - scheduler-network
 
+  scheduler-consumer:
+    image: scheduler-image
+    restart: always
+    volumes:
+      - ./:/var/www/
+    networks:
+      - scheduler-network
+    command: php bin/console messenger:consume async -vv
+
   sql:
     image: mysql:5.7.33
+    restart: always
     ports:
       - "3316:3306"
     command: --init-file /data/application/init.sql
@@ -18,13 +30,14 @@ services:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
-      - ./.data:/var/lib/mysql
+      - ./.data/mysql:/var/lib/mysql
       - ./build/mysql/init.sql:/data/application/init.sql
     networks:
       - scheduler-network
 
   queue:
-    image: rabbitmq:3.8.16-management-alpine
+    image: rabbitmq:3.8.16-alpine
+    restart: always
     networks:
       - scheduler-network
     ports:
@@ -34,7 +47,6 @@ services:
       RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: -rabbit heartbeat 290
       RABBITMQ_DEFAULT_USER: scheduler
       RABBITMQ_DEFAULT_PASS: scheduler
-
 
 networks:
   scheduler-network:

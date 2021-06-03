@@ -5,8 +5,11 @@ ADD ./build/apache/sites-available/default.conf /etc/apache2/sites-enabled/000-d
 
 RUN cd ~ \
     && apt update \
+    && apt-get -y install librabbitmq-dev \
+    && pecl install amqp-1.11.0beta \
     && docker-php-ext-install pdo pdo_mysql \
-    && docker-php-ext-enable pdo pdo_mysql \
+    && docker-php-ext-enable pdo pdo_mysql amqp \
+    && rm -rf /tmp/pear \
     && apt-get -y install git \
     && curl -sS https://getcomposer.org/installer -o composer-setup.php \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \

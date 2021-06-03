@@ -11,6 +11,7 @@ use App\Repository\ScheduleEventRepository;
 use App\Repository\ScheduleRepository;
 use App\Repository\TimeslotRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,6 +44,26 @@ class ScheduleController extends AbstractController
         ]);
     }
 
+    #[Route('/generate/plan/{plan}', name: 'schedule_generate', methods: ['POST'])]
+    public function generate(Plan $plan): Response
+    {
+        if ($this->getUser() != $plan->getUser()) {
+            return new Response('Unauthorized to access this resource', 401);
+        }
+    }
+
+
+    #[Route('/info/plan/{plan}', name: 'schedule_generator_info', methods: ['GET'])]
+    public function generatorInfo(Plan $plan): JsonResponse
+    {
+        if ($this->getUser() != $plan->getUser()) {
+            return new JsonResponse(['error' => 'Unauthorized to access this resource'], 401);
+        }
+
+        return new JsonResponse(['aaa' => 111]);
+    }
+
+
     #[Route('/new/plan/{plan}', name: 'schedule_new', methods: ['GET', 'POST'])]
     public function new(Request $request, Plan $plan): Response
     {
@@ -50,22 +71,9 @@ class ScheduleController extends AbstractController
             return new Response('Unauthorized to access this resource', 401);
         }
 
-//        $schedule = new Schedule();
-//        $form = $this->createForm(ScheduleType::class, $schedule);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $entityManager = $this->getDoctrine()->getManager();
-//            $entityManager->persist($schedule);
-//            $entityManager->flush();
-//
-//            return $this->redirectToRoute('schedule_index');
-//        }
-//
-//        return $this->render('schedule/new.html.twig', [
-//            'schedule' => $schedule,
-//            'form' => $form->createView(),
-//        ]);
+        return $this->render('schedule/new.html.twig', [
+            'plan' => $plan
+        ]);
     }
 
     #[Route('/{id}/group/{groupId}/teacher/{teacherId}', name: 'schedule_show', methods: ['GET'])]
@@ -114,54 +122,7 @@ class ScheduleController extends AbstractController
             'timeslots' => $timeslots,
             'events' => $events
         ]);
-
-
-//        $table = [];
-//
-//        for ($i = 0; $i < count($timeslots) + 1; $i++){
-//            for ($j = 0; $j < count($rooms) + 1; $j++) {
-//                $table[$i][$j] = "";
-//            }
-//        }
-//
-//        for ($i = 0; $i < count($timeslots); $i++) {
-//            $table[$i+1][0] = $timeslots[$i]->getStart()->format("D H:i");
-//        }
-//
-//        for ($i = 0; $i < count($rooms); $i++) {
-//            $table[0][$i+1] = $rooms[$i]->getName();
-//        }
-//
-//        /** @var $scheduleEvent ScheduleEvent */
-//        foreach ($scheduleEvents as $scheduleEvent) {
-//
-//            if (
-//                $groupId != "all"
-//                && $groupId != $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getId()
-//                && (null == $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getParent()
-//                    || $groupId != $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getParent()->getId())
-//            ) {
-//                continue;
-//            }
-//
-//            if ($teacherId != "all" && $teacherId != $scheduleEvent->getEvent()->getSubject()->getTeacher()->getId()) {
-//                continue;
-//            }
-//
-//            $table[$scheduleEvent->getTimeslot()->getId()][$scheduleEvent->getRoom()->getId()] .=
-//                $scheduleEvent->getEvent()->getSubject()->getName() . "<br/>"
-//                . $scheduleEvent->getEvent()->getSubject()->getTeacher()->getName() . "<br/>"
-//                . $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getName() . "<br/>"
-//            ;
-//        }
-//
-//        return $this->render('schedule/show.html.twig', [
-////            'schedule_events' => $scheduleEvents,
-//            'table' => $table,
-//        ]);
     }
-
-
 
     #[Route('/{id}', name: 'schedule_delete', methods: ['POST'])]
     public function delete(Request $request, Schedule $schedule): Response
