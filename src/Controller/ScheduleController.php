@@ -4,12 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Plan;
 use App\Entity\Schedule;
-use App\Entity\ScheduleEvent;
 use App\Form\ScheduleType;
 use App\Repository\RoomRepository;
 use App\Repository\ScheduleEventRepository;
 use App\Repository\ScheduleRepository;
 use App\Repository\TimeslotRepository;
+use App\Scheduler\Scheduler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,14 +21,11 @@ class ScheduleController extends AbstractController
 {
 
     public function __construct(
-        TimeslotRepository $timeslotRepository,
-        RoomRepository $roomRepository,
-        ScheduleEventRepository $scheduleEventRepository
-    ){
-        $this->timeslotRepository = $timeslotRepository;
-        $this->roomRepository = $roomRepository;
-        $this->scheduleEventRepository = $scheduleEventRepository;
-    }
+        private Scheduler $facade,
+        private TimeslotRepository $timeslotRepository,
+        private RoomRepository $roomRepository,
+        private ScheduleEventRepository $scheduleEventRepository
+    ) {}
 
 
     #[Route('/plan/{plan}', name: 'schedule_index', methods: ['GET'])]
@@ -50,8 +47,11 @@ class ScheduleController extends AbstractController
         if ($this->getUser() != $plan->getUser()) {
             return new Response('Unauthorized to access this resource', 401);
         }
-    }
 
+        $this->facade->generate($plan->getId());
+
+        return new Response(status: 200);
+    }
 
     #[Route('/info/plan/{plan}', name: 'schedule_generator_info', methods: ['GET'])]
     public function generatorInfo(Plan $plan): JsonResponse
@@ -60,7 +60,7 @@ class ScheduleController extends AbstractController
             return new JsonResponse(['error' => 'Unauthorized to access this resource'], 401);
         }
 
-        return new JsonResponse(['aaa' => 111]);
+        return new JsonResponse($this->facade->getReportForPlan($plan->getId()));
     }
 
 

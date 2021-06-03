@@ -11,7 +11,14 @@
 
     <div class="my-3">
         <a class="btn btn-primary" href="{{ path('schedule_index', {'plan': plan.id}) }}">Back To List</a>
-        <button id="schedule-generate-button" class="btn btn-primary float-right mr-3" onclick="generateButton()">Generate</button>
+        <button
+                id="schedule-generate-button"
+                class="btn btn-primary float-right mr-3"
+                disabled="disabled"
+                onclick="generateButton()"
+        >
+            Generate
+        </button>
     </div>
 
     <table class="table">
@@ -19,6 +26,10 @@
         <tr>
             <th>Status</th>
             <td id="generator-info-plan-status"></td>
+        </tr>
+        <tr>
+            <th>Report Created At</th>
+            <td id="generator-info-created-at"></td>
         </tr>
         <tr>
             <th>Generation number</th>
@@ -50,6 +61,41 @@
 
 <script>
 
+    let updateGeneratorInfoAutoUpdate = false;
+
+    function adjustInfoAutoUpdate(status) {
+        if (
+            [
+                'under_construction',
+                'locked',
+                'calculation_unsuccessful',
+                'result_import_finished',
+                'normalisation_error',
+                'calculation_error',
+                'result_import_error'
+            ].includes(status)
+        ) {
+            updateGeneratorInfoAutoUpdate = false;
+        } else {
+            updateGeneratorInfoAutoUpdate = true;
+        }
+    }
+
+    function adjustButton(status) {
+        if (
+            [
+                'under_construction',
+                'locked',
+                'calculation_unsuccessful',
+                'result_import_finished'
+            ].includes(status)
+        ) {
+            $('#schedule-generate-button').removeAttr('disabled');
+        } else {
+            $('#schedule-generate-button').attr('disabled', true);
+        }
+    }
+
     function updateGeneratorInfo()
     {
         $.ajax({
@@ -58,31 +104,41 @@
             success:function(data)
             {
                 $('#generator-info-plan-status').html(data.plan_status);
+                $('#generator-info-created-at').html(data.created_at);
                 $('#generator-info-generation-number').html(data.generation_number);
                 $('#generator-info-overall-hard').html(data.overall_best_hard);
                 $('#generator-info-overall-soft').html(data.overall_best_soft);
                 $('#generator-info-current-hard').html(data.current_best_hard);
                 $('#generator-info-current-soft').html(data.current_best_soft);
                 $('#generator-info-mutation-factor').html(data.step_current_factor);
+
+                adjustInfoAutoUpdate(data.plan_status);
+                adjustButton(data.plan_status);
             }
         })
     }
 
     function generateButton()
     {
-        $('#schedule-generate-button').attr('disabled', true);
-        updateGeneratorInfo();
+        $.ajax({
+            type: "post",
+            url: "{{ path('schedule_generate', {'plan': plan.id}) }}",
+            success:function(data)
+            {
+                $('#schedule-generate-button').attr('disabled', true);
+                updateGeneratorInfoAutoUpdate = true;
+            }
+        })
     }
 
     $(document).ready(updateGeneratorInfo());
 
     setInterval(function()
     {
-        updateGeneratorInfo();
-    }, 4000);
+        updateGeneratorInfoAutoUpdate && updateGeneratorInfo();
+    }, 1000);
 
 
 </script>
-
 
 {% endblock %}

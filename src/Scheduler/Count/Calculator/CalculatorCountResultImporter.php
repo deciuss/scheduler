@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Calculator;
+namespace App\Scheduler\Count\Calculator;
 
 use App\Entity\Schedule;
 use App\Entity\ScheduleEvent;
@@ -10,7 +10,8 @@ use App\Repository\EventRepository;
 use App\Repository\PlanRepository;
 use App\Repository\RoomRepository;
 use App\Repository\TimeslotRepository;
-use App\Scheduler\CountResultImporter;
+use App\Scheduler\Count\CountResultImporter;
+use App\Scheduler\Count\ReportReader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
@@ -27,6 +28,7 @@ class CalculatorCountResultImporter implements CountResultImporter
         private RoomRepository $roomRepository,
         private PlanRepository $planRepository,
         private DecoderInterface $decoder,
+        private ReportReader $reportReader,
         ParameterBagInterface $parameterBag
 
     ) {
@@ -35,20 +37,15 @@ class CalculatorCountResultImporter implements CountResultImporter
 
     public function __invoke(int $planId) : void
     {
-        $report = $this->decoder->decode(
-            file_get_contents(
-                sprintf("%s/%d.report", $this->calculatorOutputPath, $planId),
-            ),
-            'csv'
-        )[0];
+        $report = $this->reportReader->getReportForPlan($plan = $this->planRepository->find($planId));
 
         $this->entityManager->persist(
             $schedule = (new Schedule())
-                ->setPlan($this->planRepository->find($planId))
+                ->setPlan($plan)
                 ->setCreatedAt(new \DateTime())
-                ->setName(sprintf('Schedule for plan %d (%s)', $planId, $report['date_time']))
-                ->setNumberOfGenerations((int) $report['generation_number'])
-                ->setSoftViolationFactor((int) $report['overall_best_soft'])
+                ->setName(sprintf('Schedule for plan %d', $planId))
+                ->setNumberOfGenerations($report->getGenerationNumber())
+                ->setSoftViolationFactor($report->getOverallBestSoft())
         );
 
         foreach(

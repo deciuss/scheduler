@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler;
 
-use App\Scheduler\CountExecutor;
+use App\Scheduler\Count\CountExecutor;
 use App\Scheduler\Handler\CalculateScheduleChain\CalculationHandler\DefaultCalculationHandler;
 use App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler;
 use App\Scheduler\Message\CalculateSchedule;

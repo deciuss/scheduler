@@ -36,7 +36,7 @@ class CalculateCommand extends Command
         $planId = $input->getArgument('plan_id');
 
         try {
-            $this->scheduler->calculate($planId);
+            $this->scheduler->generate($planId);
 
             $output->writeln(
                 sprintf(

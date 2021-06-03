@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Scheduler\Handler\CalculateScheduleChain\CalculationHandler;
 
-use App\Scheduler\CountExecutor;
+use App\Scheduler\Count\CountExecutor;
 use App\Scheduler\Exception\FeasibleSolutionNotFoundException;
 use App\Scheduler\Handler\CalculateScheduleChain\CalculationHandler;
 use App\Scheduler\Handler\CalculateScheduleChain\NormalizedDataGenerationHandler as NormalizedDataGenerationHandlerInterface;

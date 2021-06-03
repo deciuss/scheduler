@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Scheduler\Handler\CalculateScheduleChain\EventFillingHandler;
 
-use App\Scheduler\CountResultImporter;
+use App\Scheduler\Count\CountResultImporter;
 use App\Scheduler\Handler\CalculateScheduleChain\CalculationHandler;
 use App\Scheduler\Handler\CalculateScheduleChain\ResultImportHandler\DefaultResultImportHandler;
 use App\Scheduler\Message\CalculateSchedule;

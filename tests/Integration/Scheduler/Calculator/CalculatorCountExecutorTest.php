@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Scheduler;
 
-use App\Scheduler\Calculator\CalculatorCountExecutor;
+use App\Scheduler\Count\Calculator\CalculatorCountExecutor;
 use App\Scheduler\Exception\FeasibleSolutionNotFoundException;
 use App\Tests\Integration\IntegrationTestCase;
 
 /**
- * @covers \App\Scheduler\Calculator\CalculatorCountExecutor
+ * @covers \App\Scheduler\Count\Calculator\CalculatorCountExecutor
  */
 class CalculatorCountExecutorTest extends IntegrationTestCase
 {

@@ -41,7 +41,7 @@ class DefaultInProgressHandler extends ChainHandlerAbstract implements InProgres
                 $message->getPlanId(), PlanStatus::PLAN_STATUS_NORMALIZED_DATA_GENERATION_STARTED
             )
             || $this->planStatusStateMachine->is(
-                $message->getPlanId(), PlanStatus::PLAN_STATUS_SCHEDULE_CALCULATION_STARTED
+                $message->getPlanId(), PlanStatus::PLAN_STATUS_CALCULATION_STARTED
             );
     }
 

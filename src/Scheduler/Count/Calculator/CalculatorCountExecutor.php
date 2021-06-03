@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Scheduler\Calculator;
+namespace App\Scheduler\Count\Calculator;
 
-use App\Scheduler\CountExecutor;
+use App\Scheduler\Count\CountExecutor;
 use App\Scheduler\Exception\FeasibleSolutionNotFoundException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Process\Process;
