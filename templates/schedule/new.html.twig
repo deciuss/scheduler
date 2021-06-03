@@ -62,12 +62,12 @@
 <script>
 
     let updateGeneratorInfoAutoUpdate = false;
+    let previousStatus = null;
 
     function adjustInfoAutoUpdate(status) {
         if (
             [
                 'under_construction',
-                'locked',
                 'calculation_unsuccessful',
                 'result_import_finished',
                 'normalisation_error',
@@ -85,7 +85,6 @@
         if (
             [
                 'under_construction',
-                'locked',
                 'calculation_unsuccessful',
                 'result_import_finished'
             ].includes(status)
@@ -112,23 +111,32 @@
                 $('#generator-info-current-soft').html(data.current_best_soft);
                 $('#generator-info-mutation-factor').html(data.step_current_factor);
 
-                adjustInfoAutoUpdate(data.plan_status);
-                adjustButton(data.plan_status);
+                if (previousStatus !== data.plan_status) {
+                    adjustInfoAutoUpdate(data.plan_status);
+                    adjustButton(data.plan_status);
+                }
+
+                previousStatus = data.plan_status;
             }
         })
     }
 
     function generateButton()
     {
+        $('#schedule-generate-button').attr('disabled', true);
+
         $.ajax({
             type: "post",
             url: "{{ path('schedule_generate', {'plan': plan.id}) }}",
-            success:function(data)
+            success:function()
             {
-                $('#schedule-generate-button').attr('disabled', true);
                 updateGeneratorInfoAutoUpdate = true;
+            },
+            error: function()
+            {
+                updateGeneratorInfo();
             }
-        })
+        });
     }
 
     $(document).ready(updateGeneratorInfo());
