@@ -16,7 +16,7 @@ class CalculateSchedule implements Message
         $this->planId = $plan->getId();
     }
 
-    public function getPlanId() : int
+    public function getPlanId(): int
     {
         return $this->planId;
     }
@@ -24,6 +24,7 @@ class CalculateSchedule implements Message
     public function jsonSerialize()
     {
         $vars = get_object_vars($this);
+
         return $vars;
     }
 }

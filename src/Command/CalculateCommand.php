@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Command;
 
 use App\Scheduler\Scheduler;
@@ -21,13 +22,13 @@ class CalculateCommand extends Command
         ParameterBagInterface $parameterBag
     ) {
         $this->scheduler = $scheduler;
-        $this->calculatorDataPath = $parameterBag->get("scheduler.calculator.data_path");
+        $this->calculatorDataPath = $parameterBag->get('scheduler.calculator.data_path');
         parent::__construct();
     }
 
     protected function configure()
     {
-        $this->setDescription("Calculates schedule for given plan_id.");
+        $this->setDescription('Calculates schedule for given plan_id.');
         $this->addArgument('plan_id', InputArgument::REQUIRED, 'Plan to be calculated.');
     }
 
@@ -40,16 +41,15 @@ class CalculateCommand extends Command
 
             $output->writeln(
                 sprintf(
-                    "Plan generation commissioned. Calculator file: %s/%d",
+                    'Plan generation commissioned. Calculator file: %s/%d',
                     $this->calculatorDataPath,
                     $planId
                 )
             );
-
         } catch (PlanDoesNotExistException $e) {
             $output->writeln($e->getMessage());
         } catch (\Exception $e) {
-            $output->writeln(sprintf("During plan calculation error has occurred: %s", $e->getMessage()));
+            $output->writeln(sprintf('During plan calculation error has occurred: %s', $e->getMessage()));
         }
 
         return Command::SUCCESS;

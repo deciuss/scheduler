@@ -20,5 +20,4 @@ class PlanRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Plan::class);
     }
-
 }

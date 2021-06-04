@@ -25,9 +25,7 @@ class SubjectType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Teacher::class,
-                    'query_builder' =>
-                        fn(EntityRepository $er) =>
-                            $er->createQueryBuilder('t')
+                    'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('t')
                                 ->where('t.plan = :plan')
                                 ->setParameter('plan', $builder->getData()->getPlan()),
                     'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],
@@ -38,9 +36,7 @@ class SubjectType extends AbstractType
                 EntityType::class,
                 [
                     'class' => StudentGroup::class,
-                    'query_builder' =>
-                        fn(EntityRepository $er) =>
-                        $er->createQueryBuilder('g')
+                    'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('g')
                             ->where('g.plan = :plan')
                             ->setParameter('plan', $builder->getData()->getPlan()),
                     'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],
@@ -54,9 +50,7 @@ class SubjectType extends AbstractType
                 [
                     'class' => Feature::class,
                     'multiple' => true,
-                    'query_builder' =>
-                        fn(EntityRepository $er) =>
-                        $er->createQueryBuilder('f')
+                    'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('f')
                             ->where('f.plan = :plan')
                             ->setParameter('plan', $builder->getData()->getPlan()),
                     'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],

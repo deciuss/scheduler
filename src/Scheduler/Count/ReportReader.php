@@ -8,5 +8,5 @@ use App\Entity\Plan;
 
 interface ReportReader
 {
-    public function getReportForPlan(Plan $plan) : Report;
+    public function getReportForPlan(Plan $plan): Report;
 }

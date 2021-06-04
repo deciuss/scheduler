@@ -6,5 +6,5 @@ namespace App\Scheduler\Count;
 
 interface CountResultImporter
 {
-    public function __invoke(int $planId) : void;
+    public function __invoke(int $planId): void;
 }

@@ -20,5 +20,4 @@ class FeatureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Feature::class);
     }
-
 }

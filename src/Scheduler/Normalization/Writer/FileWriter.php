@@ -54,5 +54,4 @@ class FileWriter implements Writer
             FILE_APPEND
         );
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Command;
 
 use Fidry\AliceDataFixtures\Persistence\PurgeMode;
@@ -9,7 +10,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class LoadExampleDataCommand extends Command
 {
-
     protected static $defaultName = 'dev:example:load';
 
     private ContainerInterface $container;
@@ -22,7 +22,7 @@ class LoadExampleDataCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription("Loads example plan.");
+        $this->setDescription('Loads example plan.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

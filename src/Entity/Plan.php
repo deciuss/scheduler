@@ -82,9 +82,9 @@ class Plan
         return $this;
     }
 
-    public function isLocked() : bool
+    public function isLocked(): bool
     {
-        return $this->status !== PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION;
+        return PlanStatus::PLAN_STATUS_UNDER_CONSTRUCTION !== $this->status;
     }
 
     public function getIsWeekly(): ?bool

@@ -16,8 +16,10 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function calculateColor($seed) {
-        srand(crc32($seed . "j") + 2);
-        return '#' . dechex(rand(0, 16777215));
+    public function calculateColor($seed)
+    {
+        srand(crc32($seed.'j') + 2);
+
+        return '#'.dechex(rand(0, 16777215));
     }
 }

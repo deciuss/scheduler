@@ -9,10 +9,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class StateMachinePersistenceSubscriber implements EventSubscriberInterface
 {
-
     public function __construct(
        private EntityManagerInterface $entityManager
-    ) {}
+    ) {
+    }
 
     public function onEnter()
     {

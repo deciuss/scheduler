@@ -20,5 +20,4 @@ class TimeslotRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Timeslot::class);
     }
-
 }

@@ -20,5 +20,4 @@ class SubjectRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Subject::class);
     }
-
 }

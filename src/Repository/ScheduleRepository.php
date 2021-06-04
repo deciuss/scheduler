@@ -20,5 +20,4 @@ class ScheduleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Schedule::class);
     }
-
 }

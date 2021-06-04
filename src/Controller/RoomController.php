@@ -25,7 +25,7 @@ class RoomController extends AbstractController
 
         return $this->render('room/index.html.twig', [
             'rooms' => $roomRepository->findBy(['plan' => $plan]),
-            'plan' => $plan
+            'plan' => $plan,
         ]);
     }
 

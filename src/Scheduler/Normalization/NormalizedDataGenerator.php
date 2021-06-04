@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace App\Scheduler\Normalization;
 
-use App\Entity\Plan;
+use App\Repository\EventRepository;
+use App\Repository\PlanRepository;
+use App\Repository\RoomRepository;
+use App\Repository\StudentGroupRepository;
 use App\Repository\SubjectRepository;
+use App\Repository\TeacherRepository;
+use App\Repository\TimeslotRepository;
 use App\Scheduler\Normalization\Generator\EventBlock;
 use App\Scheduler\Normalization\Generator\EventGroups;
 use App\Scheduler\Normalization\Generator\EventRoomFit;
 use App\Scheduler\Normalization\Generator\EventTeacher;
 use App\Scheduler\Normalization\Generator\EventTimeslotShare;
 use App\Scheduler\Normalization\Generator\TimeslotNeighborNext;
-use App\Repository\EventRepository;
-use App\Repository\PlanRepository;
-use App\Repository\RoomRepository;
-use App\Repository\StudentGroupRepository;
-use App\Repository\TeacherRepository;
-use App\Repository\TimeslotRepository;
-use App\Scheduler\Normalization\WriterFactory;
 
 class NormalizedDataGenerator
 {
@@ -73,7 +71,7 @@ class NormalizedDataGenerator
         $this->eventTeacher = $eventTeacher;
     }
 
-    public function generateNormalizedData(int $planId) : void
+    public function generateNormalizedData(int $planId): void
     {
         $writer = $this->writerFactory->create((string) $planId);
 
@@ -105,5 +103,4 @@ class NormalizedDataGenerator
         $writer->appendIntOneToMany($this->eventGroups->generate(...$events));
         $writer->appendIntArray($this->eventTeacher->generate(...$events));
     }
-
 }

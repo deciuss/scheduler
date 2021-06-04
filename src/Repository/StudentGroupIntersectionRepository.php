@@ -20,5 +20,4 @@ class StudentGroupIntersectionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, StudentGroupIntersection::class);
     }
-
 }

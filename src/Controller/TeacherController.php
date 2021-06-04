@@ -25,7 +25,7 @@ class TeacherController extends AbstractController
 
         return $this->render('teacher/index.html.twig', [
             'teachers' => $teacherRepository->findBy(['plan' => $plan]),
-            'plan' => $plan
+            'plan' => $plan,
         ]);
     }
 

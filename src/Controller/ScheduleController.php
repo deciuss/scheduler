@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Plan;
 use App\Entity\Schedule;
-use App\Form\ScheduleType;
 use App\Repository\RoomRepository;
 use App\Repository\ScheduleEventRepository;
 use App\Repository\ScheduleRepository;
@@ -19,14 +18,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/schedule')]
 class ScheduleController extends AbstractController
 {
-
     public function __construct(
         private Scheduler $facade,
         private TimeslotRepository $timeslotRepository,
         private RoomRepository $roomRepository,
         private ScheduleEventRepository $scheduleEventRepository
-    ) {}
-
+    ) {
+    }
 
     #[Route('/plan/{plan}', name: 'schedule_index', methods: ['GET'])]
     public function index(ScheduleRepository $scheduleRepository, Plan $plan): Response
@@ -37,7 +35,7 @@ class ScheduleController extends AbstractController
 
         return $this->render('schedule/index.html.twig', [
             'schedules' => $scheduleRepository->findAll(),
-            'plan' => $plan
+            'plan' => $plan,
         ]);
     }
 
@@ -63,7 +61,6 @@ class ScheduleController extends AbstractController
         return new JsonResponse($this->facade->getReportForPlan($plan->getId()));
     }
 
-
     #[Route('/new/plan/{plan}', name: 'schedule_new', methods: ['GET', 'POST'])]
     public function new(Request $request, Plan $plan): Response
     {
@@ -72,7 +69,7 @@ class ScheduleController extends AbstractController
         }
 
         return $this->render('schedule/new.html.twig', [
-            'plan' => $plan
+            'plan' => $plan,
         ]);
     }
 
@@ -83,21 +80,22 @@ class ScheduleController extends AbstractController
             return new Response('Unauthorized to access this resource', 401);
         }
 
-        $scheduleEvents = $this->scheduleEventRepository->findBy(["schedule" => $schedule]);
+        $scheduleEvents = $this->scheduleEventRepository->findBy(['schedule' => $schedule]);
         $rooms = $this->roomRepository->findBy(['plan' => $schedule->getPlan()], ['map_id' => 'ASC']);
         $timeslots = $this->timeslotRepository->findBy(['plan' => $schedule->getPlan()], ['map_id' => 'ASC']);
 
         $events = [];
 
-        for($rowIndex = 0; $rowIndex < count($timeslots); $rowIndex++) {
+        for ($rowIndex = 0; $rowIndex < count($timeslots); ++$rowIndex) {
             $events[$rowIndex] = [];
-            for($colIndex = 0; $colIndex < count($rooms); $colIndex++)
+            for ($colIndex = 0; $colIndex < count($rooms); ++$colIndex) {
                 $events[$rowIndex][$colIndex] = null;
+            }
         }
 
         foreach ($scheduleEvents as $scheduleEvent) {
             if (
-                $groupId != "all"
+                'all' != $groupId
                 && $groupId != $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getId()
                 && (null == $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getParent()
                     || $groupId != $scheduleEvent->getEvent()->getSubject()->getStudentGroup()->getParent()->getId())
@@ -106,7 +104,7 @@ class ScheduleController extends AbstractController
             }
 
             if (
-                $teacherId != "all"
+                'all' != $teacherId
                 && $teacherId != $scheduleEvent->getEvent()->getSubject()->getTeacher()->getId()
             ) {
                 continue;
@@ -120,7 +118,7 @@ class ScheduleController extends AbstractController
             'schedule' => $schedule,
             'rooms' => $rooms,
             'timeslots' => $timeslots,
-            'events' => $events
+            'events' => $events,
         ]);
     }
 

@@ -24,9 +24,7 @@ class StudentGroupType extends AbstractType
                 [
                     'class' => StudentGroup::class,
                     'required' => false,
-                    'query_builder' =>
-                        fn(EntityRepository $er) =>
-                        $er->createQueryBuilder('g')
+                    'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('g')
                             ->where('g.plan = :plan')
                             ->setParameter('plan', $builder->getData()->getPlan()),
                     'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],
@@ -39,9 +37,7 @@ class StudentGroupType extends AbstractType
                     'class' => StudentGroup::class,
                     'multiple' => true,
                     'required' => false,
-                    'query_builder' =>
-                        fn(EntityRepository $er) =>
-                        $er->createQueryBuilder('g')
+                    'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('g')
                             ->where('g.plan = :plan')
                             ->setParameter('plan', $builder->getData()->getPlan()),
                     'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],

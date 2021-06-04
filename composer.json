@@ -48,6 +48,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "nelmio/alice": "^3.8",
         "phpunit/phpunit": "^9",
         "symfony/browser-kit": "^5.2",
@@ -103,6 +104,9 @@
             "APP_ENV=test bin/console doctrine:database:create -n",
             "APP_ENV=test bin/console doctrine:migration:migrate -n"
         ],
+        "cs:fix":  "php vendor/bin/php-cs-fixer fix src/",
+        "cc:test":  " php bin/console cache:clear --env=test",
+        "cc:dev":  " php bin/console cache:clear --env=dev",
         "tests:integration": [
             "@db:test:reset",
             "mkdir -p var/tmp/calculator/data",
@@ -112,6 +116,8 @@
         ],
         "tests:unit":  "./vendor/bin/phpunit --testsuite unit",
         "tests": [
+            "@cc:test",
+            "@cs:fix",
             "@tests:unit",
             "@tests:integration"
         ],

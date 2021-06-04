@@ -2,19 +2,19 @@
 
 namespace App\StateMachine\Entity\Plan\Symfony;
 
-use App\StateMachine\Entity\Plan\PlanStatusStateMachine;
 use App\Repository\PlanRepository;
+use App\StateMachine\Entity\Plan\PlanStatusStateMachine;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 class SymfonyPlanStatusStateMachine implements PlanStatusStateMachine
 {
-
     public function __construct(
         private WorkflowInterface $planStatusStateMachine,
         private PlanRepository $planRepository
-    ) {}
+    ) {
+    }
 
-    public function can(int $planId, string $transitionName) : bool
+    public function can(int $planId, string $transitionName): bool
     {
         return $this->planStatusStateMachine->can(
             $this->planRepository->findOneBy(['id' => $planId]),
@@ -30,7 +30,7 @@ class SymfonyPlanStatusStateMachine implements PlanStatusStateMachine
         );
     }
 
-    public function is(int $planId, string $state) : bool
+    public function is(int $planId, string $state): bool
     {
         return $this->planStatusStateMachine->getMarking(
             $this->planRepository->findOneBy(['id' => $planId])

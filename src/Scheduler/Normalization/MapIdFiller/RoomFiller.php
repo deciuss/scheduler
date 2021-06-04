@@ -1,7 +1,7 @@
 <?php
+
 namespace App\Scheduler\Normalization\MapIdFiller;
 
-use App\Entity\Plan;
 use App\Repository\RoomRepository;
 use App\Scheduler\Normalization\MapIdFiller;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +19,7 @@ class RoomFiller implements MapIdFiller
         $this->roomRepository = $roomRepository;
     }
 
-    public function __invoke(int $planId) : void
+    public function __invoke(int $planId): void
     {
         $roomCounter = 0;
         foreach ($this->roomRepository->findBy(['plan' => $planId], ['id' => 'ASC']) as $room) {
@@ -28,5 +28,4 @@ class RoomFiller implements MapIdFiller
 
         $this->entityManager->flush();
     }
-
 }

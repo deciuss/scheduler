@@ -14,7 +14,6 @@ use Psr\Log\LoggerInterface;
 
 class DefaultResultImportHandler extends ChainHandlerAbstract implements ResultImportHandler
 {
-
     public function __construct(
         private PlanStatusStateMachine $planStatusStateMachine,
         private CountResultImporter $calculatorCountResultImporter,
@@ -29,7 +28,7 @@ class DefaultResultImportHandler extends ChainHandlerAbstract implements ResultI
         return $this->planStatusStateMachine->can($message->getPlanId(), 'result_import_starting');
     }
 
-    public function handle(Message $message) : void
+    public function handle(Message $message): void
     {
         $this->planStatusStateMachine->apply($message->getPlanId(), 'result_import_starting');
 

@@ -9,13 +9,13 @@ use App\Scheduler\Normalization\Generator;
 
 class EventTeacher implements Generator
 {
-    public function generate(Event ...$events) : array
+    public function generate(Event ...$events): array
     {
         $eventTeacher = [];
         foreach ($events as $event) {
             $eventTeacher[$event->getMapId()] = $event->getSubject()->getTeacher()->getMapId();
         }
+
         return $eventTeacher;
     }
-
 }

@@ -8,7 +8,9 @@ use App\Scheduler\Message;
 
 interface ChainHandler
 {
-    public function canHandle(Message $message) : bool;
-    public function handle(Message $message) : void;
-    public function executeHandler(Message $message) : void;
+    public function canHandle(Message $message): bool;
+
+    public function handle(Message $message): void;
+
+    public function executeHandler(Message $message): void;
 }

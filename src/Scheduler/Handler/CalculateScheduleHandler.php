@@ -12,7 +12,8 @@ class CalculateScheduleHandler implements MessageHandlerInterface
 {
     public function __construct(
         private ResultImportHandler $resultImportHandler
-    ) {}
+    ) {
+    }
 
     public function __invoke(CalculateSchedule $message)
     {

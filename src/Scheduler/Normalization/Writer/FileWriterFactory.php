@@ -25,7 +25,7 @@ class FileWriterFactory implements WriterFactory
     {
         return new FileWriter(
             $this->encoder,
-            sprintf("%s/%s", $this->outputFilePath, $dataIdentifier)
+            sprintf('%s/%s', $this->outputFilePath, $dataIdentifier)
         );
     }
 }

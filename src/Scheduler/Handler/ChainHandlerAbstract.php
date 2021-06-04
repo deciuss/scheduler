@@ -18,7 +18,7 @@ abstract class ChainHandlerAbstract implements ChainHandler
         $this->logger = $logger;
     }
 
-    protected function preHandle(Message $message) : void
+    protected function preHandle(Message $message): void
     {
         $this->logger->info(
             sprintf(
@@ -29,7 +29,7 @@ abstract class ChainHandlerAbstract implements ChainHandler
         );
     }
 
-    protected function postHandle(Message $message) : void
+    protected function postHandle(Message $message): void
     {
         $this->logger->info(
             sprintf(
@@ -40,10 +40,11 @@ abstract class ChainHandlerAbstract implements ChainHandler
         );
     }
 
-    public final function executeHandler(Message $message) : void
+    final public function executeHandler(Message $message): void
     {
-        if (! $this->canHandle($message)) {
+        if (!$this->canHandle($message)) {
             $this->executeNextHandler($message);
+
             return;
         }
 
@@ -52,13 +53,12 @@ abstract class ChainHandlerAbstract implements ChainHandler
         $this->postHandle($message);
     }
 
-    private function executeNextHandler(Message $message) : void
+    private function executeNextHandler(Message $message): void
     {
-        if ($this->nextHandler === null) {
+        if (null === $this->nextHandler) {
             throw new ChainEndException(get_class($this));
         }
 
         $this->nextHandler->executeHandler($message);
     }
-
 }

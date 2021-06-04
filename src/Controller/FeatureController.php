@@ -25,7 +25,7 @@ class FeatureController extends AbstractController
 
         return $this->render('feature/index.html.twig', [
             'features' => $featureRepository->findBy(['plan' => $plan]),
-            'plan' => $plan
+            'plan' => $plan,
         ]);
     }
 

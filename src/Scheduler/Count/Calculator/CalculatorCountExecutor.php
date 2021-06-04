@@ -27,13 +27,13 @@ class CalculatorCountExecutor implements CountExecutor
         $this->calculatorMaxExecutionTimeSeconds = $parameterBag->get('scheduler.calculator.max_execution_time_seconds');
     }
 
-    public function __invoke(int $planId) : void
+    public function __invoke(int $planId): void
     {
         $process = new Process([
             $this->calculatorBinPathname,
-            sprintf("%s/%d", $this->calculatorDataPath, $planId),
-            sprintf("%s/%d", $this->calculatorOutputPath, $planId),
-            $this->calculatorMaxIterationNumber
+            sprintf('%s/%d', $this->calculatorDataPath, $planId),
+            sprintf('%s/%d', $this->calculatorOutputPath, $planId),
+            $this->calculatorMaxIterationNumber,
         ]);
 
         $process->setTimeout((float) $this->calculatorMaxExecutionTimeSeconds);
@@ -44,7 +44,7 @@ class CalculatorCountExecutor implements CountExecutor
             case 13:
                 throw new FeasibleSolutionNotFoundException($planId);
             default:
-                throw new \RuntimeException(sprintf("Calculation for plan %d failed. Exit code: %d", $planId, $exitCode));
+                throw new \RuntimeException(sprintf('Calculation for plan %d failed. Exit code: %d', $planId, $exitCode));
         }
     }
 }

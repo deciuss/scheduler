@@ -23,9 +23,7 @@ class RoomType extends AbstractType
                 [
                     'class' => Feature::class,
                     'multiple' => true,
-                    'query_builder' =>
-                        fn(EntityRepository $er) =>
-                        $er->createQueryBuilder('f')
+                    'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('f')
                             ->where('f.plan = :plan')
                             ->setParameter('plan', $builder->getData()->getPlan()),
                     'attr' => ['class' => 'form-control selectpicker', 'data-live-search' => 'true'],

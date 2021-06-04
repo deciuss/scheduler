@@ -8,7 +8,6 @@ use App\Scheduler\Count\Report;
 
 class CalculatorReport implements Report
 {
-
     public function __construct(
         private string $planStatus,
         private ?\DateTimeImmutable $createdAt = null,
@@ -18,7 +17,8 @@ class CalculatorReport implements Report
         private ?int $currentBestHard = null,
         private ?int $currentBestSoft = null,
         private ?float $stepCurrentFactor = null
-    ) {}
+    ) {
+    }
 
     public function getPlanStatus(): string
     {
@@ -60,7 +60,7 @@ class CalculatorReport implements Report
         return $this->stepCurrentFactor;
     }
 
-    public function jsonSerialize() : array
+    public function jsonSerialize(): array
     {
         return [
             'plan_status' => $this->planStatus,

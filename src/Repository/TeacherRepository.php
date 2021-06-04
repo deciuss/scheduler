@@ -20,5 +20,4 @@ class TeacherRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Teacher::class);
     }
-
 }

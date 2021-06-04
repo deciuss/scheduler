@@ -25,7 +25,7 @@ class TimeslotController extends AbstractController
 
         return $this->render('timeslot/index.html.twig', [
             'timeslots' => $timeslotRepository->findBy(['plan' => $plan]),
-            'plan' => $plan
+            'plan' => $plan,
         ]);
     }
 

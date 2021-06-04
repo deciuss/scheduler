@@ -16,7 +16,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class DefaultCalculationHandler extends ChainHandlerAbstract implements CalculationHandler
 {
-
     public function __construct(
         private PlanStatusStateMachine $planStatusStateMachine,
         private MessageBusInterface $messageBus,
@@ -32,7 +31,7 @@ class DefaultCalculationHandler extends ChainHandlerAbstract implements Calculat
         return $this->planStatusStateMachine->can($message->getPlanId(), 'calculation_starting');
     }
 
-    public function handle(Message $message) : void
+    public function handle(Message $message): void
     {
         $this->planStatusStateMachine->apply($message->getPlanId(), 'calculation_starting');
 

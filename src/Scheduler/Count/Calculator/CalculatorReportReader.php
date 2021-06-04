@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\Encoder\DecoderInterface;
 
 class CalculatorReportReader implements ReportReader
 {
-
     private string $calculatorOutputPath;
 
     public function __construct(
@@ -24,13 +23,13 @@ class CalculatorReportReader implements ReportReader
 
     public function getReportForPlan(Plan $plan): Report
     {
-        $reportPathName = sprintf("%s/%d.report", $this->calculatorOutputPath, $plan->getId());
+        $reportPathName = sprintf('%s/%d.report', $this->calculatorOutputPath, $plan->getId());
 
-        if (! file_exists($reportPathName)) {
+        if (!file_exists($reportPathName)) {
             return new CalculatorReport($plan->getStatus());
         }
 
-        $reportArray = $this->decoder->decode(file_get_contents($reportPathName),'csv')[0];
+        $reportArray = $this->decoder->decode(file_get_contents($reportPathName), 'csv')[0];
 
         return new CalculatorReport(
             $plan->getStatus(),

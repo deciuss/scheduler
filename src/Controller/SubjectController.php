@@ -24,8 +24,8 @@ class SubjectController extends AbstractController
         }
 
         return $this->render('subject/index.html.twig', [
-            'subjects' => $subjectRepository->findBy(['plan' =>  $plan]),
-            'plan' => $plan
+            'subjects' => $subjectRepository->findBy(['plan' => $plan]),
+            'plan' => $plan,
         ]);
     }
 
@@ -56,7 +56,7 @@ class SubjectController extends AbstractController
 
         return $this->render('subject/new.html.twig', [
             'subject' => $subject,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 

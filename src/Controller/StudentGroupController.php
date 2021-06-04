@@ -25,7 +25,7 @@ class StudentGroupController extends AbstractController
 
         return $this->render('student_group/index.html.twig', [
             'student_groups' => $studentGroupRepository->findBy(['plan' => $plan]),
-            'plan' => $plan
+            'plan' => $plan,
         ]);
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Scheduler\Normalization;
 
 use App\Entity\Event;
@@ -7,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class EventFiller
 {
- private EntityManagerInterface $entityManager;
+    private EntityManagerInterface $entityManager;
 
     private SubjectRepository $subjectRepository;
 
@@ -17,10 +18,10 @@ class EventFiller
         $this->subjectRepository = $subjectRepository;
     }
 
-    public function __invoke(int $planId) : void
+    public function __invoke(int $planId): void
     {
         foreach ($this->subjectRepository->findBy(['plan' => $planId], ['id' => 'asc']) as $subject) {
-            for($i = 0; $i < $subject->getHours(); $i++) {
+            for ($i = 0; $i < $subject->getHours(); ++$i) {
                 $this->entityManager->persist((new Event())->setSubject($subject));
             }
         }
