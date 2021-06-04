@@ -18,13 +18,13 @@ services:
       - ./:/var/www/
     networks:
       - scheduler-network
-    command: php bin/console messenger:consume async -vv
+    command: php bin/console messenger:consume async
 
   sql:
     image: mysql:5.7.33
     restart: always
-    ports:
-      - "3316:3306"
+#    ports:
+#      - "3316:3306"
     command: --init-file /data/application/init.sql
     environment:
       MYSQL_ROOT_PASSWORD: ""
@@ -40,9 +40,9 @@ services:
     restart: always
     networks:
       - scheduler-network
-    ports:
-      - 5672:5672
-      - 15672:15672
+#    ports:
+#      - 5672:5672
+#      - 15672:15672
     environment:
       RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: -rabbit heartbeat 290
       RABBITMQ_DEFAULT_USER: scheduler
