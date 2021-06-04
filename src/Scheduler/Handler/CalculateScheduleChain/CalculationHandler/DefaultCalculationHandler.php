@@ -40,6 +40,7 @@ class DefaultCalculationHandler extends ChainHandlerAbstract implements Calculat
             $this->planStatusStateMachine->apply($message->getPlanId(), 'calculation_finishing');
         } catch (FeasibleSolutionNotFoundException $e) {
             $this->planStatusStateMachine->apply($message->getPlanId(), 'calculation_unsuccessful_marking');
+            return;
         } catch (\Exception $e) {
             $this->planStatusStateMachine->apply($message->getPlanId(), 'calculation_error_marking');
             throw $e;
