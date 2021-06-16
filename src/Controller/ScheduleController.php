@@ -34,7 +34,7 @@ class ScheduleController extends AbstractController
         }
 
         return $this->render('schedule/index.html.twig', [
-            'schedules' => $scheduleRepository->findAll(),
+            'schedules' => $scheduleRepository->findBy(['plan' => $plan]),
             'plan' => $plan,
         ]);
     }

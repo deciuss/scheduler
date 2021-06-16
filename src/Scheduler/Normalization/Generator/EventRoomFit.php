@@ -7,6 +7,7 @@ namespace App\Scheduler\Normalization\Generator;
 use App\Entity\Event;
 use App\Entity\Room;
 use App\Scheduler\Normalization\Generator;
+use App\Scheduler\Normalization\Generator\EventRoomFit\RoomHasRequiredCapacity;
 use App\Scheduler\Normalization\Generator\EventRoomFit\RoomHasRequiredFeatures;
 use App\Scheduler\Normalization\TruthMatrixGenerator;
 
@@ -21,10 +22,12 @@ class EventRoomFit implements Generator
 
     public function __construct(
         TruthMatrixGenerator $truthMatrixGenerator,
-        RoomHasRequiredFeatures $roomHasRequiredFeatures
+        RoomHasRequiredFeatures $roomHasRequiredFeatures,
+        RoomHasRequiredCapacity $roomHasRequiredCapacity
     ) {
         $this->truthMatrixGenerator = $truthMatrixGenerator;
         $this->conditions[] = $roomHasRequiredFeatures;
+        $this->conditions[] = $roomHasRequiredCapacity;
     }
 
     /**

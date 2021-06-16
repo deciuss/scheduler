@@ -17,4 +17,9 @@ class RoomMother
             new Room()
         );
     }
+
+    public static function withCapacity(int $capacity) : Room
+    {
+        return (new Room())->setCapacity($capacity);
+    }
 }
