@@ -73,6 +73,8 @@ class NormalizedDataGenerator
 
     public function generateNormalizedData(int $planId): void
     {
+        ini_set('memory_limit', '1024M');
+
         $writer = $this->writerFactory->create((string) $planId);
 
         $events = $this->eventRepository->findByPlanIdOrderByIdAsc($planId);
