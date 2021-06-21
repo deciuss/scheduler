@@ -22,6 +22,7 @@ class RoomType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Feature::class,
+                    'required' => false,
                     'multiple' => true,
                     'query_builder' => fn (EntityRepository $er) => $er->createQueryBuilder('f')
                             ->where('f.plan = :plan')

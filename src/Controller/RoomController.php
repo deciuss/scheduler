@@ -50,7 +50,7 @@ class RoomController extends AbstractController
             $entityManager->persist($room);
             $entityManager->flush();
 
-            return $this->redirectToRoute('student_group_index', ['plan' => $plan->getId()]);
+            return $this->redirectToRoute('room_index', ['plan' => $plan->getId()]);
         }
 
         return $this->render('room/new.html.twig', [

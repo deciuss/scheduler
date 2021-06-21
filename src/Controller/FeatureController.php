@@ -88,7 +88,7 @@ class FeatureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('feature_index');
+            return $this->redirectToRoute('feature_index', ['plan' => $feature->getPlan()->getId()]);
         }
 
         return $this->render('feature/edit.html.twig', [

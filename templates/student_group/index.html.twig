@@ -20,6 +20,8 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Cardinality</th>
+                <th>Parent</th>
+                <th>Intersections</th>
                 <th></th>
             </tr>
         </thead>
@@ -29,6 +31,12 @@
                 <td>{{ student_group.id }}</td>
                 <td>{{ student_group.name }}</td>
                 <td>{{ student_group.cardinality }}</td>
+                <td>{{ student_group.parent }}</td>
+                <td>
+                    {% for intersection in student_group.studentGroupsIntersected %}
+                        {{ intersection }},
+                    {% endfor %}
+                </td>
                 <td>
                     <a class="btn btn-primary float-right mx-1" href="{{ path('student_group_edit', {'id': student_group.id}) }}">Edit</a>
                     <a class="btn btn-primary float-right mx-1" href="{{ path('student_group_show', {'id': student_group.id}) }}">Show</a>

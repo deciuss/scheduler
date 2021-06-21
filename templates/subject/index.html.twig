@@ -23,6 +23,7 @@
                 <th>Teacher</th>
                 <th>Hours</th>
                 <th>Block Size</th>
+                <th>Features</th>
                 <th>Color</th>
                 <th></th>
             </tr>
@@ -36,6 +37,11 @@
                 <td>{{ subject.teacher }}</td>
                 <td>{{ subject.hours }}</td>
                 <td>{{ subject.blockSize }}</td>
+                <td>
+                    {% for feature in subject.features %}
+                        {{ feature }},
+                    {% endfor %}
+                </td>
                 <td>
                     <div class="text-center rounded" style="background-color: {{ subject.color }}; min-width: 45px">
                         {{ subject.color|upper }}

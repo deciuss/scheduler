@@ -8,7 +8,7 @@ use App\Tests\Fake\Mother\Entity\StudentGroup;
 
 class StudentGroupMother
 {
-    
+
     public static function withId(int $id) : StudentGroup
     {
         return new StudentGroup($id);
